@@ -1,10 +1,10 @@
 // App.tsx
 import React from "react";
-import Login from "./Componentes/Login"; // Asegúrate de que el path sea correcto
+import Login from "./Componentes/Login";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Login />
     </div>
   );
