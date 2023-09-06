@@ -6,7 +6,7 @@ import RegistroEmpleados from "./Componentes/RegistroEmpleados";
 function App() {
   return (
     <div>
-      <Login />
+      <RegistroEmpleados />
     </div>
   );
 }
