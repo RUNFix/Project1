@@ -7,8 +7,8 @@ const RegistroEmpleados: React.FC = () => {
     cedula: '',
     edad: '',
     rol: '',
-    email: '',
-    telefono: ''
+    telefono: '', // Cambiado de "email" a "telefono"
+    email: '',     // Cambiado de "telefono" a "email"
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +25,7 @@ const RegistroEmpleados: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200">
       <h2 className="text-2xl font-semibold mb-5">Registro de empleados</h2>
       <form className="bg-white p-4 md:p-6 lg:p-8 rounded shadow-md w-full max-w-md grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
-        {['nombre', 'apellido', 'cedula', 'edad', 'rol', 'email'].map((field) => (
+        {['nombre', 'apellido', 'cedula', 'edad', 'rol', 'telefono'].map((field) => (
           <div className="mb-4" key={field}>
             <label className="block text-sm font-medium text-gray-600" htmlFor={field}>
               {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -41,15 +41,15 @@ const RegistroEmpleados: React.FC = () => {
           </div>
         ))}
         <div className="mb-4 md:col-span-2">
-          <label className="block text-sm font-medium text-gray-600" htmlFor="telefono">
-            Teléfono
+          <label className="block text-sm font-medium text-gray-600" htmlFor="email">
+            Email {/* Cambiado de "Teléfono" a "Email" */}
           </label>
           <input
             className="mt-1 p-2 w-full rounded-md border"
-            type="text"
-            id="telefono"
-            name="telefono"
-            value={formData.telefono}
+            type="email" // Cambiado de "text" a "email" para validar el formato del email
+            id="email"
+            name="email" // Cambiado de "telefono" a "email"
+            value={formData.email} // Cambiado de "formData.telefono" a "formData.email"
             onChange={handleChange}
             required />
         </div>
