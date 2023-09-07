@@ -16,18 +16,18 @@ const RegistroEmpleados: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => { 
     e.preventDefault();
     console.log('Datos del empleado: ', formData);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200">
-      <h2 className="text-2xl font-semibold mb-5">Registro de empleados</h2>
-      <form className="bg-white p-4 md:p-6 lg:p-8 rounded shadow-md w-full max-w-md grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <h2 className="text-4xl font-bold mb-8 ">Registro de empleados</h2>
+      <form className="bg-indigo-50 p-4 md:p-6 lg:p-8 rounded-3xl shadow-2xl  text-base w-full max-w-md grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
         {['nombre', 'apellido', 'cedula', 'edad', 'rol', 'telefono'].map((field) => (
           <div className="mb-4" key={field}>
-            <label className="block text-sm font-medium text-gray-600" htmlFor={field}>
+            <label className="block text-sm font-medium text-gray-600" htmlFor={field}> 
               {field.charAt(0).toUpperCase() + field.slice(1)}
             </label>
             <input
@@ -41,7 +41,7 @@ const RegistroEmpleados: React.FC = () => {
           </div>
         ))}
         <div className="mb-4 md:col-span-2">
-          <label className="block text-sm font-medium text-gray-600" htmlFor="email">
+          <label className="block text-base font-medium text-gray-600" htmlFor="email">
             Email {/* Cambiado de "Teléfono" a "Email" */}
           </label>
           <input
@@ -54,7 +54,7 @@ const RegistroEmpleados: React.FC = () => {
             required />
         </div>
         <div className="col-span-1 md:col-span-2">
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
+          <button type="submit" className="w-full bg-green-500 hover:bg-green-600  text-white p-2 rounded-2xl">
             Registrar empleado
           </button>
         </div>

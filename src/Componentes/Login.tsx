@@ -11,7 +11,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col items-center justify-center text-center bg-white px-4">
+      <div className="min-h-screen flex flex-col items-center justify-center text-center bg-gray-100 px-4">
         <div className="mb-8 text-center px-4">
           <div className="mb-8 text-center px-4">
             <h1 className="text-slate-800 font-extrabold mb-12  text-2xl sm:text-3xl">
@@ -26,7 +26,7 @@ const Login: React.FC = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="documento" className="sr-only">
-                Documento de identidad (ID)
+                Documento de identidad 
               </label>
               <input
                 id="documento"
@@ -58,7 +58,7 @@ const Login: React.FC = () => {
               <button
                 type="submit"
                 className="w-full h-12 bg-blue-500 text-white p-2 rounded-2xl
-                 hover:bg-blue-700 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-200"
+                 hover:bg-blue-700   focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-200"
               >
                 Ingresar
               </button>
