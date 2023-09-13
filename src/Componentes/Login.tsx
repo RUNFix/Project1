@@ -26,7 +26,7 @@ const Login: React.FC = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="documento" className="sr-only">
-                Documento de identidad 
+                Documento de identidad
               </label>
               <input
                 id="documento"
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
                 required
                 value={documento}
                 onChange={(e) => setDocumento(e.target.value)}
-                className="w-full px-3 py-4 placeholder-gray-600 border rounded-xl focus:outline-none focus:ring focus:ring-blue-500"
+                className="w-full px-3 py-4 placeholder-gray-600 border rounded-2xl focus:outline-none focus:ring focus:ring-blue-500"
                 placeholder="Documento"
               />
             </div>
