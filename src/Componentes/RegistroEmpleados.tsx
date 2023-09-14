@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegistroEmpleados: React.FC = () => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({
@@ -8,9 +9,9 @@ const RegistroEmpleados: React.FC = () => {
     cedula: "",
     edad: "",
     rol: "",
-    telefono: "", 
-    email: "", 
-    password:""
+    telefono: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,23 +24,24 @@ const RegistroEmpleados: React.FC = () => {
     console.log("Datos del empleado: ", formData);
 
     // Realizar una solicitud POST utilizando Axios
-    axios.post('http://localhost:4000/auth/register/', {
-      "cc": formData.cedula,
-      "fullName": formData.nombre + formData.apellido,
-      "age": formData.edad,
-      "position": formData.rol,
-      "email": formData.email,
-      "phone": formData.telefono,
-      "password": formData.password
-    })
-    .then((response) => {
-      // Manejar la respuesta del servidor
-      console.log('Respuesta del servidor:', response.data);
-    })
-    .catch((error) => {
-      // Manejar errores, como mostrar un mensaje de error al usuario
-      console.error('Error al enviar la solicitud:', error);
-    });
+    axios
+      .post("http://localhost:4000/auth/register/", {
+        cc: formData.cedula,
+        fullName: formData.nombre + formData.apellido,
+        age: formData.edad,
+        position: formData.rol,
+        email: formData.email,
+        phone: formData.telefono,
+        password: formData.password,
+      })
+      .then((response) => {
+        // Manejar la respuesta del servidor
+        console.log("Respuesta del servidor:", response.data);
+      })
+      .catch((error) => {
+        // Manejar errores, como mostrar un mensaje de error al usuario
+        console.error("Error al enviar la solicitud:", error);
+      });
   };
 
   return (
