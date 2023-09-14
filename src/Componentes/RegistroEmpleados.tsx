@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"
 
 const RegistroEmpleados: React.FC = () => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({
@@ -7,8 +8,9 @@ const RegistroEmpleados: React.FC = () => {
     cedula: "",
     edad: "",
     rol: "",
-    telefono: "", // Cambiado de "email" a "telefono"
-    email: "", // Cambiado de "telefono" a "email"
+    telefono: "", 
+    email: "", 
+    password:""
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +21,25 @@ const RegistroEmpleados: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Datos del empleado: ", formData);
+
+    // Realizar una solicitud POST utilizando Axios
+    axios.post('http://localhost:4000/auth/register/', {
+      "cc": formData.cedula,
+      "fullName": formData.nombre + formData.apellido,
+      "age": formData.edad,
+      "position": formData.rol,
+      "email": formData.email,
+      "phone": formData.telefono,
+      "password": formData.password
+    })
+    .then((response) => {
+      // Manejar la respuesta del servidor
+      console.log('Respuesta del servidor:', response.data);
+    })
+    .catch((error) => {
+      // Manejar errores, como mostrar un mensaje de error al usuario
+      console.error('Error al enviar la solicitud:', error);
+    });
   };
 
   return (
@@ -62,6 +83,24 @@ const RegistroEmpleados: React.FC = () => {
             id="email"
             name="email" // Cambiado de "telefono" a "email"
             value={formData.email} // Cambiado de "formData.telefono" a "formData.email"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="mb-4 md:col-span-2">
+          <label
+            className="block text-base font-medium text-gray-600"
+            htmlFor="password"
+          >
+            Contraseña {/* Cambiado de "Teléfono" a "Email" */}
+          </label>
+          <input
+            className="mt-1 p-2 w-full rounded-md border"
+            type="password" // Cambiado de "text" a "email" para validar el formato del email
+            id="password"
+            name="password" // Cambiado de "telefono" a "email"
+            value={formData.password} // Cambiado de "formData.telefono" a "formData.email"
             onChange={handleChange}
             required
           />

@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from "react";
-
+import axios from "axios";
 const Login: React.FC = () => {
   const [documento, setDocumento] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -7,6 +7,20 @@ const Login: React.FC = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log(`documento: ${documento}, Password: ${password}`);
+
+    // Realizar una solicitud POST utilizando Axios
+    axios.post('http://localhost:4000/auth/login/', {
+      "cc": documento,
+      "password": password
+    })
+    .then((response) => {
+      // Manejar la respuesta del servidor
+      console.log('Respuesta del servidor:', response.data);
+    })
+    .catch((error) => {
+      // Manejar errores, como mostrar un mensaje de error al usuario
+      console.error('Error al enviar la solicitud:', error);
+    });
   };
 
   return (

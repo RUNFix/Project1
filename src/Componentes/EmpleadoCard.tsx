@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import RegistroEmpleados from "./RegistroEmpleados";
+import RoutesApp from "../Routes/Router";
+import { useNavigate } from "react-router-dom";
 
 interface Empleado {
   id: number;
@@ -58,7 +60,7 @@ const EmpleadoCard: React.FC<EmpleadoCardProps> = ({ empleados }) => {
           </div>
         </>
       ) : (
-        <RegistroEmpleados />
+        <RegistroEmpleados/>
       )}
     </div>
   );
