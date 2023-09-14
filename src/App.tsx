@@ -7,10 +7,7 @@ import EmpleadoCard from "./Componentes/EmpleadoCard";
 import RoutesApp from "./Routes/Router";
 
 function App() {
-  
-  return (
-    <RoutesApp/>
-  );
+  return <RoutesApp />;
 }
 
 export default App;
