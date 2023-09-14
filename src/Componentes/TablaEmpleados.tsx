@@ -1,22 +1,40 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 interface Empleado {
-  id: number;
-  nombre: string;
-  apellido: string;
-  cedula: string;
-  edad: string;
-  rol: string;
-  telefono: string;
+  fullName: string;
+  cc: string;
+  age: string;
+  position: string;
+  phone: string;
   email: string;
 }
 
-interface TablaEmpleadosProps {
-  empleados: Empleado[];
-}
 
-const TablaEmpleados: React.FC<TablaEmpleadosProps> = ({ empleados }) => {
+
+const TablaEmpleados: React.FC = () => {
   const [selectedEmpleado, setSelectedEmpleado] = useState<number | null>(null);
+  const [empleados, setEmpleados] = useState<any[]>([]); 
+
+  let empleado: any[] = [];
+  useEffect(() => {
+    axios.get('http://localhost:4000/employee', {})
+      .then((response) => {
+        // Manejar la respuesta del servidor
+        console.log('Respuesta del servidor:', response.data);
+        setEmpleados(response.data);
+      })
+      .catch((error) => {
+        // Manejar errores, como mostrar un mensaje de error al usuario
+        console.error('Error al enviar la solicitud:', error);
+      });
+  }, []); // El array vacío significa que este efecto se ejecutará solo una
+
+  console.log(empleado)
+  
+
+
+ 
 
   const handleButtonPress = (id: number) => {
     if (selectedEmpleado === id) {
@@ -35,7 +53,6 @@ const TablaEmpleados: React.FC<TablaEmpleadosProps> = ({ empleados }) => {
             <tr>
               {[
                 "Nombre",
-                "Apellido",
                 "Cédula",
                 "Edad",
                 "Rol",
@@ -56,19 +73,17 @@ const TablaEmpleados: React.FC<TablaEmpleadosProps> = ({ empleados }) => {
           </thead>
           <tbody>
             {empleados.map((empleado) => (
-              <tr key={empleado.id}>
-                <td className="text-left py-4 px-6">{empleado.nombre}</td>
-                <td className="text-left py-4 px-6">{empleado.apellido}</td>
-                <td className="text-left py-4 px-6">{empleado.cedula}</td>
-                <td className="text-left py-4 px-6">{empleado.edad}</td>
+              <tr key={empleado.cc}>
+                <td className="text-left py-4 px-6">{empleado.fullName}</td>
+                <td className="text-left py-4 px-6">{empleado.cc}</td>
                 <td className="text-left py-4 px-6 hidden md:table-cell">
-                  {empleado.rol}
+                  {empleado.age}
                 </td>
                 <td className="text-left py-4 px-6 hidden md:table-cell">
-                  {empleado.telefono}
+                  {empleado.position}
                 </td>
                 <td className="text-left py-4 px-6 hidden md:table-cell">
-                  {empleado.email}
+                  {empleado.phone}
                 </td>
                 <td className="text-center py-4 px-6">
                   <button

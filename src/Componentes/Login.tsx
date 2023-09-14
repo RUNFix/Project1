@@ -1,8 +1,11 @@
 import React, { useState, FormEvent } from "react";
 import axios from "axios";
+import TablaEmpleados from "./TablaEmpleados";
+import { useNavigate } from "react-router-dom";
 const Login: React.FC = () => {
   const [documento, setDocumento] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navegar = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -16,6 +19,10 @@ const Login: React.FC = () => {
     .then((response) => {
       // Manejar la respuesta del servidor
       console.log('Respuesta del servidor:', response.data);
+      const usuario = response.data.user;
+      if (usuario.position === "DC") {
+       navegar("/table_employee")
+      }
     })
     .catch((error) => {
       // Manejar errores, como mostrar un mensaje de error al usuario

@@ -25,7 +25,7 @@ const RegistroEmpleados: React.FC = () => {
     // Realizar una solicitud POST utilizando Axios
     axios.post('http://localhost:4000/auth/register/', {
       "cc": formData.cedula,
-      "fullName": formData.nombre + formData.apellido,
+      "fullName": formData.nombre + ' ' + formData.apellido,
       "age": formData.edad,
       "position": formData.rol,
       "email": formData.email,
