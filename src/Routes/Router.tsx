@@ -4,6 +4,7 @@ import Login from "../Componentes/Login";
 import RegistroEmpleados from "../Componentes/RegistroEmpleados";
 import TablaEmpleados from "../Componentes/TablaEmpleados";
 import EmpleadoCard from "../Componentes/EmpleadoCard";
+import Watson from "../Componentes/Watson";
 
 function RoutesApp() {
   const empleados = [
@@ -113,6 +114,7 @@ function RoutesApp() {
               path="table_employee"
               element={<TablaEmpleados empleados={empleados} />}
             />
+            <Route path="watson" element={<Watson />} />
           </Route>
         </Routes>
       </Router>

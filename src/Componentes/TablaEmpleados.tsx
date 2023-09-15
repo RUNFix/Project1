@@ -1,5 +1,5 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface Empleado {
   fullName: string;
@@ -10,70 +10,88 @@ interface Empleado {
   email: string;
 }
 
-
-
 const TablaEmpleados: React.FC = () => {
-  const [selectedEmpleado, setSelectedEmpleado] = useState<number | null>(null);
-  const [empleados, setEmpleados] = useState<any[]>([]); 
+  const [selectedEmpleado, setSelectedEmpleado] = useState<string | null>(null);
+  const [empleados, setEmpleados] = useState<Empleado[]>([]);
+  const tableDivRef = useRef<HTMLDivElement>(null);
 
-  let empleado: any[] = [];
-  useEffect(() => {
-    axios.get('http://localhost:4000/employee', {})
-      .then((response) => {
-        // Manejar la respuesta del servidor
-        console.log('Respuesta del servidor:', response.data);
-        setEmpleados(response.data);
-      })
-      .catch((error) => {
-        // Manejar errores, como mostrar un mensaje de error al usuario
-        console.error('Error al enviar la solicitud:', error);
-      });
-  }, []); // El array vacío significa que este efecto se ejecutará solo una
-
-  console.log(empleado)
-  
-
-
- 
-
-  const handleButtonPress = (id: number) => {
-    if (selectedEmpleado === id) {
-      setSelectedEmpleado(null);
-    } else {
-      setSelectedEmpleado(id);
-    }
+  const handleButtonPress = (cc: string) => {
+    setSelectedEmpleado(cc);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get('http://localhost:4000/employee');
+      setEmpleados(res.data);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = async () => {
+      if (!tableDivRef.current) return;
+
+      // ERROR AQUI
+      /*   const isBottom =
+        tableDivRef.current.scrollTop + tableDivRef.current.clientHeight >=
+        tableDivRef.current.scrollHeight;
+
+   
+       if (isBottom) {
+        const res = await axios.get('http://localhost:4000/employee');
+        const newEmpleados = res.data;
+        setEmpleados((prevEmpleados) => [...prevEmpleados, ...newEmpleados]);
+      }  */
+    };
+
+    if (tableDivRef.current) {
+      tableDivRef.current.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (tableDivRef.current) {
+        tableDivRef.current.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [tableDivRef, empleados]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h2 className="text-4xl font-bold mb-8">Lista de empleados</h2>
-      <div className="flex justify-center bg-indigo-50 p-6 lg:p-8 rounded-3xl shadow-2xl text-base w-full max-w-5xl overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
+      <h2 className="text-2xl md:text-4xl font-bold mb-8">
+        Lista de empleados
+      </h2>
+      <div
+        ref={tableDivRef}
+        style={{ maxHeight: '400px', overflowY: 'auto' }}
+        className="flex justify-center bg-indigo-200 p-2 px-5 lg:p-5 rounded-3xl shadow-2xl text-xs md:text-base w-3/4 md:w-full max-w-3xl md:max-w-6xl overflow-x-auto mb-4"
+      >
+        <table className="min-w-full bg-white text-xs md:text-sm">
+          <thead className="bg-blue-300">
             <tr>
-              {[
-                "Nombre",
-                "Cédula",
-                "Edad",
-                "Rol",
-                "Teléfono",
-                "Email",
-              ].map((header, index) => (
-                <th
-                  key={index}
-                  className="text-center py-4 px-6 uppercase font-semibold text-sm"
-                >
-                  {header}
-                </th>
-              ))}
-              <th className="text-center py-4 px-6 uppercase font-semibold text-sm">
+              {['Nombre', 'Cédula', 'Edad', 'Rol', 'Teléfono', 'Email'].map(
+                (header, index) => (
+                  <th
+                    key={index}
+                    className="text-center py-2 px-4 uppercase font-semibold text-sm"
+                  >
+                    {header}
+                  </th>
+                ),
+              )}
+              <th className="text-center py-2 px-4 uppercase font-semibold text-sm">
                 Seleccionar
               </th>
             </tr>
           </thead>
           <tbody>
             {empleados.map((empleado) => (
-              <tr key={empleado.cc}>
+              <tr
+                key={empleado.cc}
+                className={`${
+                  selectedEmpleado === empleado.cc ? 'bg-indigo-200' : ''
+                }`}
+              >
                 <td className="text-left py-4 px-6">{empleado.fullName}</td>
                 <td className="text-left py-4 px-6">{empleado.cc}</td>
                 <td className="text-left py-4 px-6 hidden md:table-cell">
@@ -85,14 +103,17 @@ const TablaEmpleados: React.FC = () => {
                 <td className="text-left py-4 px-6 hidden md:table-cell">
                   {empleado.phone}
                 </td>
+                <td className="text-left py-4 px-6 hidden md:table-cell">
+                  {empleado.email}
+                </td>
                 <td className="text-center py-4 px-6">
                   <button
                     className={`text-white rounded-full h-10 w-10 focus:outline-none ${
-                      selectedEmpleado === empleado.id
-                        ? "bg-green-700"
-                        : "bg-green-400"
+                      selectedEmpleado === empleado.cc
+                        ? 'bg-green-700'
+                        : 'bg-green-400'
                     }`}
-                    onClick={() => handleButtonPress(empleado.id)}
+                    onClick={() => handleButtonPress(empleado.cc)}
                   >
                     ✓
                   </button>
@@ -101,6 +122,14 @@ const TablaEmpleados: React.FC = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-center space-x-4 mt-4">
+        <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out">
+          Actualizar empleado
+        </button>
+        <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out">
+          Eliminar Empleado
+        </button>
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import RegistroEmpleados from "./RegistroEmpleados";
-import RoutesApp from "../Routes/Router";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import RegistroEmpleados from './RegistroEmpleados';
+import RoutesApp from '../Routes/Router';
+import { useNavigate } from 'react-router-dom';
+import Watson from './Watson';
 
 interface Empleado {
   id: number;
@@ -25,7 +26,7 @@ const EmpleadoCard: React.FC<EmpleadoCardProps> = ({ empleados }) => {
 
   const mixClick = (id: number) => {
     setSelectedEmpleado(id);
-    navegar("/register_employee");
+    navegar('/register_employee');
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-orange-100">
@@ -35,7 +36,7 @@ const EmpleadoCard: React.FC<EmpleadoCardProps> = ({ empleados }) => {
           <button
             key={empleado.id}
             onClick={() => mixClick(empleado.id)}
-            className="bg-indigo-500 text-zinc-100 text-left m-4 p-8 font-semibold rounded-3xl shadow-lg w-auto flex items-center hover: "
+            className="bg-indigo-500 text-zinc-100 text-left m-4 p-8 font-semibold rounded-3xl shadow-lg w-auto flex items-center"
           >
             <div className="flex-1">
               <h3 className="text-3xl mb-6 font-semibold">{`${empleado.nombre} ${empleado.apellido}`}</h3>
@@ -47,7 +48,7 @@ const EmpleadoCard: React.FC<EmpleadoCardProps> = ({ empleados }) => {
             </div>
             <img
               src={
-                "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
+                'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'
               }
               alt={`${empleado.nombre} ${empleado.apellido}`}
               className="w-32 h-32 rounded-full ml-4 "
@@ -55,6 +56,7 @@ const EmpleadoCard: React.FC<EmpleadoCardProps> = ({ empleados }) => {
           </button>
         ))}
       </div>
+      <Watson />
     </div>
   );
 };
