@@ -1,10 +1,6 @@
 // App.tsx
-import React from "react";
-import Login from "./Componentes/Login";
-import RegistroEmpleados from "./Componentes/RegistroEmpleados";
-import TablaEmpleados from "./Componentes/TablaEmpleados";
-import EmpleadoCard from "./Componentes/EmpleadoCard";
 import RoutesApp from "./Routes/Router";
+import Watson from "./Componentes/Watson";
 
 function App() {
   return <RoutesApp />;
