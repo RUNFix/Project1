@@ -13,17 +13,23 @@ interface Empleado {
 const TablaEmpleados: React.FC = () => {
   const [selectedEmpleado, setSelectedEmpleado] = useState<string | null>(null);
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
-  const [visibleCount, setVisibleCount] = useState(5);
+  const [visibleCount, setVisibleCount] = useState(20);
   const tableDivRef = useRef<HTMLDivElement>(null);
   const navegar = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get('http://localhost:4000/employee');
-      setEmpleados(res.data);
-    };
+    //const fetchData = async () => {
+    //  const res = await axios.get('http://localhost:4000/employee');
+    //  setEmpleados(res.data);
+    //};
 
-    fetchData();
+    //fetchData();
+    axios.get('http://localhost:4000/employee').then(res => {
+      setEmpleados(res.data)
+      console.log(res.data)
+    }
+    );
+      
   }, []);
 
   useEffect(() => {
@@ -36,7 +42,7 @@ const TablaEmpleados: React.FC = () => {
 
       if (isBottom) {
         setVisibleCount((prevCount) =>
-          Math.min(prevCount + 5, empleados.length),
+          Math.min(prevCount + 20, empleados.length),
         );
       }
     };
