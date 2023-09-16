@@ -85,6 +85,9 @@ const TablaEmpleados: React.FC = () => {
                 <td className="text-left py-4 px-6 hidden md:table-cell">
                   {empleado.phone}
                 </td>
+                <td className="text-left py-4 px-6 hidden md:table-cell">
+                  {empleado.email}
+                </td>
                 <td className="text-center py-4 px-6">
                   <button
                     className={`text-white rounded-full h-10 w-10 focus:outline-none ${
