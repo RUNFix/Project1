@@ -128,9 +128,8 @@ const RegistroEmpleados: React.FC = () => {
             required
           >
             <option value="" label="Selecciona un rol" />
-            <option value="Tecnico Automotriz">Empleado</option>
-            <option value="Jefe de Taller">Jefe del Taller</option>
-            <option value="Asesor de Servicio">Administrador</option>
+            <option value="Empleado">Empleado</option>
+            <option value="Administrador">Administrador</option>
           </select>
           {formik.touched.rol && formik.errors.rol ? (
             <div className="text-red-500">{formik.errors.rol}</div>
