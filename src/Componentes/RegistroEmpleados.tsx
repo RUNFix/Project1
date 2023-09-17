@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import TablaEmpleados from './TablaEmpleados';
 
 interface Empleado {
   fullName: string;
@@ -14,72 +15,81 @@ interface Empleado {
 }
 
 const RegistroEmpleados: React.FC = () => {
-  const location = useLocation<{ empleadoParaEditar: Empleado | null }>();
+  const [datos, setDatos] = useState(false);
+  const navegar = useNavigate();
+  const location = useLocation();
+  const empleadoParaEditar = location.state?.filtrado;
 
-  const empleadoParaEditar = location.state?.empleadoParaEditar;
-  console.log(empleadoParaEditar);
+  const { fullName, cc, age, position, phone, email } =
+    empleadoParaEditar || {};
+
+  const validationSchema = Yup.object({
+    nombre: Yup.string().required('Requerido'),
+    apellido: Yup.string().required('Requerido'),
+    cedula: Yup.string().required('Requerido'),
+    edad: Yup.string().required('Requerido'),
+    rol: Yup.string().required('Requerido'),
+    telefono: Yup.string().required('Requerido'),
+    email: Yup.string().email('Email inválido').required('Requerido'),
+    password: Yup.string().required('Requerido'),
+  });
 
   const formik = useFormik({
     initialValues: {
-      nombre: empleadoParaEditar
-        ? empleadoParaEditar.fullName.split(' ')[0]
-        : '',
-      apellido: empleadoParaEditar
-        ? empleadoParaEditar.fullName.split(' ')[1]
-        : '',
-      cedula: empleadoParaEditar ? empleadoParaEditar.cc : '',
-      edad: empleadoParaEditar ? empleadoParaEditar.age : '',
-      rol: empleadoParaEditar ? empleadoParaEditar.position : '',
-      telefono: empleadoParaEditar ? empleadoParaEditar.phone : '',
-      email: empleadoParaEditar ? empleadoParaEditar.email : '',
+      nombre: fullName ? fullName.split(' ')[0] : '',
+      apellido: fullName ? fullName.split(' ')[1] : '',
+      cedula: cc || '',
+      edad: age || '',
+      rol: position || '',
+      telefono: phone || '',
+      email: email || '',
       password: '',
     },
-
-    validationSchema: Yup.object({
-      nombre: Yup.string().required('Requerido'),
-      apellido: Yup.string().required('Requerido'),
-      cedula: Yup.string().required('Requerido'),
-      edad: Yup.string().required('Requerido'),
-      rol: Yup.string().required('Requerido'),
-      telefono: Yup.string().required('Requerido'),
-      email: Yup.string().email('Email inválido').required('Requerido'),
-      password: Yup.string().required('Requerido'),
-    }),
-
-    onSubmit: (values) => {
-      axios
-        .post('http://localhost:4000/auth/register/', {
-          cc: values.cedula,
-          fullName: `${values.nombre} ${values.apellido}`,
-          age: values.edad,
-          position: values.rol,
-          email: values.email,
-          phone: values.telefono,
-          password: values.password,
-        })
-        .then((response) => {
-          console.log('Respuesta del servidor:', response.data);
-        })
-        .catch((error) => {
-          console.error('Error al enviar la solicitud:', error);
-        });
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(
+          'http://localhost:4000/auth/register/',
+          {
+            cc: values.cedula,
+            fullName: `${values.nombre.trim()} ${values.apellido.trim()}`,
+            age: values.edad.trim(),
+            position: values.rol.trim(),
+            email: values.email.trim(),
+            phone: values.telefono.trim(),
+            password: values.password,
+          },
+        );
+        console.log('Respuesta del servidor:', response.data);
+      } catch (error) {
+        console.error('Error al enviar la solicitud:', error);
+        setDatos(true);
+        alert('se ejecuto correctament');
+      }
     },
   });
 
+  /// problema
   useEffect(() => {
-    if (empleadoParaEditar) {
-      formik.setValues({
-        nombre: empleadoParaEditar.fullName.split(' ')[0],
-        apellido: empleadoParaEditar.fullName.split(' ')[1],
-        cedula: empleadoParaEditar[0].cc,
-        edad: empleadoParaEditar[1].age,
-        rol: empleadoParaEditar[3].position,
-        telefono: empleadoParaEditar[0].phone,
-        email: empleadoParaEditar.email,
-        password: '',
+    formik.resetForm();
+  }, [location]);
+
+  useEffect(() => {
+    if (datos) {
+      formik.resetForm({
+        values: {
+          nombre: '',
+          apellido: '',
+          cedula: '',
+          edad: '',
+          rol: '',
+          telefono: '',
+          email: '',
+          password: '',
+        },
       });
     }
-  }, [empleadoParaEditar]);
+  }, [datos]);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen min-w-max bg-gray-100">
       <h2 className="text-4xl font-bold mb-8">Registro de empleados</h2>
@@ -104,6 +114,7 @@ const RegistroEmpleados: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               required
+              disabled={field === 'cedula' && empleadoParaEditar ? true : false}
             />
             {formik.touched[field] && formik.errors[field] ? (
               <div className="text-red-500">{formik.errors[field]}</div>
@@ -185,6 +196,7 @@ const RegistroEmpleados: React.FC = () => {
           <button
             type="submit"
             className="w-full bg-green-500 hover:bg-green-600 text-white p-2 rounded-2xl"
+            onClick={() => formik.resetForm()}
           >
             Registrar empleado
           </button>
