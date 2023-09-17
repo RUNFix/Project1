@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RegistroEmpleados from './RegistroEmpleados';
 
 interface Empleado {
   fullName: string;
@@ -18,18 +19,10 @@ const TablaEmpleados: React.FC = () => {
   const navegar = useNavigate();
 
   useEffect(() => {
-    //const fetchData = async () => {
-    //  const res = await axios.get('http://localhost:4000/employee');
-    //  setEmpleados(res.data);
-    //};
-
-    //fetchData();
-    axios.get('http://localhost:4000/employee').then(res => {
-      setEmpleados(res.data)
-      console.log(res.data)
-    }
-    );
-      
+    axios.get('http://localhost:4000/employee').then((res) => {
+      setEmpleados(res.data);
+      //console.log(res.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -68,8 +61,10 @@ const TablaEmpleados: React.FC = () => {
       return empleado.cc === id;
     });
 
-    console.log(filtrado);
-    navegar('/register_employee', { state: { filtrado } });
+    console.log('Esto es el filtadro ' + filtrado);
+    navegar('/register_employee', {
+      state: { filtrado: filtrado[0] },
+    });
   };
 
   const deleteEmployee = async () => {

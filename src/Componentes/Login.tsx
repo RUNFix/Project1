@@ -1,33 +1,57 @@
-import React, { useState, FormEvent } from "react";
-import axios from "axios";
-import TablaEmpleados from "./TablaEmpleados";
-import { useNavigate } from "react-router-dom";
+import React, { useState, FormEvent } from 'react';
+import axios from 'axios';
+import TablaEmpleados from './TablaEmpleados';
+import { useNavigate } from 'react-router-dom';
 const Login: React.FC = () => {
-  const [documento, setDocumento] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [documento, setDocumento] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [userError, setUserError] = useState<string>('');
+  const [pswdError, setPswdError] = useState<string>('');
   const navegar = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    setUserError('');
+    setPswdError('');
     console.log(`documento: ${documento}, Password: ${password}`);
 
     // Realizar una solicitud POST utilizando Axios
-    axios.post('http://localhost:4000/auth/login', {
-      "cc": documento,
-      "password": password
-    })
-    .then((response) => {
-      // Manejar la respuesta del servidor
-      console.log('Respuesta del servidor:', response.data);
-      const usuario = response.data.user;
-      if (usuario.position === "Administrador") {
-       navegar("/table_employee")
-      }
-    })
-    .catch((error) => {
-      // Manejar errores, como mostrar un mensaje de error al usuario
-      console.error('Error al enviar la solicitud:', error);
-    });
+    axios
+      .post('http://localhost:4000/auth/login', {
+        cc: documento,
+        password: password,
+      })
+      .then((response) => {
+        // Manejar la respuesta del servidor
+        console.log('Respuesta del servidor:', response.data);
+        const usuario = response.data.user;
+        //warning messages
+        switch (response.data) {
+          case 'NOT_FOUND_USER':
+            //alert('Usuario no encontrado');
+            setUserError('Usuario no encontrado');
+            break;
+          case 'PASSWORD_INCORRECT':
+            //alert('Contraseña errada');
+            setPswdError('Contraseña errada');
+            break;
+          default:
+            console.log('default warning message');
+            break;
+        }
+        if (usuario.position === 'Administrador') {
+          navegar('/table_employee');
+        }
+      })
+      .catch((error) => {
+        //esto es un machetaso ni el hpta, este mensaje deberia ser manejado por el switch case de arriba
+        if (error.response.data == 'PASSWORD_INCORRECT') {
+          setPswdError('Contraseña errada');
+        }
+
+        // Manejar errores, como mostrar un mensaje de error al usuario
+        console.error('Error al enviar la solicitud:', error);
+      });
   };
 
   return (
@@ -59,6 +83,7 @@ const Login: React.FC = () => {
                 className="w-full px-3 py-4 placeholder-gray-600 border rounded-2xl focus:outline-none focus:ring focus:ring-blue-500"
                 placeholder="Documento"
               />
+              <h1 className="text-red-600">{userError}</h1>
             </div>
             <div className="mb-6">
               <label htmlFor="password" className="sr-only">
@@ -74,6 +99,7 @@ const Login: React.FC = () => {
                 className="w-full px-3 py-4 placeholder-gray-600 border rounded-2xl focus:outline-none focus:ring focus:ring-blue-500"
                 placeholder="Contraseña"
               />
+              <h1 className="text-red-600">{pswdError}</h1>
             </div>
             <div className="mb-6">
               <button
