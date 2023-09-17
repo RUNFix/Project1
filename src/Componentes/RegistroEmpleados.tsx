@@ -16,6 +16,7 @@ interface Empleado {
 
 const RegistroEmpleados: React.FC = () => {
   const [datos, setDatos] = useState(false);
+  const [userError, setUserError] = useState<string>('');
   const navegar = useNavigate();
   const location = useLocation();
   const empleadoParaEditar = location.state?.filtrado;
@@ -47,6 +48,7 @@ const RegistroEmpleados: React.FC = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      setUserError('');
       try {
         const response = await axios.post(
           'http://localhost:4000/auth/register/',
@@ -61,6 +63,16 @@ const RegistroEmpleados: React.FC = () => {
           },
         );
         console.log('Respuesta del servidor:', response.data);
+        //warning messages
+        switch (response.data) {
+          case 'ALREADY_USER':
+            //alert('Usuario no encontrado');
+            setUserError('Usuario ya registrado');
+            break;
+          default:
+            alert('entró');
+            break;
+        }
       } catch (error) {
         console.error('Error al enviar la solicitud:', error);
         setDatos(true);
@@ -69,7 +81,7 @@ const RegistroEmpleados: React.FC = () => {
     },
   });
 
-  /// problema
+  /*// problema
   useEffect(() => {
     formik.resetForm();
   }, [location]);
@@ -90,6 +102,7 @@ const RegistroEmpleados: React.FC = () => {
       });
     }
   }, [datos]);
+  */
   return (
     <div className="flex flex-col items-center justify-center min-h-screen min-w-max bg-gray-100">
       <h2 className="text-4xl font-bold mb-8">Registro de empleados</h2>
@@ -193,10 +206,10 @@ const RegistroEmpleados: React.FC = () => {
         </div>
 
         <div className="col-span-1 md:col-span-2">
+          <h1 className="text-center text-red-600">{userError}</h1>
           <button
             type="submit"
             className="w-full bg-green-500 hover:bg-green-600 text-white p-2 rounded-2xl"
-            onClick={() => formik.resetForm()}
           >
             Registrar empleado
           </button>
