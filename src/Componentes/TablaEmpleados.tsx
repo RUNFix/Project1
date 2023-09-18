@@ -93,7 +93,7 @@ const TablaEmpleados: React.FC = () => {
           className="flex justify-center text-xs md:text-base w-3/4 md:w-full max-w-3xl md:max-w-6xl overflow-x-auto mb-4 overflow-y-auto max-h-[480px]"
         >
           <table className="min-w-full bg-white text-xs md:text-sm">
-            <thead className="bg-blue-300 sticky top-0">
+            <thead className="bg-gray-300 sticky top-0">
               <tr>
                 {['Nombre', 'Cédula', 'Edad', 'Rol', 'Teléfono', 'Email'].map(
                   (header, index) => (

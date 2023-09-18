@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import TablaEmpleados from './TablaEmpleados';
-
-interface Empleado {
-  fullName: string;
-  cc: string;
-  age: string;
-  position: string;
-  phone: string;
-  email: string;
-}
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegistroEmpleados: React.FC = () => {
-  const [datos, setDatos] = useState(false);
   const [userError, setUserError] = useState<string>('');
-  const navegar = useNavigate();
   const location = useLocation();
   const empleadoParaEditar = location.state?.filtrado;
+  const navegar = useNavigate();
 
   const { fullName, cc, age, position, phone, email } =
     empleadoParaEditar || {};
@@ -49,60 +40,46 @@ const RegistroEmpleados: React.FC = () => {
     validationSchema,
     onSubmit: async (values) => {
       setUserError('');
+
+      // EXPLICAION RUTASS - SERVICES - CONTROLLER  (EMPLEADO insertEmpleado ?????)
       try {
-        const response = await axios.post(
-          'http://localhost:4000/auth/register/',
-          {
-            cc: values.cedula,
-            fullName: `${values.nombre.trim()} ${values.apellido.trim()}`,
-            age: values.edad.trim(),
-            position: values.rol.trim(),
-            email: values.email.trim(),
-            phone: values.telefono.trim(),
-            password: values.password,
-          },
-        );
-        console.log('Respuesta del servidor:', response.data);
-        //warning messages
+        const method = empleadoParaEditar ? 'put' : 'post';
+        const url = empleadoParaEditar
+          ? `http://localhost:4000/employee/${empleadoParaEditar.cc}`
+          : 'http://localhost:4000/auth/register';
+
+        console.log(url);
+        const response = await axios[method](url, {
+          cc: values.cedula,
+          fullName: `${values.nombre} ${values.apellido}`,
+          age: values.edad,
+          position: values.rol,
+          email: values.email,
+          phone: values.telefono,
+          password: values.password,
+        });
+
         switch (response.data) {
           case 'ALREADY_USER':
-            //alert('Usuario no encontrado');
             setUserError('Usuario ya registrado');
             break;
+          case 'USER_UPDATED':
+            break;
           default:
-            alert('entró');
             break;
         }
+        navegar('/table_employee');
       } catch (error) {
         console.error('Error al enviar la solicitud:', error);
-        setDatos(true);
-        alert('se ejecuto correctament');
       }
     },
   });
 
-  /*// problema
   useEffect(() => {
+    // Esto resetea el formulario si el estado de location cambia
     formik.resetForm();
   }, [location]);
 
-  useEffect(() => {
-    if (datos) {
-      formik.resetForm({
-        values: {
-          nombre: '',
-          apellido: '',
-          cedula: '',
-          edad: '',
-          rol: '',
-          telefono: '',
-          email: '',
-          password: '',
-        },
-      });
-    }
-  }, [datos]);
-  */
   return (
     <div className="flex flex-col items-center justify-center min-h-screen min-w-max bg-gray-100">
       <h2 className="text-4xl font-bold mb-8">Registro de empleados</h2>
