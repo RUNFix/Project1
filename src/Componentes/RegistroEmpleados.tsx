@@ -81,16 +81,18 @@ const RegistroEmpleados: React.FC = () => {
   }, [location]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen min-w-max bg-gray-100">
-      <h2 className="text-4xl font-bold mb-8">Registro de empleados</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen min-w-max bg-gray-50">
+      <h2 className="text-4xl font-bold mb-8 text-slate-800">
+        Registro de empleados
+      </h2>
       <form
         onSubmit={formik.handleSubmit}
-        className="bg-indigo-200 p-4 md:p-6 lg:p-8 rounded-3xl shadow-2xl text-base w-full max-w-md grid grid-cols-1 md:grid-cols-2 gap-4"
+        className="bg-slate-800 p-4 md:p-6 lg:p-8 rounded-3xl shadow-2xl text-base w-full max-w-md grid grid-cols-1 md:grid-cols-2 gap-4"
       >
         {['nombre', 'apellido', 'cedula', 'edad', 'telefono'].map((field) => (
           <div className="mb-4" key={field}>
             <label
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-gray-50"
               htmlFor={field}
             >
               {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -114,7 +116,7 @@ const RegistroEmpleados: React.FC = () => {
 
         <div className="mb-4">
           <label
-            className="block text-sm font-medium text-gray-600"
+            className="block text-sm font-medium text-gray-50"
             htmlFor="rol"
           >
             Rol
@@ -129,9 +131,8 @@ const RegistroEmpleados: React.FC = () => {
             required
           >
             <option value="" label="Selecciona un rol" />
-            <option value="Tecnico Automotriz">Empleado</option>
-            <option value="Jefe de Taller">Jefe del Taller</option>
-            <option value="Asesor de Servicio">Administrador</option>
+            <option value="Empleado">Empleado</option>
+            <option value="Administrador">Administrador</option>
           </select>
           {formik.touched.rol && formik.errors.rol ? (
             <div className="text-red-500">{formik.errors.rol}</div>
@@ -140,7 +141,7 @@ const RegistroEmpleados: React.FC = () => {
 
         <div className="mb-4 md:col-span-2">
           <label
-            className="block text-sm font-medium text-gray-600"
+            className="block text-sm font-medium text-gray-50"
             htmlFor="email"
           >
             Email
@@ -162,7 +163,7 @@ const RegistroEmpleados: React.FC = () => {
 
         <div className="mb-4 md:col-span-2">
           <label
-            className="block text-sm font-medium text-gray-600"
+            className="block text-sm font-medium text-gray-50"
             htmlFor="password"
           >
             Contraseña

@@ -56,7 +56,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col items-center justify-center text-center bg-gray-100 px-4">
+      <div className="min-h-screen flex flex-col items-center justify-center text-center bg-gray-50 px-4">
         <div className="mb-8 text-center px-4">
           <div className="mb-8 text-center px-4">
             <h1 className="text-slate-800 font-extrabold mb-12  text-2xl sm:text-3xl">

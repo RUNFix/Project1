@@ -83,17 +83,17 @@ const TablaEmpleados: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h2 className="text-2xl md:text-4xl font-bold mb-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <h2 className="text-2xl md:text-4xl font-bold mb-8 text-slate-800">
         Lista de empleados
       </h2>
-      <div className=" bg-blue-300 px-4 lg:p-8 rounded-3xl shadow-2xl">
+      <div className=" bg-slate-800 px-4 lg:p-8 rounded-3xl shadow-2xl mb-6">
         <div
           ref={tableDivRef}
           className="flex justify-center text-xs md:text-base w-3/4 md:w-full max-w-3xl md:max-w-6xl overflow-x-auto mb-4 overflow-y-auto max-h-[480px]"
         >
           <table className="min-w-full bg-white text-xs md:text-sm">
-            <thead className="bg-gray-300 sticky top-0">
+            <thead className="bg-slate-400 sticky top-0">
               <tr>
                 {['Nombre', 'Cédula', 'Edad', 'Rol', 'Teléfono', 'Email'].map(
                   (header, index) => (
@@ -137,7 +137,7 @@ const TablaEmpleados: React.FC = () => {
                       className={`text-white rounded-full h-10 w-10 focus:outline-none ${
                         selectedEmpleado === empleado.cc
                           ? 'bg-green-700'
-                          : 'bg-green-400'
+                          : 'bg-green-500'
                       }`}
                       onClick={() => handleButtonPress(empleado.cc)}
                     >
@@ -152,13 +152,13 @@ const TablaEmpleados: React.FC = () => {
       </div>
       <div className="flex justify-center space-x-4 mt-4">
         <button
-          className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out"
+          className="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out"
           onClick={() => goRegistroEmpleado()}
         >
           Actualizar empleado
         </button>
         <button
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out"
+          className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out"
           onClick={() => deleteEmployee()}
         >
           Eliminar Empleado
