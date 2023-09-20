@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const RegistroEmpleados: React.FC = () => {
