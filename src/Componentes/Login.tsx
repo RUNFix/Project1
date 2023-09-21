@@ -3,6 +3,7 @@ import axios from 'axios';
 import TablaEmpleados from './TablaEmpleados';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import Footer from './Footer';
 
 //CUSTOM TOASTS:
 
@@ -174,6 +175,7 @@ const Login: React.FC = () => {
             </div>
           </form>
         </div>
+        <Footer />
       </div>
     </>
   );

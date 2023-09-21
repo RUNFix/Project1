@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RegistroEmpleados from './RegistroEmpleados';
 
 interface Empleado {
   fullName: string;
