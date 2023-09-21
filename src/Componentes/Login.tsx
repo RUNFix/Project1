@@ -76,45 +76,59 @@ const Login: React.FC = () => {
     setPswdError('');
     console.log(`documento: ${documento}, Password: ${password}`);
 
-    // Realizar una solicitud POST utilizando Axios
-    axios
-      .post('http://localhost:4000/auth/login', {
-        cc: documento,
-        password: password,
-      })
-      .then((response) => {
-        // Manejar la respuesta del servidor
-        console.log('Respuesta del servidor:', response.data);
-        const usuario = response.data.user;
-        //warning messages
-        switch (response.data) {
-          case 'NOT_FOUND_USER':
-            setUserError(NOT_FOUND_USER);
-            errorToast(NOT_FOUND_USER);
-            break;
-          case 'PASSWORD_INCORRECT':
+    let isNumeric: boolean = true;
+    if (isNaN(Number(documento.toString()))) {
+      isNumeric = false;
+      errorToast('El campo Cédula debe ser un valor númerico');
+    }
+    let isValid: boolean = true;
+    if (isNumeric) {
+      if (Number(documento) < 0) {
+        isValid = false;
+        errorToast('El valor en el campo Cédula no es valido');
+      }
+    }
+    if (isValid) {
+      // Realizar una solicitud POST utilizando Axios
+      axios
+        .post('http://localhost:4000/auth/login', {
+          cc: documento,
+          password: password,
+        })
+        .then((response) => {
+          // Manejar la respuesta del servidor
+          console.log('Respuesta del servidor:', response.data);
+          const usuario = response.data.user;
+          //warning messages
+          switch (response.data) {
+            case 'NOT_FOUND_USER':
+              setUserError(NOT_FOUND_USER);
+              errorToast(NOT_FOUND_USER);
+              break;
+            case 'PASSWORD_INCORRECT':
+              setPswdError(PASSWORD_INCORRECT);
+              errorToast(PASSWORD_INCORRECT);
+              break;
+            default:
+              console.log('default warning message');
+              break;
+          }
+          logUserToast(usuario.fullName, usuario.position);
+          if (usuario.position === 'Administrador') {
+            //navegar('/table_employee');
+          }
+        })
+        .catch((error) => {
+          //esto es un machetaso ni el hpta, este mensaje deberia ser manejado por el switch case de arriba
+          if (error.response.data == 'PASSWORD_INCORRECT') {
             setPswdError(PASSWORD_INCORRECT);
             errorToast(PASSWORD_INCORRECT);
-            break;
-          default:
-            console.log('default warning message');
-            break;
-        }
-        logUserToast(usuario.fullName, usuario.position);
-        if (usuario.position === 'Administrador') {
-          //navegar('/table_employee');
-        }
-      })
-      .catch((error) => {
-        //esto es un machetaso ni el hpta, este mensaje deberia ser manejado por el switch case de arriba
-        if (error.response.data == 'PASSWORD_INCORRECT') {
-          setPswdError(PASSWORD_INCORRECT);
-          errorToast(PASSWORD_INCORRECT);
-        }
+          }
 
-        // Manejar errores, como mostrar un mensaje de error al usuario
-        console.error('Error al enviar la solicitud:', error);
-      });
+          // Manejar errores, como mostrar un mensaje de error al usuario
+          console.error('Error al enviar la solicitud:', error);
+        });
+    }
   };
 
   return (
