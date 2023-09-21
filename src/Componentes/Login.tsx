@@ -67,6 +67,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
+
   const navegar = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
@@ -175,7 +176,6 @@ const Login: React.FC = () => {
             </div>
           </form>
         </div>
-        <Footer />
       </div>
     </>
   );

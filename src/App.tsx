@@ -8,7 +8,7 @@ import CardWithDecorativeImage from './Componentes/Card';
 import UserProfileCard from './Componentes/Card';
 
 function App() {
-  return <MenuPrincipal />;
+  return <RoutesApp />;
 }
 
 export default App;
