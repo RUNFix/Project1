@@ -64,7 +64,8 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
-
+  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken'));
+  
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setUserError('');
@@ -106,6 +107,10 @@ const Login: React.FC = () => {
               break;
             default:
               console.log('default warning message');
+              console.log(response.data.token);
+              const accessToken  = response.data.token;
+              sessionStorage.setItem('accessToken', accessToken);
+              setAccessToken(accessToken);
               break;
           }
           logUserToast(usuario.fullName, usuario.position);
