@@ -1,9 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
-import TablaEmpleados from './TablaEmpleados';
-import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import Footer from './Footer';
 
 //CUSTOM TOASTS:
 
@@ -67,8 +64,6 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
-
-  const navegar = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
