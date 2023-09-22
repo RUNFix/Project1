@@ -1,9 +1,9 @@
 // App.tsx
-import RoutesApp from "./Routes/Router";
-import Watson from "./Componentes/Watson";
+import PhotoMenu from './Componentes/PhotoMenu';
+import RoutesApp from './Routes/Router';
 
 function App() {
-  return <RoutesApp />;
+  return <PhotoMenu />;
 }
 
 export default App;
