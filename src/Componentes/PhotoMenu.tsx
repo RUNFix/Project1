@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import { useFormik } from 'formik';
+import VehicleForm from './VehicleFomr';
 
 type Props = {
   onImageDrop: (file: File) => void;
+  index?: number;
 };
 
-function ImageDropzone({ onImageDrop }: Props) {
+function ImageDropzone({ onImageDrop, index }: Props) {
   const [dragging, setDragging] = useState(false);
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -21,19 +26,41 @@ function ImageDropzone({ onImageDrop }: Props) {
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setDragging(false);
-
     const file = event.dataTransfer.files[0];
     onImageDrop(file);
   };
 
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onImageDrop(file);
+    }
+  };
+
   return (
     <div
-      className={`dropzone ${dragging ? 'dragging' : ''}`}
+      className={`dropzone ${
+        dragging ? 'dragging' : ''
+      } border-4 border-gray-700 relative p-3 text-center mb-2`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <p>Drag and drop an image here</p>
+      {dragging ? <p>Drop image here</p> : `Imagen numero ${index + 1}`}
+      <input
+        type="file"
+        onChange={handleFileSelect}
+        accept="image/*"
+        style={{
+          cursor: 'pointer',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          opacity: 0,
+        }}
+      />
     </div>
   );
 }
@@ -43,7 +70,6 @@ interface Part {
   description: string;
 }
 interface Vehicle {
-  id: number;
   name: string;
   cc: number;
   model: string;
@@ -59,50 +85,35 @@ interface Vehicle {
 }
 
 export default function PhotoMenu() {
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [images, setImages] = useState<(File | null)[]>([null, null, null]);
 
-  const handleImageDrop = (file: File) => {
-    setImageFile(file);
+  const handleImageDrop = (index: number) => (file: File) => {
+    setImages(images.map((img, i) => (i === index ? file : img)));
   };
 
-  const vehicle = {
-    name: 'Benz',
-    cc: 666,
-    model: 'Aaa',
-    brand: 'lambo',
-    year: 1999,
-    color: 'red',
-    status: 'amazing',
-    priceToPay: 1,
-    employee: 'javier',
-    parts: [
-      { name: 'carro', description: 'Some description' },
-      { name: 'fino', description: 'Some other description' },
-    ],
-    date: new Date(),
-  };
-
-  const handleUpload = async () => {
+  const handleUpload = async (values: Vehicle) => {
     try {
       const formData = new FormData();
-      formData.append('name', vehicle.name);
-      formData.append('cc', vehicle.cc.toString());
-      formData.append('model', vehicle.model);
-      formData.append('brand', vehicle.brand);
-      formData.append('year', vehicle.year.toString());
-      formData.append('color', vehicle.color);
-      formData.append('status', vehicle.status);
-      formData.append('priceToPay', vehicle.priceToPay.toString());
-      formData.append('employee', vehicle.employee);
-      formData.append('parts', JSON.stringify(vehicle.parts)); // stringify parts array
-      formData.append('date', vehicle.date.toString());
+      formData.append('name', values.name);
+      formData.append('cc', values.cc.toString());
+      formData.append('model', values.model);
+      formData.append('brand', values.brand);
+      formData.append('year', values.year.toString());
+      formData.append('color', values.color);
+      formData.append('status', values.status);
+      formData.append('priceToPay', values.priceToPay.toString());
+      formData.append('employee', values.employee);
+      formData.append('parts', JSON.stringify(values.parts));
+      formData.append('date', values.date.toString());
 
-      if (imageFile) {
-        const file = new File([imageFile], 'filename.jpg', {
-          type: 'image/jpeg',
-        });
-        formData.append('image', file);
-      }
+      images.forEach((imageFile, index) => {
+        if (imageFile) {
+          const file = new File([imageFile], `filename${index + 1}.jpg`, {
+            type: 'image/jpeg',
+          });
+          formData.append('images', file);
+        }
+      });
 
       const response = await axios.post(
         'http://localhost:4000/vehicle',
@@ -112,34 +123,47 @@ export default function PhotoMenu() {
       console.log('Funciona', response);
       if (response.status === 200) {
         alert('Vehicle added');
-        setImageFile(null);
+        setImages([null, null, null]);
       }
     } catch (error) {
-      console.log('Error', error);
+      console.log('No funciona', error);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <h1 className="text-4xl font-bold mb-8">Image Dropzone Example</h1>
-      <div className="w-full max-w-md">
-        <ImageDropzone onImageDrop={handleImageDrop} />
-        {imageFile && (
-          <div className="mt-8">
-            <img
-              src={URL.createObjectURL(imageFile)}
-              alt="Dropped Image"
-              className="w-full"
-            />
+    <>
+      <Navbar />
+      <h1 className="text-3xl font-bold mb-4 text-center m-16">
+        Registrar Vehiculo
+      </h1>
+      <div className="grid grid-cols-2 xs:grid-cols-1 gap-2 min-h-screen m-16">
+        <div className="col-span-1">
+          <div className="max-w-sm mx-auto overflow-hidden my-10 text-center ">
+            {images.map((imageFile, index) => (
+              <div key={index} className="mb-8  border-4">
+                <ImageDropzone
+                  onImageDrop={handleImageDrop(index)}
+                  index={index}
+                />
+                {imageFile && (
+                  <div>
+                    <img
+                      src={URL.createObjectURL(imageFile)}
+                      alt="Dropped Image"
+                      className="object-cover w-full h-full ransform hover:scale-105 
+                        transition-transform duration-300  relative p-4 text-center"
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        )}
-        <button
-          onClick={handleUpload}
-          className="mt-4 bg-blue-500 text-white p-2 rounded"
-        >
-          Upload Vehicle
-        </button>
+        </div>
+        <div className="col-span-1 mb-8">
+          <VehicleForm onSubmit={handleUpload} />
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

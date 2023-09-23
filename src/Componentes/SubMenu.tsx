@@ -27,7 +27,7 @@ export default function SubMenu({ user }: Props) {
               title={'Creacion de empleado'}
               img="https://img.freepik.com/vector-premium/oficina-negocios-empleado-espacio-trabajo-dibujos-animados_24640-32917.jpg"
               showDetails={false}
-              screen="register_employee"
+              screen="register-employee"
             />
             <Card
               title={'Ver empleados'}

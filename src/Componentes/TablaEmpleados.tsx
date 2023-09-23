@@ -61,7 +61,7 @@ const TablaEmpleados: React.FC = () => {
     });
 
     console.log('Esto es el filtadro ' + filtrado);
-    navegar('/register_employee', {
+    navegar('/register-employee', {
       state: { filtrado: filtrado[0] },
     });
   };
