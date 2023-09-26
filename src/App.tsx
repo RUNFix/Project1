@@ -1,9 +1,9 @@
 // App.tsx
-import PhotoMenu from './Componentes/PhotoMenu';
+import VehiclePhoto from './Components/VehiclesPhotos';
 import RoutesApp from './Routes/Router';
 
 function App() {
-  return <PhotoMenu />;
+  return <RoutesApp />;
 }
 
 export default App;

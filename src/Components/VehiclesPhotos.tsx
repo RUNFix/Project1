@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar';
-import Footer from './Footer';
-import { useFormik } from 'formik';
-import VehicleForm from './VehicleFomr';
+import Navbar from '@/Components/Navbar';
+import Footer from '@/Components/Footer';
+import VehicleForm from '@/Components/VehicleForm';
 
 type Props = {
   onImageDrop: (file: File) => void;
   index?: number;
 };
-
 function ImageDropzone({ onImageDrop, index }: Props) {
   const [dragging, setDragging] = useState(false);
 
@@ -115,10 +113,7 @@ export default function PhotoMenu() {
         }
       });
 
-      const response = await axios.post(
-        'http://localhost:4000/vehicle',
-        formData,
-      );
+      const response = await axios.post('http://localhost:4000/vehicle', formData);
 
       console.log('Funciona', response);
       if (response.status === 200) {
@@ -133,18 +128,13 @@ export default function PhotoMenu() {
   return (
     <>
       <Navbar />
-      <h1 className="text-3xl font-bold mb-4 text-center m-16">
-        Registrar Vehiculo
-      </h1>
+      <h1 className="text-3xl font-bold mb-4 text-center m-16">Registrar Vehiculo</h1>
       <div className="grid grid-cols-2 xs:grid-cols-1 gap-2 min-h-screen m-16">
         <div className="col-span-1">
           <div className="max-w-sm mx-auto overflow-hidden my-10 text-center ">
             {images.map((imageFile, index) => (
               <div key={index} className="mb-8  border-4">
-                <ImageDropzone
-                  onImageDrop={handleImageDrop(index)}
-                  index={index}
-                />
+                <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
                 {imageFile && (
                   <div>
                     <img

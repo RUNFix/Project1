@@ -20,7 +20,7 @@ const TablaEmpleados: React.FC = () => {
   useEffect(() => {
     axios.get('http://localhost:4000/employee').then((res) => {
       setEmpleados(res.data);
-      //console.log(res.data);
+      console.log(res.data);
     });
   }, []);
 
@@ -33,9 +33,7 @@ const TablaEmpleados: React.FC = () => {
         tableDivRef.current.scrollHeight;
 
       if (isBottom) {
-        setVisibleCount((prevCount) =>
-          Math.min(prevCount + 20, empleados.length),
-        );
+        setVisibleCount((prevCount) => Math.min(prevCount + 20, empleados.length));
       }
     };
 
@@ -113,9 +111,7 @@ const TablaEmpleados: React.FC = () => {
               {empleados.slice(0, visibleCount).map((empleado) => (
                 <tr
                   key={empleado.cc}
-                  className={`${
-                    selectedEmpleado === empleado.cc ? 'bg-indigo-200' : ''
-                  }`}
+                  className={`${selectedEmpleado === empleado.cc ? 'bg-indigo-200' : ''}`}
                 >
                   <td className="text-left py-4 px-6">{empleado.fullName}</td>
                   <td className="text-left py-4 px-6">{empleado.cc}</td>
@@ -134,9 +130,7 @@ const TablaEmpleados: React.FC = () => {
                   <td className="text-center py-4 px-6">
                     <button
                       className={`text-white rounded-full h-10 w-10 focus:outline-none ${
-                        selectedEmpleado === empleado.cc
-                          ? 'bg-green-700'
-                          : 'bg-green-500'
+                        selectedEmpleado === empleado.cc ? 'bg-green-700' : 'bg-green-500'
                       }`}
                       onClick={() => handleButtonPress(empleado.cc)}
                     >
