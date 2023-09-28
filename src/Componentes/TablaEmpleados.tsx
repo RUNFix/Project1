@@ -16,16 +16,19 @@ const TablaEmpleados: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState(20);
   const tableDivRef = useRef<HTMLDivElement>(null);
   const navegar = useNavigate();
-  const accessToken = sessionStorage.getItem('accessToken')
+  const accessToken = sessionStorage.getItem('accessToken');
+
   useEffect(() => {
-    axios.get('http://localhost:4000/employee',{
-      headers: {
-        Authorization: 'Bearer ' + accessToken
-      }
-    }).then((res) => {
-      setEmpleados(res.data);
-      //console.log(res.data);
-    });
+    axios
+      .get('http://localhost:4000/employee', {
+        headers: {
+          Authorization: 'Bearer ' + accessToken,
+        },
+      })
+      .then((res) => {
+        setEmpleados(res.data);
+        //console.log(res.data);
+      });
   }, []);
 
   useEffect(() => {

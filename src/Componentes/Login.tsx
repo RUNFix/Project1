@@ -64,8 +64,10 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
-  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken'));
-  
+  const [accessToken, setAccessToken] = useState(
+    sessionStorage.getItem('accessToken'),
+  );
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setUserError('');
@@ -95,6 +97,9 @@ const Login: React.FC = () => {
           // Manejar la respuesta del servidor
           console.log('Respuesta del servidor:', response.data);
           const usuario = response.data.user;
+          const accessToken = response.data.accessToken;
+          const refreshToken = response.data.refreshToken;
+
           //warning messages
           switch (response.data) {
             case 'NOT_FOUND_USER':
@@ -107,9 +112,9 @@ const Login: React.FC = () => {
               break;
             default:
               console.log('default warning message');
-              console.log(response.data.token);
-              const accessToken  = response.data.token;
+
               sessionStorage.setItem('accessToken', accessToken);
+              sessionStorage.setItem('refreshToken', refreshToken);
               setAccessToken(accessToken);
               break;
           }
