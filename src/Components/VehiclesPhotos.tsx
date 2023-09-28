@@ -129,7 +129,7 @@ export default function PhotoMenu() {
     <>
       <Navbar />
       <h1 className="text-3xl font-bold mb-4 text-center m-16">Registrar Vehiculo</h1>
-      <div className="grid grid-cols-2 xs:grid-cols-1 gap-2 min-h-screen m-16">
+      <div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-2 min-h-screen m-16">
         <div className="col-span-1">
           <div className="max-w-sm mx-auto overflow-hidden my-10 text-center ">
             {images.map((imageFile, index) => (
