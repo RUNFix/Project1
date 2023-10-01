@@ -4,7 +4,7 @@ import RoutesApp from '@/Routes/Router';
 import Watson from './Components/Watson';
 
 function App() {
-  return <Watson />;
+  return <RoutesApp />;
 }
 
 export default App;
