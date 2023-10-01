@@ -5,6 +5,7 @@ import SubMenu from '@/Components/SubMenu';
 import Home from '@/pages/Home';
 import EmployeeRegistration from '@/Components/EmployeeRegistration';
 import EmployeeTable from '@/Components/EmployeeTable';
+import SparePartsRegistration from '@/Components/SparePartsRegistration';
 
 function RoutesApp() {
   return (
@@ -17,6 +18,7 @@ function RoutesApp() {
           <Route path="table-employee" element={<EmployeeTable />} />
           <Route path="submenu" element={<SubMenu user={'admin'} />} />
           <Route path="watson" element={<Watson />} />
+          <Route path="spare-parts-registration" element={<SparePartsRegistration/>} />
         </Route>
       </Routes>
     </BrowserRouter>
