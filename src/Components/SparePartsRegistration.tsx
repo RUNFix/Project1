@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Repuesto } from '@/types/Spare';
+import axios from 'axios';
 
 const TablaRepuestos: React.FC = () => {
   const [repuestos, setRepuestos] = useState<Repuesto[]>([]);
@@ -40,13 +41,22 @@ const TablaRepuestos: React.FC = () => {
   const handleGuardarClick = async () => {
     // Envía los datos del vehículo al backend utilizando una solicitud POST o PUT
     try {
-      // const vehiculoData = {
-      //   nombreDueño: vehiculoInfo.nombreDueño,
-      //   numeroDocumento: vehiculoInfo.numeroDocumento,
-      //   placas: vehiculoInfo.placas,
-      // };
+      //Creates items array for the back-end
+      const repuestosParaGuardar = repuestos.map((repuesto) => ({
+        quantity: repuesto.cantidad,
+        itemDescription: repuesto.descripcion,
+        price: repuesto.precioUnitario,
+        discount: repuesto.descuento,
+      }));
+
+      const vehiculoData = {
+        //nombreDueño: vehiculoInfo.nombreDueño, //no estoy seguro si usarla
+        cc: vehiculoInfo.numeroDocumento,
+        plate: vehiculoInfo.placas,
+        items: repuestosParaGuardar,
+      };
       // Realiza la solicitud al backend con vehiculoData
-      // await axios.post('http://localhost:4000/guardar-vehiculo', vehiculoData);
+      await axios.post('http://localhost:4000/bill', vehiculoData);
 
       // Aquí puedes manejar la respuesta del servidor si es necesario
       console.log('Datos del vehículo guardados exitosamente');
@@ -57,12 +67,13 @@ const TablaRepuestos: React.FC = () => {
     // Luego, puedes enviar los datos de repuestos al backend de la misma manera como lo tenías antes
     // ...
 
-    // También puedes limpiar el formulario del vehículo aquí si lo deseas
-    // setVehiculoInfo({
-    //   nombreDueño: '',
-    //   numeroDocumento: '',
-    //   placas: '',
-    // });
+    //También puedes limpiar el formulario del vehículo aquí si lo deseas
+    setVehiculoInfo({
+      nombreDueño: '',
+      numeroDocumento: '',
+      placas: '',
+    });
+    setRepuestos([]);
   };
 
   const handleAgregarClick = () => {
