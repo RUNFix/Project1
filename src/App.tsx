@@ -1,7 +1,5 @@
-// App.tsx
-import VehiclePhoto from './Components/VehiclesPhotos';
+// Autor: RunFixTeam
 import RoutesApp from '@/Routes/Router';
-import Watson from './Components/Watson';
 
 function App() {
   return <RoutesApp />;

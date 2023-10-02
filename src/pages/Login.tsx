@@ -1,69 +1,22 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
+import { errorToast, logUserToast } from '@/utils/Toast';
+import { Toaster } from 'react-hot-toast';
 
 //CUSTOM TOASTS:
-
-//Loggin Toast
-const logUserToast = (name: string, position: string) => {
-  toast.custom((t) => (
-    <div
-      className={`${
-        t.visible ? 'animate-enter' : 'animate-leave'
-      } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 `}
-    >
-      <div className="flex-1 w-0 p-4 ">
-        <div className="flex items-start ">
-          <div className="flex-shrink-0 pt-0.5 ">
-            <img
-              className="h-10 w-10 rounded-full"
-              src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQWXRgIf4paZOsYrhk1ZUMEAiEih7aKj36UOAmfmuuGxEvxBA2v"
-              alt=""
-            />
-          </div>
-          <div className="ml-3 flex-1">
-            <p className="text-sm font-medium text-gray-900">{name}</p>
-            <p className="mt-1 text-sm text-gray-500">{position}</p>
-          </div>
-        </div>
-      </div>
-      <div className="flex border-l border-gray-200">
-        <button
-          onClick={() => toast.dismiss(t.id)}
-          className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          Cerrar
-        </button>
-      </div>
-    </div>
-  ));
-};
-
-//Error Toast
-const errorToast = (message: string) => {
-  toast.error(message, {
-    position: 'bottom-center',
-    iconTheme: {
-      primary: '#FA201D',
-      secondary: '#FFF',
-    },
-    style: {
-      border: '3px solid #1e293b',
-      color: '1e293b',
-    },
-  });
-};
-
-//                TOAST PARAMETERS
-//Warning messages
 const NOT_FOUND_USER = 'Usuario no encontrado';
 const PASSWORD_INCORRECT = 'Contraseña incorrecta';
+
+//Loggin Toast
 
 const Login: React.FC = () => {
   const [documento, setDocumento] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
+
+  //           TOAST PARAMETERS
+  //Warning messages
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -118,6 +71,7 @@ const Login: React.FC = () => {
           if (error.response.data == 'PASSWORD_INCORRECT') {
             setPswdError(PASSWORD_INCORRECT);
             errorToast(PASSWORD_INCORRECT);
+            errorToast('Constraseña incorrecta');
           }
 
           // Manejar errores, como mostrar un mensaje de error al usuario
@@ -138,7 +92,9 @@ const Login: React.FC = () => {
           </div>
         </div>
         <div className="w-full max-w-xs sm:max-w-md  rounded-3xl shadow-2xl p-8 bg-slate-800">
-          <h2 className="text-2xl font-extrabold text-blue-500 mb-6">Iniciar sesión</h2>
+          <h2 className="text-2xl font-extrabold text-blue-500 mb-6">
+            Iniciar sesión
+          </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="documento" className="sr-only">

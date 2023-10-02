@@ -1,25 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, FieldArray } from 'formik';
-
-interface Part {
-  name: string;
-  description: string;
-}
-
-interface Vehicle {
-  name: string;
-  cc: number;
-  model: string;
-  brand: string;
-  year: number;
-  color: string;
-  status: string;
-  priceToPay: number;
-  employee: string;
-  parts: Part[];
-  date: Date;
-  images: string;
-}
+import { Vehicle } from '@/types/Vehicle';
 
 interface Props {
   onSubmit: (values: Vehicle) => void;

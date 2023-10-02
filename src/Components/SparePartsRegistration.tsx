@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-
-interface Repuesto {
-  cantidad: number;
-  descripcion: string;
-  precioUnitario: number;
-  descuento: number;
-  total: number;
-}
+import { Repuesto } from '@/types/Spare';
 
 const TablaRepuestos: React.FC = () => {
   const [repuestos, setRepuestos] = useState<Repuesto[]>([]);
@@ -27,11 +20,16 @@ const TablaRepuestos: React.FC = () => {
     const { name, value } = event.target;
     setNuevoRepuesto({
       ...nuevoRepuesto,
-      [name]: name === 'cantidad' || name === 'precioUnitario' || name === 'descuento' ? parseFloat(value) : value,
+      [name]:
+        name === 'cantidad' || name === 'precioUnitario' || name === 'descuento'
+          ? parseFloat(value)
+          : value,
     });
   };
 
-  const handleVehiculoInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVehiculoInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const { name, value } = event.target;
     setVehiculoInfo({
       ...vehiculoInfo,
@@ -69,17 +67,24 @@ const TablaRepuestos: React.FC = () => {
 
   const handleAgregarClick = () => {
     // Validar que se hayan ingresado todos los campos obligatorios
-    if (!nuevoRepuesto.cantidad || !nuevoRepuesto.descripcion || !nuevoRepuesto.precioUnitario) {
+    if (
+      !nuevoRepuesto.cantidad ||
+      !nuevoRepuesto.descripcion ||
+      !nuevoRepuesto.precioUnitario
+    ) {
       alert('Por favor, complete todos los campos de repuestos.');
       return;
     }
 
     // Calcular el total
-    const total = nuevoRepuesto.cantidad * nuevoRepuesto.precioUnitario * (1 - nuevoRepuesto.descuento / 100);
+    const total =
+      nuevoRepuesto.cantidad *
+      nuevoRepuesto.precioUnitario *
+      (1 - nuevoRepuesto.descuento / 100);
 
     // Agregar el nuevo repuesto al estado local
     setRepuestos([...repuestos, { ...nuevoRepuesto, total }]);
-    
+
     // Limpiar el formulario de repuestos
     setNuevoRepuesto({
       cantidad: 0,
@@ -104,7 +109,9 @@ const TablaRepuestos: React.FC = () => {
       </h2>
       {/* Formulario para datos del vehículo */}
       <div className="bg-slate-800 px-4 lg:p-8 rounded-3xl shadow-2xl mb-6 w-3/4 md:w-full max-w-3xl md:max-w-6xl">
-        <h3 className="text-xl font-semibold mb-4 text-white">Datos del Vehículo</h3>
+        <h3 className="text-xl font-semibold mb-4 text-white">
+          Datos del Vehículo
+        </h3>
         <form>
           <div className="mb-4">
             <label className="text-white">Nombre del Dueño</label>
@@ -118,7 +125,9 @@ const TablaRepuestos: React.FC = () => {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="mb-4">
-              <label className="text-white">Número de Documento del Dueño</label>
+              <label className="text-white">
+                Número de Documento del Dueño
+              </label>
               <input
                 type="text"
                 name="numeroDocumento"
@@ -151,7 +160,9 @@ const TablaRepuestos: React.FC = () => {
       </div>
       {/* Formulario para agregar un nuevo repuesto */}
       <div className="bg-slate-800 px-4 lg:p-8 rounded-3xl shadow-2xl mb-6 w-3/4 md:w-full max-w-3xl md:max-w-6xl">
-        <h3 className="text-xl font-semibold mb-4 text-white">Agregar Nuevo Repuesto</h3>
+        <h3 className="text-xl font-semibold mb-4 text-white">
+          Agregar Nuevo Repuesto
+        </h3>
         <form className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-white">Cantidad</label>
@@ -211,7 +222,9 @@ const TablaRepuestos: React.FC = () => {
             <tr>
               <th className="text-left py-2 px-6 text-white">Cantidad</th>
               <th className="text-left py-2 px-6 text-white">Descripción</th>
-              <th className="text-left py-2 px-6 text-white">Precio Unitario</th>
+              <th className="text-left py-2 px-6 text-white">
+                Precio Unitario
+              </th>
               <th className="text-left py-2 px-6 text-white">Descuento</th>
               <th className="text-left py-2 px-6 text-white">Total</th>
               <th className="text-left py-2 px-6 text-white">Acciones</th>
@@ -223,7 +236,9 @@ const TablaRepuestos: React.FC = () => {
               <tr key={index}>
                 <td className="text-left py-4 px-6">{repuesto.cantidad}</td>
                 <td className="text-left py-4 px-6">{repuesto.descripcion}</td>
-                <td className="text-left py-4 px-6">{repuesto.precioUnitario}</td>
+                <td className="text-left py-4 px-6">
+                  {repuesto.precioUnitario}
+                </td>
                 <td className="text-left py-4 px-6">{repuesto.descuento}</td>
                 <td className="text-left py-4 px-6">{repuesto.total}</td>
                 <td className="text-left py-4 px-6">

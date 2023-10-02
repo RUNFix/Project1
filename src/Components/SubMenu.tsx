@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function SubMenu({ user }: Props) {
-  const [adminActive, setAdminActive] = useState(false);
+  const [adminActive, setAdminActive] = useState(true);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-justify">
