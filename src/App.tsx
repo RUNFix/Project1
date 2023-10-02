@@ -1,10 +1,9 @@
 // App.tsx
-import { Routes } from 'react-router-dom';
-import PhotoMenu from './Componentes/PhotoMenu';
 import RoutesApp from './Routes/Router';
+import TablaRepuestos from '@/Components/SparePartsRegistration';
 
 function App() {
-  return <RoutesApp/>;
+  return <RoutesApp />;
 }
 
 export default App;

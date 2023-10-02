@@ -148,9 +148,7 @@ const Login: React.FC = () => {
           </div>
         </div>
         <div className="w-full max-w-xs sm:max-w-md  rounded-3xl shadow-2xl p-8 bg-slate-800">
-          <h2 className="text-2xl font-extrabold text-blue-500 mb-6">
-            Iniciar sesión
-          </h2>
+          <h2 className="text-2xl font-extrabold text-blue-500 mb-6">Iniciar sesión</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="documento" className="sr-only">

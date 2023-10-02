@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="bg-slate-800  w-full  top-0 left-0  border-gray-200">
+    <nav className="bg-slate-800  w-full  top-0 left-0  border-gray-200 z-20 sticky">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" className="flex items-center">
           <span className="self-center text-2xl font-semibold whitespace-nowra text-gray-50">

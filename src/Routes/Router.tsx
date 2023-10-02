@@ -1,29 +1,27 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import Login from '../Componentes/Login';
-import RegistroEmpleados from '../Componentes/RegistroEmpleados';
-import TablaEmpleados from '../Componentes/TablaEmpleados';
-import Watson from '../Componentes/Watson';
-import MenuPrincipal from '../Componentes/MenuPrincipal';
-import SubMenu from '../Componentes/SubMenu';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from '@/pages/Login';
+import Watson from '@/Components/Watson';
+import SubMenu from '@/Components/SubMenu';
+import Home from '@/pages/Home';
+import EmployeeRegistration from '@/Components/EmployeeRegistration';
+import EmployeeTable from '@/Components/EmployeeTable';
+import SparePartsRegistration from '@/Components/SparePartsRegistration';
 
 function RoutesApp() {
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/">
-            <Route path="login" element={<Login />} />
-            <Route path="home" element={<MenuPrincipal />} />
-            <Route path="register_employee" element={<RegistroEmpleados />} />
-            <Route path="table_employee" element={<TablaEmpleados />} />
-            <Route path="submenu" element={<SubMenu />} />
-            <Route path="watson" element={<Watson />} />
-          </Route>
-        </Routes>
-      </Router>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route path="login" element={<Login />} />
+          <Route path="home" element={<Home />} />
+          <Route path="register-employee" element={<EmployeeRegistration />} />
+          <Route path="table-employee" element={<EmployeeTable />} />
+          <Route path="submenu" element={<SubMenu user={'admin'} />} />
+          <Route path="watson" element={<Watson />} />
+          <Route path="spare-parts-registration" element={<SparePartsRegistration/>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
-
 export default RoutesApp;
