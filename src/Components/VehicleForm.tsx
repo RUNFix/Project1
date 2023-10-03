@@ -1,25 +1,11 @@
 import React from 'react';
 import { Formik, Form, Field, FieldArray } from 'formik';
-import { Vehicle } from '@/types/Vehicle';
+import { Vehicle, initialValues } from '@/types/Vehicle';
+import '@/index.css';
 
 interface Props {
   onSubmit: (values: Vehicle) => void;
 }
-
-const initialValues: Vehicle = {
-  name: '',
-  cc: 0,
-  model: '',
-  brand: '',
-  year: 0,
-  color: '',
-  status: '',
-  priceToPay: 0,
-  employee: '',
-  parts: [{ name: '', description: '' }],
-  date: new Date(),
-  images: '',
-};
 
 const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
   return (
@@ -31,24 +17,19 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
       }}
     >
       {({ values }) => (
-        <Form className="bg-slate-800 text mt-10 text-base text-gray-50 shadow-md rounded-3xl  px-8 pt-6 pb-8 mb-4 max-w-lg mx-auto">
+        <Form className="formStyles">
           <div className="mb-4">
             <label className="block  text-sm font-medium  mb-3" htmlFor="name">
               Nombre
             </label>
-            <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline "
-              type="text"
-              name="name"
-              required
-            />
+            <Field className="fieldStyles" type="text" name="name" required />
           </div>
           <div className="mb-4">
             <label className="block  text-sm font-medium mb-3" htmlFor="cc">
               CC
             </label>
             <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline "
+              className="fieldStyles"
               type="number"
               name="cc"
               min={0}
@@ -61,30 +42,20 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
             <label className="block  text-sm font-medium mb-3" htmlFor="model">
               Modelo
             </label>
-            <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              name="model"
-              required
-            />
+            <Field className="fieldStyles" type="text" name="model" required />
           </div>
           <div className="mb-4">
             <label className="block   text-sm font-medium mb-3" htmlFor="brand">
               Marca
             </label>
-            <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              name="brand"
-              required
-            />
+            <Field className="fieldStyles" type="text" name="brand" required />
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-3" htmlFor="year">
               Año
             </label>
             <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline "
+              className="fieldStyles"
               type="number"
               name="year"
               min={0}
@@ -97,23 +68,13 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
             <label className="block  text-sm font-medium mb-3" htmlFor="color">
               Color
             </label>
-            <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              name="color"
-              required
-            />
+            <Field className="fieldStyles" type="text" name="color" required />
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-3" htmlFor="status">
               Estado del vehiculo
             </label>
-            <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              name="status"
-              required
-            />
+            <Field className="fieldStyles" type="text" name="status" required />
           </div>
           <div className="mb-4">
             <label
@@ -123,7 +84,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
               Precio Reparaciones
             </label>
             <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+              className="fieldStyles"
               type="number"
               name="priceToPay"
               min={0}
@@ -139,7 +100,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
               Empleado Encargado
             </label>
             <Field
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+              className="fieldStyles"
               type="text"
               name="employee"
               required
@@ -151,7 +112,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
                 <button
                   type="button"
                   onClick={() => push({ name: '', description: '' })}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline my-3"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
                 >
                   Agregar Partes del Vehiculo a Reparar
                 </button>
@@ -164,7 +125,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
                       Nombre de la parte
                     </label>
                     <Field
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline mb-2"
+                      className="fieldStyles"
                       type="text"
                       name={`parts.${index}.name`}
                     />
@@ -175,14 +136,14 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
                       Descripcion del Daño
                     </label>
                     <Field
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline mb-2"
+                      className="fieldStyles"
                       type="text"
                       name={`parts.${index}.description`}
                     />
                     <button
                       type="button"
                       onClick={() => remove(index)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline my-2"
+                      className="bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded  my-4"
                     >
                       Eliminar Parte
                     </button>
@@ -193,7 +154,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
           </FieldArray>
           <button
             type="submit"
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           >
             Submit
           </button>

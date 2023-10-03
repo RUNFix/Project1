@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Navbar from '@/Components/Navbar';
-import Footer from '@/Components/Footer';
-import Card from '@/Components/Card';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import Card from '@/components/Card';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -15,7 +15,9 @@ export default function SubMenu({ user }: Props) {
     <div className="flex flex-col min-h-screen bg-gray-50 text-justify">
       <Navbar />
       <main className="flex-grow md:p-6 lg:p-12 mx-32 md:mx-48 lg:mx-52">
-        <h1 className="text-4xl text-center font-semibold">Bienvenido a RUNFIX</h1>
+        <h1 className="text-4xl text-center font-semibold">
+          Bienvenido a RUNFIX
+        </h1>
         <h2 className="text-2xl mt-8 md:mt-12 text-center font-semibold">
           ¿Hacia donde te diriges?
         </h2>

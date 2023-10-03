@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Navbar from '@/Components/Navbar';
-import Footer from '@/Components/Footer';
-import VehicleForm from '@/Components/VehicleForm';
-import { Vehicle } from '@/types/vehicle';
-import ImageDropzone from '@/Components/ImageDropzone';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import VehicleForm from '@/components/VehicleForm';
+import { Vehicle } from '@/types/Vehicle';
+import ImageDropzone from '@/components/ImageDropzone';
 
 export default function PhotoMenu() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);

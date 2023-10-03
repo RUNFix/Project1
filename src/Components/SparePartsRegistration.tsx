@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Repuesto } from '@/types/Spare';
+import '@/index.css';
 import axios from 'axios';
 
 const TablaRepuestos: React.FC = () => {
@@ -131,7 +132,7 @@ const TablaRepuestos: React.FC = () => {
               name="nombreDueño"
               value={vehiculoInfo.nombreDueño}
               onChange={handleVehiculoInputChange}
-              className="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-indigo-500"
+              className="spareInputStyle"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -144,7 +145,7 @@ const TablaRepuestos: React.FC = () => {
                 name="numeroDocumento"
                 value={vehiculoInfo.numeroDocumento}
                 onChange={handleVehiculoInputChange}
-                className="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-indigo-500"
+                className="spareInputStyle"
               />
             </div>
             <div className="mb-4">
@@ -154,7 +155,7 @@ const TablaRepuestos: React.FC = () => {
                 name="placas"
                 value={vehiculoInfo.placas}
                 onChange={handleVehiculoInputChange}
-                className="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-indigo-500"
+                className="spareInputStyle"
               />
             </div>
           </div>
@@ -182,17 +183,18 @@ const TablaRepuestos: React.FC = () => {
               name="cantidad"
               value={nuevoRepuesto.cantidad}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-indigo-500"
+              className="spareInputStyle"
             />
           </div>
           <div>
+            border
             <label className="text-white">Descripción</label>
             <input
               type="text"
               name="descripcion"
               value={nuevoRepuesto.descripcion}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-indigo-500"
+              className="spareInputStyle"
             />
           </div>
           <div>
@@ -202,7 +204,7 @@ const TablaRepuestos: React.FC = () => {
               name="precioUnitario"
               value={nuevoRepuesto.precioUnitario}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-indigo-500"
+              className="spareInputStyle"
             />
           </div>
           <div>
@@ -212,7 +214,7 @@ const TablaRepuestos: React.FC = () => {
               name="descuento"
               value={nuevoRepuesto.descuento}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-indigo-500"
+              className="spareInputStyle"
             />
           </div>
         </form>

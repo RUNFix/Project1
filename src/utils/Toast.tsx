@@ -50,3 +50,27 @@ export const errorToast = (message: string) => {
     },
   });
 };
+
+export const succesToast = (message: string) => {
+  toast.success(message, {
+    position: 'bottom-center',
+    iconTheme: {
+      primary: '#49f770',
+      secondary: '#FFF',
+    },
+    style: {
+      border: '3px solid #1e293b',
+      color: '1e293b',
+    },
+  });
+};
+
+export const notNumberToast = (field: string) => {
+  const message = `El campo ${field} debe ser un valor númerico`;
+  errorToast(message);
+};
+
+export const notValidToast = (field: string) => {
+  const message = `El valor en el campo ${field} no es valido`;
+  errorToast(message);
+};

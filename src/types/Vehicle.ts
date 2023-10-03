@@ -14,3 +14,17 @@ export interface Vehicle {
   date: Date;
   images: string;
 }
+export const initialValues: Vehicle = {
+  name: '',
+  cc: 0,
+  model: '',
+  brand: '',
+  year: 0,
+  color: '',
+  status: '',
+  priceToPay: 0,
+  employee: '',
+  parts: [{ name: '', description: '' }],
+  date: new Date(),
+  images: '',
+};

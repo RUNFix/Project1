@@ -3,47 +3,17 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+import {
+  errorToast,
+  notNumberToast,
+  notValidToast,
+  succesToast,
+} from '@/utils/Toast';
 //import 'react-toastify/dist/ReactToastify.css';
 
 // CUSTOM TOASTS
-const errorToast = (message: string) => {
-  toast.error(message, {
-    position: 'bottom-center',
-    iconTheme: {
-      primary: '#FA201D',
-      secondary: '#FFF',
-    },
-    style: {
-      border: '3px solid #1e293b',
-      color: '1e293b',
-    },
-  });
-};
 
-const succesToast = (message: string) => {
-  toast.success(message, {
-    position: 'bottom-center',
-    iconTheme: {
-      primary: '#49f770',
-      secondary: '#FFF',
-    },
-    style: {
-      border: '3px solid #1e293b',
-      color: '1e293b',
-    },
-  });
-};
-
-const notNumberToast = (field: string) => {
-  let message = `El campo ${field} debe ser un valor númerico`;
-  errorToast(message);
-};
-
-const notValidToast = (field: string) => {
-  let message = `El valor en el campo ${field} no es valido`;
-  errorToast(message);
-};
 //                TOAST PARAMETERS
 //Warning messages
 const ALREADY_USER = 'Cédula ya registrada en el sistema';
@@ -57,7 +27,8 @@ const RegistroEmpleados: React.FC = () => {
   const empleadoParaEditar = location.state?.filtrado;
   const navegar = useNavigate();
 
-  const { fullName, cc, age, position, phone, email } = empleadoParaEditar || {};
+  const { fullName, cc, age, position, phone, email } =
+    empleadoParaEditar || {};
 
   const validationSchema = Yup.object({
     nombre: Yup.string().required('Requerido'),
@@ -172,14 +143,19 @@ const RegistroEmpleados: React.FC = () => {
     <>
       <Toaster />
       <div className="flex flex-col items-center justify-center min-h-screen min-w-max bg-gray-50">
-        <h2 className="text-4xl font-bold mb-8 text-slate-800">Registro de empleados</h2>
+        <h2 className="text-4xl font-bold mb-8 text-slate-800">
+          Registro de empleados
+        </h2>
         <form
           onSubmit={formik.handleSubmit}
           className="bg-slate-800 p-4 md:p-6 lg:p-8 rounded-3xl shadow-2xl text-base w-full max-w-md grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           {['nombre', 'apellido', 'cedula', 'edad', 'telefono'].map((field) => (
             <div className="mb-4" key={field}>
-              <label className="block text-sm font-medium text-gray-50" htmlFor={field}>
+              <label
+                className="block text-sm font-medium text-gray-50"
+                htmlFor={field}
+              >
                 {field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
               <input
@@ -191,7 +167,9 @@ const RegistroEmpleados: React.FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 required
-                disabled={field === 'cedula' && empleadoParaEditar ? true : false}
+                disabled={
+                  field === 'cedula' && empleadoParaEditar ? true : false
+                }
               />
               {formik.touched[field] && formik.errors[field] ? (
                 <div className="text-red-500">{formik.errors[field]}</div>
@@ -200,7 +178,10 @@ const RegistroEmpleados: React.FC = () => {
           ))}
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-50" htmlFor="rol">
+            <label
+              className="block text-sm font-medium text-gray-50"
+              htmlFor="rol"
+            >
               Rol
             </label>
             <select
@@ -222,7 +203,10 @@ const RegistroEmpleados: React.FC = () => {
           </div>
 
           <div className="mb-4 md:col-span-2">
-            <label className="block text-sm font-medium text-gray-50" htmlFor="email">
+            <label
+              className="block text-sm font-medium text-gray-50"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -241,7 +225,10 @@ const RegistroEmpleados: React.FC = () => {
           </div>
 
           <div className="mb-4 md:col-span-2">
-            <label className="block text-sm font-medium text-gray-50" htmlFor="password">
+            <label
+              className="block text-sm font-medium text-gray-50"
+              htmlFor="password"
+            >
               Contraseña
             </label>
             <input

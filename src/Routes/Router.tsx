@@ -3,10 +3,10 @@ import Login from '@/pages/Login';
 import Watson from '@/Components/Watson';
 import SubMenu from '@/Components/SubMenu';
 import Home from '@/pages/Home';
-import EmployeeRegistration from '@/Components/EmployeeRegistration';
-import EmployeeTable from '@/Components/EmployeeTable';
-import SparePartsRegistration from '@/Components/SparePartsRegistration';
-import PhotoMenu from '@/Components/VehiclesPhotos';
+import EmployeeRegistration from '@/components/EmployeeRegistration';
+import EmployeeTable from '@/components/EmployeeTable';
+import SparePartsRegistration from '@/components/SparePartsRegistration';
+import PhotoMenu from '@/components/VehiclesPhotos';
 
 function RoutesApp() {
   return (
