@@ -112,9 +112,8 @@ const Login: React.FC = () => {
               break;
             default:
               console.log('default warning message');
-
+              sessionStorage.setItem('refreshToken', accessToken);
               sessionStorage.setItem('accessToken', accessToken);
-              sessionStorage.setItem('refreshToken', refreshToken);
               setAccessToken(accessToken);
               break;
           }
