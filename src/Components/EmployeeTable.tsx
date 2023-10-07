@@ -16,25 +16,67 @@ const TablaEmpleados: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState(20);
   const tableDivRef = useRef<HTMLDivElement>(null);
   const navegar = useNavigate();
-  const accessToken = sessionStorage.getItem('accessToken');
 
   useEffect(() => {
-    axios
-      .get('http://localhost:4000/employee', {
-        headers: {
-          Authorization: 'Bearer ' + accessToken,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setEmpleados(res.data);
-        //console.log(res.data);
-      })
-      .catch((error) => {
-        console.error(error)
-      }
+    function fetchEmployees(accessToken: string) {
+      axios
+        .get('http://localhost:4000/employee', {
+          headers: {
+            Authorization: 'Bearer ' + accessToken,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setEmpleados(res.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          if (
+            error.response.status === 401 &&
+            error.response.data.message === 'TokenExpiredError '
+          ) {
+            const refreshToken = sessionStorage.getItem('refreshToken');
 
-      );
+            if (!refreshToken) {
+              console.log('Refresh token not found in session storage.');
+              // Optionally: Redirect user to login or other appropriate action
+              return;
+            }
+
+            axios
+              .post('http://localhost:4000/auth/refresh', {
+                refreshToken: refreshToken,
+              })
+              .then((response) => {
+                const newAccessToken = response.data.accessToken;
+                sessionStorage.setItem('accessToken', newAccessToken);
+                fetchEmployees(sessionStorage.getItem('accessToken')!);
+              })
+              .catch((refreshError) => {
+                console.log('Error refreshing the access token:', refreshError);
+                if (refreshError.response) {
+                  console.log('Data:', refreshError.response.data);
+                  console.log('Status:', refreshError.response.status);
+                  console.log('Headers:', refreshError.response.headers);
+                } else if (refreshError.request) {
+                  console.log('Request:', refreshError.request);
+                } else {
+                  console.log('Error:', refreshError.message);
+                }
+
+                // Optionally: Handle other scenarios when refresh token fails
+              });
+          }
+        });
+    }
+
+    const accessToken = sessionStorage.getItem('accessToken');
+    if (accessToken) {
+      fetchEmployees(accessToken);
+    } else {
+      console.log('Access token not found in session storage.');
+      // Optionally: Handle scenarios where no access token is found
+    }
   }, []);
 
   useEffect(() => {
