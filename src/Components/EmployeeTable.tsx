@@ -26,9 +26,15 @@ const TablaEmpleados: React.FC = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         setEmpleados(res.data);
         //console.log(res.data);
-      });
+      })
+      .catch((error) => {
+        console.error(error)
+      }
+
+      );
   }, []);
 
   useEffect(() => {
