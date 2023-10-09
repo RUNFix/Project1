@@ -18,18 +18,32 @@ const TablaEmpleados: React.FC = () => {
   const navegar = useNavigate();
 
   useEffect(() => {
-    async function fetchEmployees(accessToken: string) {
+    async function fetchEmployees(accessToken: string, isRetry: boolean = false) {
       try {
-        const res = await axios.get('http://localhost:4000/employee/', {
+        let url = 'http://localhost:4000/employee/';
+        if (isRetry) {
+          url = 'http://localhost:4000/employee/refresh-token';
+        }
+        const res = await axios.get(url, {
           headers: {
             Authorization: 'Bearer ' + accessToken,
           },
         });
         setEmpleados(res.data);
       } catch (error: any) {
-        if (error.response && error.response.data.message === 'TokenExpiredError') {
+        if (
+          !isRetry &&
+          error.response &&
+          error.response.data.message === 'TokenExpiredError'
+        ) {
           console.log('Token expirado');
-          refreshAndRetry();
+          const refreshToken = sessionStorage.getItem('refreshToken');
+
+          if (refreshToken) {
+            fetchEmployees(refreshToken, true);
+          } else {
+            refreshAndRetry();
+          }
         }
       }
     }
@@ -47,11 +61,9 @@ const TablaEmpleados: React.FC = () => {
         const response = await axios.post('http://localhost:4000/auth/refresh', {
           refreshToken: refreshToken,
         });
-        const newAccessToken = response.data.accessToken;
+        const newAccessToken = response.data.accessToken.token;
 
-        console.log('Received new access token:', newAccessToken);
-
-        sessionStorage.setItem('accessToken', newAccessToken.token);
+        sessionStorage.setItem('accessToken', newAccessToken);
         console.log('Stored access token:', sessionStorage.getItem('accessToken'));
 
         fetchEmployees(newAccessToken);
@@ -71,9 +83,7 @@ const TablaEmpleados: React.FC = () => {
 
     const initialAccessToken = sessionStorage.getItem('accessToken');
     if (initialAccessToken) {
-      fetchEmployees(initialAccessToken);
-    } else {
-      refreshAndRetry();
+      fetchEmployees(initialAccessToken, false);
     }
   }, [setEmpleados]);
 
