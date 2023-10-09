@@ -18,66 +18,64 @@ const TablaEmpleados: React.FC = () => {
   const navegar = useNavigate();
 
   useEffect(() => {
-    function fetchEmployees(accessToken: string) {
-      axios
-        .get('http://localhost:4000/employee', {
+    async function fetchEmployees(accessToken: string) {
+      try {
+        const res = await axios.get('http://localhost:4000/employee/', {
           headers: {
             Authorization: 'Bearer ' + accessToken,
           },
-        })
-        .then((res) => {
-          console.log(res);
-          setEmpleados(res.data);
-        })
-        .catch((error) => {
-          console.error(error);
-          if (
-            error.response.status === 401 &&
-            error.response.data.message === 'TokenExpiredError '
-          ) {
-            const refreshToken = sessionStorage.getItem('refreshToken');
-
-            if (!refreshToken) {
-              console.log('Refresh token not found in session storage.');
-              // Optionally: Redirect user to login or other appropriate action
-              return;
-            }
-
-            axios
-              .post('http://localhost:4000/auth/refresh', {
-                refreshToken: refreshToken,
-              })
-              .then((response) => {
-                const newAccessToken = response.data.accessToken;
-                sessionStorage.setItem('accessToken', newAccessToken);
-                fetchEmployees(sessionStorage.getItem('accessToken')!);
-              })
-              .catch((refreshError) => {
-                console.log('Error refreshing the access token:', refreshError);
-                if (refreshError.response) {
-                  console.log('Data:', refreshError.response.data);
-                  console.log('Status:', refreshError.response.status);
-                  console.log('Headers:', refreshError.response.headers);
-                } else if (refreshError.request) {
-                  console.log('Request:', refreshError.request);
-                } else {
-                  console.log('Error:', refreshError.message);
-                }
-
-                // Optionally: Handle other scenarios when refresh token fails
-              });
-          }
         });
+        setEmpleados(res.data);
+      } catch (error: any) {
+        if (error.response && error.response.data.message === 'TokenExpiredError') {
+          console.log('Token expirado');
+          refreshAndRetry();
+        }
+      }
     }
 
-    const accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken) {
-      fetchEmployees(accessToken);
-    } else {
-      console.log('Access token not found in session storage.');
-      // Optionally: Handle scenarios where no access token is found
+    async function refreshAndRetry() {
+      const refreshToken = sessionStorage.getItem('refreshToken');
+      console.log('Token expired. Attempting refresh with token: ' + refreshToken);
+
+      if (!refreshToken) {
+        console.log('Refresh token not found in session storage.');
+        return;
+      }
+
+      try {
+        const response = await axios.post('http://localhost:4000/auth/refresh', {
+          refreshToken: refreshToken,
+        });
+        const newAccessToken = response.data.accessToken;
+
+        console.log('Received new access token:', newAccessToken);
+
+        sessionStorage.setItem('accessToken', newAccessToken.token);
+        console.log('Stored access token:', sessionStorage.getItem('accessToken'));
+
+        fetchEmployees(newAccessToken);
+      } catch (refreshError: any) {
+        console.log('Error refreshing the access token:', refreshError);
+        if (refreshError.response) {
+          console.log('Data:', refreshError.response.data);
+          console.log('Status:', refreshError.response.status);
+          console.log('Headers:', refreshError.response.headers);
+        } else if (refreshError.request) {
+          console.log('Request:', refreshError.request);
+        } else {
+          console.log('General Error:', refreshError.message);
+        }
+      }
     }
-  }, []);
+
+    const initialAccessToken = sessionStorage.getItem('accessToken');
+    if (initialAccessToken) {
+      fetchEmployees(initialAccessToken);
+    } else {
+      refreshAndRetry();
+    }
+  }, [setEmpleados]);
 
   useEffect(() => {
     const handleScroll = () => {

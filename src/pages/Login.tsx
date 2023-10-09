@@ -64,9 +64,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
-  const [accessToken, setAccessToken] = useState(
-    sessionStorage.getItem('accessToken'),
-  );
+  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken'));
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
