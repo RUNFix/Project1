@@ -2,6 +2,7 @@ import { Part } from '@/types/Part';
 
 export interface Vehicle {
   name: string;
+  plate: string;
   cc: number;
   model: string;
   brand: string;
@@ -12,10 +13,11 @@ export interface Vehicle {
   employee: string;
   parts: Part[];
   date: Date;
-  images: string;
+  images: string[];
 }
 export const initialValues: Vehicle = {
   name: '',
+  plate: '',
   cc: 0,
   model: '',
   brand: '',
@@ -26,5 +28,5 @@ export const initialValues: Vehicle = {
   employee: '',
   parts: [{ name: '', description: '' }],
   date: new Date(),
-  images: '',
+  images: [],
 };

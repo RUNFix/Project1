@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <div className="bg-slate-800 text-gray-50 p-4">
+    <div className="bg-slate-800 text-gray-50 p-4 ">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-lg font-semibold">
           <span>RUNFIX™</span> © 2023

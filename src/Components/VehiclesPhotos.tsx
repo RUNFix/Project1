@@ -16,6 +16,7 @@ export default function PhotoMenu() {
   const handleUpload = async (values: Vehicle) => {
     try {
       const formData = new FormData();
+      formData.append('plate', values.plate);
       formData.append('name', values.name);
       formData.append('cc', values.cc.toString());
       formData.append('model', values.model);

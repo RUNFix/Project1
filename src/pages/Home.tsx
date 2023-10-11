@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from '@/Components/Navbar';
-import Footer from '@/Components/Footer';
-import Card from '@/Components/Card';
-import SocialMediaIcons from '@/Components/SocialMediaCards';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import Card from '@/components/Card';
+import SocialMediaIcons from '@/components/SocialMediaCards';
 
 const MenuPrincipal: React.FC = () => {
   return (

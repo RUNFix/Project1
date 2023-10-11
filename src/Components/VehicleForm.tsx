@@ -20,6 +20,12 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
         <Form className="formStyles">
           <div className="mb-4">
             <label className="block  text-sm font-medium  mb-3" htmlFor="name">
+              Placa
+            </label>
+            <Field className="fieldStyles" type="text" name="name" required />
+          </div>
+          <div className="mb-4">
+            <label className="block  text-sm font-medium  mb-3" htmlFor="name">
               Nombre
             </label>
             <Field className="fieldStyles" type="text" name="name" required />

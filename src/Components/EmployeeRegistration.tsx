@@ -25,7 +25,6 @@ const RegistroEmpleados: React.FC = () => {
   const [userError, setUserError] = useState<string>('');
   const location = useLocation();
   const empleadoParaEditar = location.state?.filtrado;
-  const navegar = useNavigate();
 
   const { fullName, cc, age, position, phone, email } =
     empleadoParaEditar || {};
