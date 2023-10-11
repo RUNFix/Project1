@@ -84,22 +84,6 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
           </div>
           <div className="mb-4">
             <label
-              className="block  text-sm font-medium mb-3"
-              htmlFor="priceToPay"
-            >
-              Precio Reparaciones
-            </label>
-            <Field
-              className="fieldStyles"
-              type="number"
-              name="priceToPay"
-              min={0}
-              value={values.priceToPay === 0 ? '' : values.priceToPay}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
               className="block text-sm font-medium mb-3"
               htmlFor="employee"
             >
