@@ -24,7 +24,6 @@ export default function PhotoMenu() {
       formData.append('year', values.year.toString());
       formData.append('color', values.color);
       formData.append('status', values.status);
-      formData.append('priceToPay', values.priceToPay.toString());
       formData.append('employee', values.employee);
       formData.append('parts', JSON.stringify(values.parts));
       formData.append('date', values.date.toString());
