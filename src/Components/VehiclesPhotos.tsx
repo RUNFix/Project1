@@ -25,7 +25,6 @@ export default function PhotoMenu() {
       formData.append('color', values.color);
       formData.append('status', values.status);
       formData.append('employee', values.employee);
-      formData.append('parts', JSON.stringify(values.parts));
       formData.append('date', values.date.toString());
 
       images.forEach((imageFile, index) => {

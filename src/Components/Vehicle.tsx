@@ -3,9 +3,12 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import axios from 'axios';
 import { Vehicle } from '@/types/Vehicle';
+import VehicleCard from './VehicleCard';
+import ProgressBar from './ProgressBar';
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [selectedPlate, setSelectedPlate] = useState<string>('');
 
   useEffect(() => {
     async function fetchVehicles() {
@@ -21,41 +24,49 @@ export default function Vehicles() {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <Navbar />
-      <h1 className="text-3xl font-bold mb-4 text-center m-16">
-        Vehículos Registrados
-      </h1>
-      <div className="flex-grow">
-        <div className="grid lg:grid-cols-3 sm:grid-cols-1 gap-4 m-16">
-          {vehicles.map((vehicle, index) => (
-            <div
-              key={index}
-              className="border rounded shadow hover:shadow-lg transition-shadow duration-300"
-            >
-              <img
-                src={vehicle.images[0]}
-                alt={vehicle.name}
-                className="object-cover w-full h-48"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold mb-2">{vehicle.name}</h2>
-                <p>
-                  <strong>Modelo:</strong> {vehicle.model}
-                </p>
-                <p>
-                  <strong>Marca:</strong> {vehicle.brand}
-                </p>
-                <p>
-                  <strong>Color:</strong> {vehicle.color}
-                </p>
-              </div>
-            </div>
-          ))}
+      <main className="flex-grow">
+        <h1 className="text-3xl font-bold mb-4 text-center m-16">
+          Vehículos Registrados
+        </h1>
+        <div className="flex-grow">
+          <div className="grid lg:grid-cols-3 sm:grid-cols-1 gap-16 m-16">
+            {selectedPlate ? (
+              <VehicleCard plate={selectedPlate} />
+            ) : (
+              vehicles.map((vehicle) => (
+                <button
+                  key={vehicle.plate}
+                  onClick={() => setSelectedPlate(vehicle.plate)}
+                  className="border-4 border-slate-800 rounded-3xl shadow hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105 h-96"
+                >
+                  <img
+                    src={vehicle.images[0]}
+                    alt={vehicle.name}
+                    className="object-cover w-full h-60 rounded-t-3xl"
+                  />
+                  <div className="p-4">
+                    <h2 className="text-xl font-semibold mb-2">
+                      {vehicle.name}
+                    </h2>
+                    <p>
+                      <strong>Modelo:</strong> {vehicle.model}
+                    </p>
+                    <p>
+                      <strong>Marca:</strong> {vehicle.brand}
+                    </p>
+                    <p>
+                      <strong>Color:</strong> {vehicle.color}
+                    </p>
+                  </div>
+                </button>
+              ))
+            )}
+          </div>
         </div>
-      </div>
-
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

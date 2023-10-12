@@ -1,8 +1,7 @@
-import { Part } from '@/types/Part';
-
 export interface Vehicle {
-  name: string;
+  id: number;
   plate: string;
+  name: string;
   cc: number;
   model: string;
   brand: string;
@@ -11,11 +10,12 @@ export interface Vehicle {
   status: string;
   priceToPay: number;
   employee: string;
-  parts: Part[];
   date: Date;
   images: string[];
 }
+
 export const initialValues: Vehicle = {
+  id: 0,
   name: '',
   plate: '',
   cc: 0,
@@ -26,7 +26,6 @@ export const initialValues: Vehicle = {
   status: '',
   priceToPay: 0,
   employee: '',
-  parts: [{ name: '', description: '' }],
   date: new Date(),
   images: [],
 };

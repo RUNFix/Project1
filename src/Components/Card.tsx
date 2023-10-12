@@ -37,7 +37,7 @@ export default function Card({
   return (
     <Element
       className="card rounded-3xl shadow-lg p-2 bg-slate-200 transform hover:scale-105 
-    transition-transform duration-300 
+    transition-transform duration-300  
     hover:rotate-3 
     hover:bg-slate-800
     hover:text-slate-50  

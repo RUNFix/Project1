@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, Form, Field, FieldArray } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { Vehicle, initialValues } from '@/types/Vehicle';
 import '@/index.css';
 
@@ -19,10 +19,10 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
       {({ values }) => (
         <Form className="formStyles">
           <div className="mb-4">
-            <label className="block  text-sm font-medium  mb-3" htmlFor="name">
+            <label className="block  text-sm font-medium  mb-3" htmlFor="plate">
               Placa
             </label>
-            <Field className="fieldStyles" type="text" name="name" required />
+            <Field className="fieldStyles" type="text" name="plate" required />
           </div>
           <div className="mb-4">
             <label className="block  text-sm font-medium  mb-3" htmlFor="name">
@@ -96,52 +96,6 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
               required
             />
           </div>
-          <FieldArray name="parts">
-            {({ push, remove }) => (
-              <div className="my-4">
-                <button
-                  type="button"
-                  onClick={() => push({ name: '', description: '' })}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
-                >
-                  Agregar Partes del Vehiculo a Reparar
-                </button>
-                {values.parts.map((part, index) => (
-                  <div key={index} className="mb-4">
-                    <label
-                      className="block text-gray-50 text-sm font-medium my-3"
-                      htmlFor="partsName"
-                    >
-                      Nombre de la parte
-                    </label>
-                    <Field
-                      className="fieldStyles"
-                      type="text"
-                      name={`parts.${index}.name`}
-                    />
-                    <label
-                      className="block text-gray-50 text-sm font-medium my-4"
-                      htmlFor="partsDescription"
-                    >
-                      Descripcion del Daño
-                    </label>
-                    <Field
-                      className="fieldStyles"
-                      type="text"
-                      name={`parts.${index}.description`}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => remove(index)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded  my-4"
-                    >
-                      Eliminar Parte
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </FieldArray>
           <button
             type="submit"
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"

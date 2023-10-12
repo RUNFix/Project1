@@ -6,8 +6,7 @@ import PhotoMenu from './components/VehiclesPhotos';
 import VehiclesPhotos from './components/VehiclesPhotos';
 
 function App() {
-  return <Vehicle />;
-  /*  return <VehiclesPhotos />; */
+  return <RoutesApp />;
 }
 
 export default App;

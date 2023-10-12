@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from '@/pages/Login';
-import Watson from '@/Components/Watson';
-import SubMenu from '@/Components/SubMenu';
+import Watson from '@/components/Watson';
+import SubMenu from '@/components/SubMenu';
 import Home from '@/pages/Home';
 import EmployeeRegistration from '@/components/EmployeeRegistration';
 import EmployeeTable from '@/components/EmployeeTable';
 import SparePartsRegistration from '@/components/SparePartsRegistration';
 import PhotoMenu from '@/components/VehiclesPhotos';
+import Vehicle from '@/components/Vehicle';
 
 function RoutesApp() {
   return (
@@ -24,6 +25,7 @@ function RoutesApp() {
             element={<SparePartsRegistration />}
           />
           <Route path="vehicle-menu" element={<PhotoMenu />} />
+          <Route path="vehicle" element={<Vehicle />} />
         </Route>
       </Routes>
     </BrowserRouter>
