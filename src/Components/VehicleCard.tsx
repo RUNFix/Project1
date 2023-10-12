@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Vehicle } from '@/types/Vehicle';
 import ProgressBar from '@/components/ProgressBar';
+import ImageDropzone from './ImageDropzone';
 
 type Props = {
   plate: string;
@@ -11,6 +12,11 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [images, setImages] = useState<(File | null)[]>([null, null, null]);
+
+  const handleImageDrop = (index: number) => (file: File) => {
+    setImages(images.map((img, i) => (i === index ? file : img)));
+  };
 
   useEffect(() => {
     async function fetchVehicleDetails() {
@@ -46,6 +52,20 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
             className="object-cover w-full h-60 mb-4"
           />
           <p className="text-center">Descripción de la Imagen lorem</p>
+        </div>
+      ))}
+      {images.map((imageFile, index) => (
+        <div key={index} className="mb-8 border-4 flex-shrink-0">
+          <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
+          {imageFile && (
+            <div>
+              <img
+                src={URL.createObjectURL(imageFile)}
+                alt="Dropped Image"
+                className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300 relative p-4 text-center"
+              />
+            </div>
+          )}
         </div>
       ))}
     </>

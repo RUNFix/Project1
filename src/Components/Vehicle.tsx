@@ -3,8 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import axios from 'axios';
 import { Vehicle } from '@/types/Vehicle';
-import VehicleCard from './VehicleCard';
-import ProgressBar from './ProgressBar';
+import VehicleCard from '@/components/VehicleCard';
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -26,7 +25,7 @@ export default function Vehicles() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow mb-16">
         <h1 className="text-3xl font-bold mb-4 text-center m-16">
           Vehículos Registrados
         </h1>
