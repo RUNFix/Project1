@@ -16,57 +16,52 @@ const TablaEmpleados: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState(20);
   const tableDivRef = useRef<HTMLDivElement>(null);
   const navegar = useNavigate();
+  
 
   useEffect(() => {
-    async function fetchEmployees(accessToken: string, isRetry: boolean = false) {
+    async function fetchEmployees() {
+      debugger
+      const accessToken = sessionStorage.getItem('accessToken')
+      console.log(accessToken)
       try {
-        let url = 'http://localhost:4000/employee/';
-        if (isRetry) {
-          url = 'http://localhost:4000/employee/refresh-token';
-        }
-        const res = await axios.get(url, {
+        const res = await axios.get('http://localhost:4000/employee/', {
           headers: {
             Authorization: 'Bearer ' + accessToken,
           },
         });
         setEmpleados(res.data);
       } catch (error: any) {
+        console.error("error",error)
         if (
-          !isRetry &&
           error.response &&
           error.response.data.message === 'TokenExpiredError'
         ) {
-          console.log('Token expirado');
-          const refreshToken = sessionStorage.getItem('refreshToken');
-
-          if (refreshToken) {
-            fetchEmployees(refreshToken, true);
-          } else {
-            refreshAndRetry();
-          }
+          console.log('Token expirado zzz');
+          refreshAndRetry()
         }
       }
     }
-
+  
     async function refreshAndRetry() {
       const refreshToken = sessionStorage.getItem('refreshToken');
       console.log('Token expired. Attempting refresh with token: ' + refreshToken);
-
       if (!refreshToken) {
         console.log('Refresh token not found in session storage.');
         return;
       }
-
+  
       try {
         const response = await axios.post('http://localhost:4000/auth/refresh', {
           refreshToken: refreshToken,
         });
+        debugger
+        console.log(response)
         const newAccessToken = response.data.accessToken.token;
-
+  
         sessionStorage.setItem('accessToken', newAccessToken);
         console.log('Stored access token:', sessionStorage.getItem('accessToken'));
-
-        fetchEmployees(newAccessToken);
+  
+        fetchEmployees();
       } catch (refreshError: any) {
         console.log('Error refreshing the access token:', refreshError);
         if (refreshError.response) {
@@ -80,10 +75,9 @@ const TablaEmpleados: React.FC = () => {
         }
       }
     }
-
     const initialAccessToken = sessionStorage.getItem('accessToken');
     if (initialAccessToken) {
-      fetchEmployees(initialAccessToken, false);
+      fetchEmployees();
     }
   }, [setEmpleados]);
 
