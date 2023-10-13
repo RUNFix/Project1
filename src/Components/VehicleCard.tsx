@@ -51,10 +51,16 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
             alt={`Vehicle Image ${index}`}
             className="object-cover w-full h-60 mb-4"
           />
-          <p className="text-center">Descripción de la Imagen lorem</p>
+          <p className="text-center">Descripción de la Imagen</p>
         </div>
       ))}
 
+      <div className=" mx-48 justify-center col-span-3">
+        <ProgressBar />
+      </div>
+      <h2 className="col-span-3 text-2xl font-bold  text-center">
+        Fotos de las reparaciones
+      </h2>
       {images.map((imageFile, index) => (
         <div key={index} className="mb-8 border-4 flex-shrink-0">
           <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />

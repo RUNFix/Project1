@@ -64,9 +64,9 @@ export default function Vehicles() {
               ))
             )}
           </div>
-          <div className=" mx-48 justify-center">
-            {selectedPlate ? <ProgressBar step={2} /> : ''}
-          </div>
+          {/*    <div className=" mx-48 justify-center">
+            {selectedPlate ? <ProgressBar /> : ''}
+          </div> */}
         </div>
       </main>
       <Footer />
