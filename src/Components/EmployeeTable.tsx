@@ -1,3 +1,4 @@
+import credentialsModal from '@/utils/modal';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -62,6 +63,7 @@ const TablaEmpleados: React.FC = () => {
         console.log('Stored access token:', sessionStorage.getItem('accessToken'));
   
         fetchEmployees();
+        
       } catch (refreshError: any) {
         console.log('Error refreshing the access token:', refreshError);
         if (refreshError.response) {
@@ -73,6 +75,7 @@ const TablaEmpleados: React.FC = () => {
         } else {
           console.log('General Error:', refreshError.message);
         }
+        credentialsModal()
       }
     }
     const initialAccessToken = sessionStorage.getItem('accessToken');
