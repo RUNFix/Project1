@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import axios from 'axios';
 import { Vehicle } from '@/types/Vehicle';
 import VehicleCard from '@/components/VehicleCard';
+import ProgressBar from './ProgressBar';
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -62,6 +63,9 @@ export default function Vehicles() {
                 </button>
               ))
             )}
+          </div>
+          <div className=" mx-48 justify-center">
+            {selectedPlate ? <ProgressBar step={2} /> : ''}
           </div>
         </div>
       </main>
