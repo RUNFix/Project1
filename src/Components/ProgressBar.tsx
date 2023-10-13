@@ -38,17 +38,15 @@ const Step: React.FC<StepProps> = ({
       }`}
     >
       <div
-        className={`flex-shrink-0 mx-1 p-1 flex items-center justify-center rounded-full ${
+        className={`flex-shrink-0 p-1  -ml-4 flex items-center justify-center rounded-full ${
           completed ? 'opacity-100' : 'opacity-50'
         } bg-blue-600 w-1/6 h-1/6 sm:w-16 sm:h-16`}
       >
         {children}
       </div>
       {/* Render horizontal bar only if it's not the last step */}
-      {!isLastStep ? (
-        <div className=" flex grow h-1 bg-orange-600 sm:h-2"></div>
-      ) : (
-        ''
+      {!isLastStep && (
+        <div className="flex-grow h-1  bg-orange-600 sm:h-2"></div>
       )}
     </div>
   );
