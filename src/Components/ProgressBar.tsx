@@ -1,47 +1,61 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
+import { FaCarCrash } from 'react-icons/fa';
+
+import { ImHammer } from 'react-icons/im';
+import { HiOutlineCheck } from 'react-icons/hi';
 
 type StepProps = {
   completed: boolean;
   children: ReactNode;
   isLastStep?: boolean;
+  title: string;
 };
-
 const Step: React.FC<StepProps> = ({
   completed,
   children,
   isLastStep = false,
+  title,
 }) => (
-  <div
-    className={`flex items-center ${isLastStep ? 'w-1/6 sm:w-16' : 'w-full'}`}
-  >
-    <div
-      className={`flex-shrink-0 p-1 -ml-4 flex items-center justify-center rounded-full ${
-        completed ? 'bg-green-600' : 'bg-gray-300'
-      } w-1/6 h-1/6 sm:w-16 sm:h-16`}
-    >
-      {children}
+  <div className={`flex items-center ${isLastStep ? 'flex-none' : 'w-full'}`}>
+    <div className="flex flex-col items-center relative z-10 flex-shrink-0">
+      <div
+        className={`flex items-center justify-center rounded-full ${
+          completed ? 'bg-green-600' : 'bg-gray-300'
+        } w-1/6 h-1/6 sm:w-16 sm:h-16`}
+      >
+        {children}
+      </div>
+      <div className="text-center font-semibold text-1xl text-gray">
+        {title}
+      </div>
     </div>
-    {!isLastStep && <div className="flex-grow h-1 bg-red-600 sm:h-2"></div>}
+    <div
+      className={`h-1 ${
+        !isLastStep ? 'flex-grow bg-red-600' : 'w-0 bg-transparent'
+      } sm:h-2`}
+    ></div>
   </div>
 );
 
-const CheckIcon: React.FC = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-full fill-current text-white"
-    viewBox="0 0 24 24"
-  >
-    <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" />
-  </svg>
-);
 const TOTAL_STEPS = 4; // Ahora hay 4 pasos, el último para mostrar el mensaje
 
 const ProgressBar: React.FC = () => {
-  const [step, setStep] = React.useState(1);
+  const [step, setStep] = useState(1);
 
   const handleNextStep = () =>
     setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
   const handlePrevStep = () => setStep((prev) => Math.max(prev - 1, 1));
+
+  const stepTitles = [
+    'Inicio de reparaciones',
+    'Realizando reparaciones',
+    'Reparaciones finalizadas',
+  ];
+  const stepIcons = [
+    <FaCarCrash className="w-8 h-8 m-0" />,
+    <ImHammer className="w-8 h-8 m-0" />,
+    <HiOutlineCheck className="w-8 h-8 m-0" />,
+  ];
 
   return (
     <>
@@ -52,13 +66,14 @@ const ProgressBar: React.FC = () => {
               <Step
                 key={index}
                 completed={step > index}
-                isLastStep={index === TOTAL_STEPS - 2} // Nota que el último step será el TOTAL_STEPS - 2 ahora
+                isLastStep={index === TOTAL_STEPS - 2}
+                title={stepTitles[index]}
               >
-                <CheckIcon />
+                {stepIcons[index]}
               </Step>
             ))}
           </div>
-          <div className="my-8 flex  justify-center space-x-2">
+          <div className="mt-16 flex justify-center  items-center space-x-2">
             <button
               onClick={handlePrevStep}
               disabled={step === 1}

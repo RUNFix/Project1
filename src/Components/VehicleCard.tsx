@@ -55,9 +55,10 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
         </div>
       ))}
 
-      <div className=" mx-48 justify-center col-span-3">
+      <div className=" justify-center items-center col-span-3 my-16">
         <ProgressBar />
       </div>
+
       <h2 className="col-span-3 text-2xl font-bold  text-center">
         Fotos de las reparaciones
       </h2>

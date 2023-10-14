@@ -27,11 +27,12 @@ export default function Vehicles() {
     <div className="flex flex-col h-screen">
       <Navbar />
       <main className="flex-grow mb-16">
-        <h1 className="text-3xl font-bold mb-4 text-center m-16">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center m-4 sm:m-8 md:m-16">
           Vehículos Registrados
         </h1>
+
         <div className="flex-grow">
-          <div className="grid lg:grid-cols-3 sm:grid-cols-1 gap-16 m-16">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 m-4 md:m-8 lg:m-16">
             {selectedPlate ? (
               <VehicleCard plate={selectedPlate} />
             ) : (
@@ -39,15 +40,15 @@ export default function Vehicles() {
                 <button
                   key={vehicle.plate}
                   onClick={() => setSelectedPlate(vehicle.plate)}
-                  className="border-4 border-slate-800 rounded-3xl shadow hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105 h-96"
+                  className="border-2 sm:border-4 border-slate-800 rounded-3xl shadow hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105 h-72 sm:h-96"
                 >
                   <img
                     src={vehicle.images[0]}
                     alt={vehicle.name}
-                    className="object-cover w-full h-60 rounded-t-3xl"
+                    className="object-cover w-full h-40 sm:h-60 rounded-t-3xl"
                   />
-                  <div className="p-4">
-                    <h2 className="text-xl font-semibold mb-2">
+                  <div className="p-2 sm:p-4">
+                    <h2 className="text-lg sm:text-xl font-semibold mb-2">
                       {vehicle.name}
                     </h2>
                     <p>
@@ -64,9 +65,6 @@ export default function Vehicles() {
               ))
             )}
           </div>
-          {/*    <div className=" mx-48 justify-center">
-            {selectedPlate ? <ProgressBar /> : ''}
-          </div> */}
         </div>
       </main>
       <Footer />
