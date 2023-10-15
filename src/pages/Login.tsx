@@ -2,21 +2,18 @@ import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { errorToast, logUserToast } from '@/utils/Toast';
 import { Toaster } from 'react-hot-toast';
+import { isCcValid } from '@/utils/ValueChecks';
 
 //CUSTOM TOASTS:
 const NOT_FOUND_USER = 'Usuario no encontrado';
 const PASSWORD_INCORRECT = 'Contraseña incorrecta';
 
 //Loggin Toast
-
 const Login: React.FC = () => {
   const [documento, setDocumento] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
-
-  //           TOAST PARAMETERS
-  //Warning messages
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -24,18 +21,8 @@ const Login: React.FC = () => {
     setPswdError('');
     console.log(`documento: ${documento}, Password: ${password}`);
 
-    let isNumeric: boolean = true;
-    if (isNaN(Number(documento.toString()))) {
-      isNumeric = false;
-      errorToast('El campo Cédula debe ser un valor númerico');
-    }
-    let isValid: boolean = true;
-    if (isNumeric) {
-      if (Number(documento) < 0) {
-        isValid = false;
-        errorToast('El valor en el campo Cédula no es valido');
-      }
-    }
+    let isValid = isCcValid(documento);
+
     if (isValid) {
       // Realizar una solicitud POST utilizando Axios
       axios
@@ -47,8 +34,14 @@ const Login: React.FC = () => {
           // Manejar la respuesta del servidor
           console.log('Respuesta del servidor:', response.data);
           const usuario = response.data.user;
-          //warning messages
-          switch (response.data) {
+          logUserToast(usuario.fullName, usuario.position);
+          if (usuario.position === 'Administrador') {
+            //navegar('/table_employee');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          switch (error.response.data.message) {
             case 'NOT_FOUND_USER':
               setUserError(NOT_FOUND_USER);
               errorToast(NOT_FOUND_USER);
@@ -57,26 +50,12 @@ const Login: React.FC = () => {
               setPswdError(PASSWORD_INCORRECT);
               errorToast(PASSWORD_INCORRECT);
               break;
-            default:
-              console.log('default warning message');
-              break;
           }
-          logUserToast(usuario.fullName, usuario.position);
-          if (usuario.position === 'Administrador') {
-            //navegar('/table_employee');
-          }
-        })
-        .catch((error) => {
-          //esto es un machetaso ni el hpta, este mensaje deberia ser manejado por el switch case de arriba
-          if (error.response.data == 'PASSWORD_INCORRECT') {
-            setPswdError(PASSWORD_INCORRECT);
-            errorToast(PASSWORD_INCORRECT);
-            errorToast('Constraseña incorrecta');
-          }
-
-          // Manejar errores, como mostrar un mensaje de error al usuario
+          // DEBUG
           console.error('Error al enviar la solicitud:', error);
         });
+    } else {
+      errorToast('El valor en el campo Cédula no es valido');
     }
   };
 

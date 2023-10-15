@@ -10,9 +10,7 @@ import {
   notValidToast,
   succesToast,
 } from '@/utils/Toast';
-//import 'react-toastify/dist/ReactToastify.css';
-
-// CUSTOM TOASTS
+import { isCcValid } from '@/utils/ValueChecks';
 
 //                TOAST PARAMETERS
 //Warning messages
@@ -63,34 +61,16 @@ const RegistroEmpleados: React.FC = () => {
 
         console.log(url);
 
-        let isNumeric: boolean = true;
-
-        //checks if cc, age and phone are numeric
-        if (isNaN(Number(values.cedula.toString()))) {
-          notNumberToast('Cedula');
-          isNumeric = false;
-        } else if (isNaN(Number(values.telefono.toString()))) {
-          notNumberToast('Telefono');
-          isNumeric = false;
-        } else if (isNaN(Number(values.edad.toString()))) {
-          notNumberToast('Edad');
-          isNumeric = false;
-        }
-
-        let isValid: boolean = true;
-        //only checks if values are numeric
-        if (isNumeric) {
-          //checks if cc, age and phone are valid (>0)
-          if (values.cedula <= 0) {
-            notValidToast('Cedula');
-            isValid = false;
-          } else if (values.telefono <= 0) {
-            notValidToast('Telefono');
-            isValid = false;
-          } else if (values.edad <= 0) {
-            notValidToast('Edad');
-            isValid = false;
-          }
+        let isValid = true;
+        if (!isCcValid(values.cedula)) {
+          notValidToast('Cedula');
+          isValid = false;
+        } else if (!isCcValid(values.telefono)) {
+          notValidToast('Telefono');
+          isValid = false;
+        } else if (!isCcValid(values.edad)) {
+          notValidToast('Edad');
+          isValid = false;
         }
 
         //if cc, phone and age are valid
@@ -104,29 +84,27 @@ const RegistroEmpleados: React.FC = () => {
             phone: values.telefono,
             password: values.password,
           });
-          //Warnings from back-end
-          switch (response.data) {
-            case 'ALREADY_USER':
-              setUserError(ALREADY_USER);
-              errorToast(ALREADY_USER);
-              break;
-            case 'USER_UPDATED':
-              succesToast(USER_UPDATED);
-              break;
-            case 'ALREADY_EMAIL':
-              setUserError(ALREADY_EMAIL);
-              errorToast(ALREADY_EMAIL);
-              break;
-            case 'ALREADY_PHONE':
-              setUserError(ALREADY_PHONE);
-              errorToast(ALREADY_PHONE);
-              break;
-            default:
-              break;
-          }
         }
         //navegar('/table_employee');
-      } catch (error) {
+      } catch (error: any) {
+        //Warnings from back-end
+        switch (error.response.data.message) {
+          case 'ALREADY_USER':
+            setUserError(ALREADY_USER);
+            errorToast(ALREADY_USER);
+            break;
+          case 'USER_UPDATED':
+            succesToast(USER_UPDATED);
+            break;
+          case 'ALREADY_EMAIL':
+            setUserError(ALREADY_EMAIL);
+            errorToast(ALREADY_EMAIL);
+            break;
+          case 'ALREADY_PHONE':
+            setUserError(ALREADY_PHONE);
+            errorToast(ALREADY_PHONE);
+            break;
+        }
         console.error('Error al enviar la solicitud:', error);
       }
     },

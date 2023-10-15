@@ -3,5 +3,5 @@ export interface Repuesto {
   descripcion: string;
   precioUnitario: number;
   descuento: number;
-  total: number;
+  subtotal: number;
 }
