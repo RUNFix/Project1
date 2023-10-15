@@ -13,7 +13,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
       initialValues={initialValues}
       onSubmit={(values, { resetForm }) => {
         onSubmit(values);
-        resetForm();
+        //resetForm();
       }}
     >
       {({ values }) => (

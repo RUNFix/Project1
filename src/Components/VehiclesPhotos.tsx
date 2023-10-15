@@ -5,6 +5,9 @@ import Footer from '@/components/Footer';
 import VehicleForm from '@/components/VehicleForm';
 import { Vehicle } from '@/types/Vehicle';
 import ImageDropzone from '@/components/ImageDropzone';
+import { errorToast, notValidToast, succesToast } from '@/utils/Toast';
+import { Toaster } from 'react-hot-toast';
+import { isCcValid, isPlateValid } from '@/utils/ValueChecks';
 
 export default function PhotoMenu() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
@@ -14,48 +17,78 @@ export default function PhotoMenu() {
   };
 
   const handleUpload = async (values: Vehicle) => {
-    try {
-      const formData = new FormData();
-      formData.append('plate', values.plate);
-      formData.append('name', values.name);
-      formData.append('cc', values.cc.toString());
-      formData.append('model', values.model);
-      formData.append('brand', values.brand);
-      formData.append('year', values.year.toString());
-      formData.append('color', values.color);
-      formData.append('status', values.status);
-      formData.append('employee', values.employee);
-      formData.append('date', values.date.toString());
+    //input handling
+    let isValid = true;
+    if (!isPlateValid(values.plate)) {
+      notValidToast('Placa');
+      isValid = false;
+    }
 
-      images.forEach((imageFile, index) => {
-        if (imageFile) {
-          const file = new File([imageFile], `filename${index + 1}.jpg`, {
-            type: 'image/jpeg',
-          });
-          formData.append('images', file);
+    if (isValid) {
+      try {
+        const formData = new FormData();
+        formData.append('plate', values.plate);
+        formData.append('name', values.name.trim());
+        formData.append('cc', values.cc.toString());
+        formData.append('model', values.model.trim());
+        formData.append('brand', values.brand.trim());
+        formData.append('year', values.year.toString());
+        formData.append('color', values.color.trim());
+        formData.append('status', values.status.trim());
+        formData.append('employee', values.employee.trim());
+        formData.append('date', values.date.toString());
+
+        images.forEach((imageFile, index) => {
+          if (imageFile) {
+            const file = new File([imageFile], `filename${index + 1}.jpg`, {
+              type: 'image/jpeg',
+            });
+            formData.append('images', file);
+          }
+        });
+
+        const response = await axios.post(
+          'http://localhost:4000/vehicle',
+          formData,
+        );
+
+        console.log('Funciona', response);
+        if (response.status === 200) {
+          succesToast('Historia de vehiculo creada exitosamente!');
+          //alert('Vehicle added');
+          setImages([null, null, null]);
+          //resetForm() here we should reset the formulary fields
         }
-      });
-
-      const response = await axios.post(
-        'http://localhost:4000/vehicle',
-        formData,
-      );
-
-      console.log('Funciona', response);
-      if (response.status === 200) {
-        alert('Vehicle added');
-        setImages([null, null, null]);
+      } catch (error: any) {
+        console.log(
+          'ESTE ES EL ERROR  CON RESPONSE CTM: ',
+          error.response.data,
+        );
+        switch (error.response.data.message) {
+          case 'INVALID_PARTS_FORMAT':
+            errorToast('Datos de creación invalidos');
+            break;
+          case 'ALREADY_VEHICLE':
+            errorToast('Esta placa ya se encuentra registrada');
+            break;
+          case 'EMPLOYEE_NOT_FOUND':
+            errorToast('El empleado asignado no se encuentra registrado');
+            break;
+          case 'CLIENT_NOT_FOUND':
+            errorToast('Cliente no registrado en el sistema');
+            break;
+        }
+        //console.log('No funciona', error);
       }
-    } catch (error) {
-      console.log('No funciona', error);
     }
   };
 
   return (
     <>
+      <Toaster />
       <Navbar />
       <h1 className="text-3xl font-bold mb-4 text-center m-16">
-        Registrar Vehiculo
+        Registrar Vehículo
       </h1>
       <div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-2 min-h-screen m-16">
         <div className="col-span-1">
