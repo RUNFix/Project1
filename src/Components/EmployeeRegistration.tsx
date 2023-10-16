@@ -77,10 +77,10 @@ const RegistroEmpleados: React.FC = () => {
         if (isValid) {
           const response = await axios[method](url, {
             cc: values.cedula,
-            fullName: `${values.nombre} ${values.apellido}`,
+            fullName: `${values.nombre.trim()} ${values.apellido.trim()}`,
             age: values.edad,
             position: values.rol,
-            email: values.email,
+            email: values.email.trim(),
             phone: values.telefono,
             password: values.password,
           });
