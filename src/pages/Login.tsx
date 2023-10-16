@@ -3,6 +3,7 @@ import axios from 'axios';
 import { errorToast, logUserToast } from '@/utils/Toast';
 import { Toaster } from 'react-hot-toast';
 import { isCcValid } from '@/utils/ValueChecks';
+import { useNavigate } from 'react-router-dom';
 
 //CUSTOM TOASTS:
 const NOT_FOUND_USER = 'Usuario no encontrado';
@@ -14,6 +15,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -42,6 +44,18 @@ const Login: React.FC = () => {
 
           sessionStorage.setItem('refreshToken', refreshToken);
           sessionStorage.setItem('accessToken', accessToken);
+
+          console.log('rol del usuario: ', usuario.position);
+          switch (usuario.position) {
+            case 'Administrador':
+              navigate('/submenu', { state: { user: 'ADMIN' } });
+              break;
+            case 'Empleado':
+              navigate('/submenu', { state: { user: 'EMPLOYEE' } });
+              break;
+            default:
+              navigate('/submenu');
+          }
         })
         .catch((error) => {
           console.log(error);

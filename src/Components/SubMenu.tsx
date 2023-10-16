@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Card from '@/components/Card';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-type Props = {
-  user: string;
-};
-
-export default function SubMenu({ user }: Props) {
+export default function SubMenu() {
   const [adminActive, setAdminActive] = useState(true);
+  const location = useLocation();
+  const rol = location.state?.user || 'DEFAULT';
+  console.log('rol en submenu: ', rol);
+
+  useEffect(() => {
+    if (rol === 'EMPLOYEE') {
+      setAdminActive(false);
+    }
+  }, [rol]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-justify">
@@ -42,13 +47,13 @@ export default function SubMenu({ user }: Props) {
               title={'Tareas pendientes'}
               img="https://img.freepik.com/vector-premium/lista-verificacion-completa-ilustracion-plana-mujer-dibujos-animados_74855-18269.jpg"
               showDetails={false}
-              screen="home"
+              screen="vehicle"
             />
             <Card
               title={'Cambio de credenciales'}
               img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
               showDetails={false}
-              screen="login"
+              screen="password-change"
             />
           </section>
         )}

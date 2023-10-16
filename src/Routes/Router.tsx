@@ -8,6 +8,7 @@ import EmployeeTable from '@/components/EmployeeTable';
 import SparePartsRegistration from '@/components/SparePartsRegistration';
 import PhotoMenu from '@/components/VehiclesPhotos';
 import Vehicle from '@/components/Vehicle';
+import PasswordChange from '@/pages/PasswordChange';
 
 function RoutesApp() {
   return (
@@ -15,10 +16,11 @@ function RoutesApp() {
       <Routes>
         <Route path="/">
           <Route path="login" element={<Login />} />
+          <Route path="password-change" element={<PasswordChange />} />
           <Route path="home" element={<Home />} />
           <Route path="register-employee" element={<EmployeeRegistration />} />
           <Route path="table-employee" element={<EmployeeTable />} />
-          <Route path="submenu" element={<SubMenu user={'admin'} />} />
+          <Route path="submenu" element={<SubMenu />} />
           <Route path="watson" element={<Watson />} />
           <Route
             path="spare-parts-registration"

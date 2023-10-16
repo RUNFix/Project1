@@ -26,11 +26,11 @@ export default function Card({
     if (screen === 'tableEmployee') {
       navigate('/table-employee');
     }
-    if (screen === 'login') {
-      navigate('/login');
+    if (screen === 'password-change') {
+      navigate('/password-change');
     }
-    if (screen === 'home') {
-      navigate('/home');
+    if (screen === 'vehicle') {
+      navigate('/vehicle');
     }
   };
 
