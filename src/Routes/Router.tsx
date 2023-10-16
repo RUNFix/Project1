@@ -26,6 +26,10 @@ function RoutesApp() {
           />
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle" element={<Vehicle />} />
+          <Route
+            path="spare-parts-registration"
+            element={<SparePartsRegistration />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

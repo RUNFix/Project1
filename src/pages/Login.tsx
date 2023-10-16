@@ -21,7 +21,7 @@ const Login: React.FC = () => {
     setPswdError('');
     console.log(`documento: ${documento}, Password: ${password}`);
 
-    let isValid = isCcValid(documento);
+    const isValid = isCcValid(documento);
 
     if (isValid) {
       // Realizar una solicitud POST utilizando Axios
@@ -34,10 +34,14 @@ const Login: React.FC = () => {
           // Manejar la respuesta del servidor
           console.log('Respuesta del servidor:', response.data);
           const usuario = response.data.user;
+
           logUserToast(usuario.fullName, usuario.position);
-          if (usuario.position === 'Administrador') {
-            //navegar('/table_employee');
-          }
+
+          const accessToken = response.data.accessToken;
+          const refreshToken = response.data.refreshToken;
+
+          sessionStorage.setItem('refreshToken', refreshToken);
+          sessionStorage.setItem('accessToken', accessToken);
         })
         .catch((error) => {
           console.log(error);

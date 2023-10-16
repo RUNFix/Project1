@@ -37,13 +37,14 @@ const Step: React.FC<StepProps> = ({
   </div>
 );
 
-const TOTAL_STEPS = 4; // Ahora hay 4 pasos, el último para mostrar el mensaje
+const TOTAL_STEPS = 4; // 4 pasos en total
 
 const ProgressBar: React.FC = () => {
   const [step, setStep] = useState(1);
 
   const handleNextStep = () =>
     setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+
   const handlePrevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const stepTitles = [

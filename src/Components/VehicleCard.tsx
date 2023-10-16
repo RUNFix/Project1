@@ -11,7 +11,6 @@ type Props = {
 const VehicleCard: React.FC<Props> = ({ plate }) => {
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState(0);
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
 
   const handleImageDrop = (index: number) => (file: File) => {

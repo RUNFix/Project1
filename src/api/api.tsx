@@ -1,4 +1,3 @@
-import React from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 
 type Props = {
@@ -52,23 +51,7 @@ export async function del(url: string) {
   return makeRequest(config);
 }
 
-export default function api({ url, method, body }: Props) {
-  let data;
-  switch (method) {
-    case 'GET':
-      data = get(url);
-      break;
-    case 'POST':
-      data = post(url, body);
-      break;
-    case 'PUT':
-      data = put(url, body);
-      break;
-    case 'DELETE':
-      data = del(url);
-      break;
-    default:
-      throw new Error(`Invalid method: ${method}`);
-  }
-  return <div>{JSON.stringify(data)}</div>;
-}
+// apiConfig.js
+/* const API_BASE_URL = 'http://localhost:4001'; // Your backend API URL
+
+export default API_BASE_URL; */

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import axios from 'axios';
 import { Vehicle } from '@/types/Vehicle';
 import VehicleCard from '@/components/VehicleCard';
-import ProgressBar from './ProgressBar';
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -28,7 +27,7 @@ export default function Vehicles() {
       <Navbar />
       <main className="flex-grow mb-16">
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center m-4 sm:m-8 md:m-16">
-          Vehículos Registrados
+          Reparacion de vehiculo
         </h1>
 
         <div className="flex-grow">
@@ -40,7 +39,7 @@ export default function Vehicles() {
                 <button
                   key={vehicle.plate}
                   onClick={() => setSelectedPlate(vehicle.plate)}
-                  className="border-2 sm:border-4 border-slate-800 rounded-3xl shadow hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105 h-72 sm:h-96"
+                  className="vehicleStyle"
                 >
                   <img
                     src={vehicle.images[0]}
