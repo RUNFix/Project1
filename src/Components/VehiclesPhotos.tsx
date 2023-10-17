@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import VehicleForm from '../components/VehicleForm';
 import { Vehicle } from '../types/Vehicle';
-s;
 import ImageDropzone from '../components/ImageDropzone';
 import { errorToast, notValidToast, succesToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';

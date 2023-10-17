@@ -8,7 +8,7 @@ import EmployeeTable from '../components/EmployeeTable';
 import SparePartsRegistration from '../components/SparePartsRegistration';
 import PhotoMenu from '../components/VehiclesPhotos';
 import Vehicle from '../components/Vehicle';
-import PasswordChange from '@/pages/PasswordChange';
+import PasswordChange from '../pages/PasswordChange';
 
 function RoutesApp() {
   return (
