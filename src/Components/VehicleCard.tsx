@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Vehicle } from '@/types/Vehicle';
-import ProgressBar from '@/components/ProgressBar';
+import { Vehicle } from '../types/Vehicle';
+import ProgressBar from '../components/ProgressBar';
 import ImageDropzone from './ImageDropzone';
 
 type Props = {

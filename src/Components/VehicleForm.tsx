@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import { Vehicle, initialValues } from '@/types/Vehicle';
-import '@/index.css';
+import { Vehicle, initialValues } from '../types/Vehicle';
+import '../index.css';
 
 interface Props {
   onSubmit: (values: Vehicle) => void;

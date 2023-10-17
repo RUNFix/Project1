@@ -9,8 +9,8 @@ import {
   notNumberToast,
   notValidToast,
   succesToast,
-} from '@/utils/Toast';
-import { isCcValid } from '@/utils/ValueChecks';
+} from '../utils/Toast';
+import { isCcValid } from '../utils/ValueChecks';
 
 //                TOAST PARAMETERS
 //Warning messages
@@ -110,12 +110,6 @@ const RegistroEmpleados: React.FC = () => {
     },
   });
 
-  /*
-  useEffect(() => {
-    // Esto resetea el formulario si el estado de location cambia
-    formik.resetForm();
-  }, [location]);
-  */
   return (
     <>
       <Toaster />

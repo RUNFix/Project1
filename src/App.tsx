@@ -1,5 +1,5 @@
 // Autor: RunFixTeam
-import RoutesApp from '@/routes/Router';
+import RoutesApp from './Routes/Router';
 
 function App() {
   return <RoutesApp />;

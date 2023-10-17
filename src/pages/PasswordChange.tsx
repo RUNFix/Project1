@@ -1,8 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
-import { errorToast, succesToast } from '@/utils/Toast';
+import { errorToast, succesToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
-import { isCcValid } from '@/utils/ValueChecks';
+import { isCcValid } from '../utils/ValueChecks';
 
 const PasswordChange: React.FC = () => {
   const [documento, setDocumento] = useState<string>('');

@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from '@/pages/Login';
-import Watson from '@/components/Watson';
-import SubMenu from '@/components/SubMenu';
-import Home from '@/pages/Home';
-import EmployeeRegistration from '@/components/EmployeeRegistration';
-import EmployeeTable from '@/components/EmployeeTable';
-import SparePartsRegistration from '@/components/SparePartsRegistration';
-import PhotoMenu from '@/components/VehiclesPhotos';
-import Vehicle from '@/components/Vehicle';
+import Login from '../pages/Login';
+import Watson from '../components/Watson';
+import SubMenu from '../components/SubMenu';
+import Home from '../pages/Home';
+import EmployeeRegistration from '../components/EmployeeRegistration';
+import EmployeeTable from '../components/EmployeeTable';
+import SparePartsRegistration from '../components/SparePartsRegistration';
+import PhotoMenu from '../components/VehiclesPhotos';
+import Vehicle from '../components/Vehicle';
 import PasswordChange from '@/pages/PasswordChange';
 
 function RoutesApp() {

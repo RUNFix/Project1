@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import VehicleForm from '@/components/VehicleForm';
-import { Vehicle } from '@/types/Vehicle';
-import ImageDropzone from '@/components/ImageDropzone';
-import { errorToast, notValidToast, succesToast } from '@/utils/Toast';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import VehicleForm from '../components/VehicleForm';
+import { Vehicle } from '../types/Vehicle';
+s;
+import ImageDropzone from '../components/ImageDropzone';
+import { errorToast, notValidToast, succesToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
-import { isCcValid, isPlateValid } from '@/utils/ValueChecks';
+import { isCcValid, isPlateValid } from '../utils/ValueChecks';
 
 export default function PhotoMenu() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);

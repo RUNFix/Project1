@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import axios from 'axios';
-import { Vehicle } from '@/types/Vehicle';
-import VehicleCard from '@/components/VehicleCard';
+import { Vehicle } from '../types/Vehicle';
+import VehicleCard from '../components/VehicleCard';
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);

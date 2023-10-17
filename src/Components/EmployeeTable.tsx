@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Empleado } from '@/types/Employee';
-import InvalidCredentialsModal from '@/utils/Modal';
+import { Empleado } from '../types/Employee';
+import InvalidCredentialsModal from '../utils/modal';
 
 const TablaEmpleados: React.FC = () => {
   const [selectedEmpleado, setSelectedEmpleado] = useState<string | null>(null);

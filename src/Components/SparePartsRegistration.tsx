@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Repuesto } from '@/types/Spare';
-import '@/index.css';
+import { Repuesto } from '../types/Spare';
+import '../index.css';
 import axios from 'axios';
 import {
   isCcValid,
   isPlateValid,
   isPriceValid,
   isValidDiscount,
-} from '@/utils/ValueChecks';
-import { errorToast, notValidToast, succesToast } from '@/utils/Toast';
+} from '../utils/ValueChecks';
+import { errorToast, notValidToast, succesToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
 
 const TablaRepuestos: React.FC = () => {
