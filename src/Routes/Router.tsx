@@ -14,25 +14,20 @@ function RoutesApp() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
-          <Route path="login" element={<Login />} />
-          <Route path="password-change" element={<PasswordChange />} />
-          <Route path="home" element={<Home />} />
-          <Route path="register-employee" element={<EmployeeRegistration />} />
-          <Route path="table-employee" element={<EmployeeTable />} />
-          <Route path="submenu" element={<SubMenu />} />
-          <Route path="watson" element={<Watson />} />
-          <Route
-            path="spare-parts-registration"
-            element={<SparePartsRegistration />}
-          />
-          <Route path="vehicle-menu" element={<PhotoMenu />} />
-          <Route path="vehicle" element={<Vehicle />} />
-          <Route
-            path="spare-parts-registration"
-            element={<SparePartsRegistration />}
-          />
-        </Route>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/password-change" element={<PasswordChange />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/register-employee" element={<EmployeeRegistration />} />
+        <Route path="/table-employee" element={<EmployeeTable />} />
+        <Route path="/submenu" element={<SubMenu />} />
+        <Route path="/watson" element={<Watson />} />
+        <Route
+          path="/spare-parts-registration"
+          element={<SparePartsRegistration />}
+        />
+        <Route path="/vehicle-menu" element={<PhotoMenu />} />
+        <Route path="/vehicle" element={<Vehicle />} />
       </Routes>
     </BrowserRouter>
   );
