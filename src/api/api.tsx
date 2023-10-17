@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-type Props = {
+/* type Props = {
   url: string;
   method: string;
   body?: object;
-};
+}; */
 
 async function makeRequest(config: AxiosRequestConfig) {
   const response = await axios(config);

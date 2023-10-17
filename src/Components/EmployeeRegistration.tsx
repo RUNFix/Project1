@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import {
-  errorToast,
-  notNumberToast,
-  notValidToast,
-  succesToast,
-} from '../utils/Toast';
+import { errorToast, notValidToast, succesToast } from '../utils/Toast';
 import { isCcValid } from '../utils/ValueChecks';
 
 //                TOAST PARAMETERS

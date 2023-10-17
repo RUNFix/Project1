@@ -12,7 +12,7 @@ const isNumeric = (data: string) => {
  * checks if is numeric AND greater than 0
  */
 const isCcValid = (data: string) => {
-  let aux = isNumeric(data);
+  const aux = isNumeric(data);
   if (Number(data) < 0) return false;
 
   return aux;

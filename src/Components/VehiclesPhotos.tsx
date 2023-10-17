@@ -7,7 +7,7 @@ import { Vehicle } from '../types/Vehicle';
 import ImageDropzone from '../components/ImageDropzone';
 import { errorToast, notValidToast, succesToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
-import { isCcValid, isPlateValid } from '../utils/ValueChecks';
+import { isPlateValid } from '../utils/ValueChecks';
 
 export default function PhotoMenu() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
