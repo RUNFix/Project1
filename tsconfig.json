@@ -6,18 +6,24 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "noEmitOnError": false,
+
+    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+
+    /* Linting */
     "strict": false,
-    "noUnusedLocals": false, // Modificado a 'false'
-    "noUnusedParameters": false, // Modificado a 'false'
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+
     "baseUrl": "."
   },
+
   "include": ["src", "src/pages/.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

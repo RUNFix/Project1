@@ -6,11 +6,7 @@ type Props = {
   className?: string;
 };
 
-export default function ImageDropzone({
-  onImageDrop,
-  index,
-  className,
-}: Props) {
+export default function ImageDropzone({ onImageDrop, className }: Props) {
   const [dragging, setDragging] = useState(false);
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {

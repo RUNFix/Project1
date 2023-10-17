@@ -31,7 +31,9 @@ const PasswordChange: React.FC = () => {
         password: newPassword,
       })
       .then((response) => {
-        succesToast('Contraseña actualizada con éxito');
+        if (response) {
+          succesToast('Contraseña actualizada con éxito');
+        }
       })
       .catch((error) => {
         console.error('Error al enviar la solicitud:', error);

@@ -11,9 +11,8 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values, { resetForm }) => {
+      onSubmit={(values) => {
         onSubmit(values);
-        //resetForm();
       }}
     >
       {({ values }) => (

@@ -1,4 +1,3 @@
-import React from 'react';
 import toast from 'react-hot-toast';
 
 // This should be a function declaration or a constant initialized with a function.

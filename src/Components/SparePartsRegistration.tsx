@@ -18,7 +18,7 @@ const TablaRepuestos: React.FC = () => {
     descripcion: '',
     precioUnitario: 0,
     descuento: 0,
-    total: 0,
+    subtotal: 0,
   });
   const [vehiculoInfo, setVehiculoInfo] = useState({
     nombreDueño: '',

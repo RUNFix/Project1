@@ -1,9 +1,8 @@
 // Autor: RunFixTeam
-//import RoutesApp from './routes/Router';
-import Home from './pages/Home';
+import RoutesApp from './routes/Router';
 
 function App() {
-  return <Home />;
+  return <RoutesApp />;
 }
 
 export default App;

@@ -54,8 +54,6 @@ const RegistroEmpleados: React.FC = () => {
           ? `http://localhost:4000/employee/${empleadoParaEditar.cc}`
           : 'http://localhost:4000/auth/register';
 
-        console.log(url);
-
         let isValid = true;
         if (!isCcValid(values.cedula)) {
           notValidToast('Cedula');
@@ -70,7 +68,7 @@ const RegistroEmpleados: React.FC = () => {
 
         //if cc, phone and age are valid
         if (isValid) {
-          const response = await axios[method](url, {
+          await axios[method](url, {
             cc: values.cedula,
             fullName: `${values.nombre.trim()} ${values.apellido.trim()}`,
             age: values.edad,
@@ -79,6 +77,8 @@ const RegistroEmpleados: React.FC = () => {
             phone: values.telefono,
             password: values.password,
           });
+          formik.resetForm();
+          succesToast('Empleado registrado con éxito');
         }
         //navegar('/table_employee');
       } catch (error: any) {
@@ -137,9 +137,6 @@ const RegistroEmpleados: React.FC = () => {
                   field === 'cedula' && empleadoParaEditar ? true : false
                 }
               />
-              {formik.touched[field] && formik.errors[field] ? (
-                <div className="text-red-500">{formik.errors[field]}</div>
-              ) : null}
             </div>
           ))}
 
@@ -163,9 +160,6 @@ const RegistroEmpleados: React.FC = () => {
               <option value="Empleado">Empleado</option>
               <option value="Administrador">Administrador</option>
             </select>
-            {formik.touched.rol && formik.errors.rol ? (
-              <div className="text-red-500">{formik.errors.rol}</div>
-            ) : null}
           </div>
 
           <div className="mb-4 md:col-span-2">
@@ -185,9 +179,6 @@ const RegistroEmpleados: React.FC = () => {
               onBlur={formik.handleBlur}
               required
             />
-            {formik.touched.email && formik.errors.email ? (
-              <div className="text-red-500">{formik.errors.email}</div>
-            ) : null}
           </div>
 
           <div className="mb-4 md:col-span-2">
@@ -207,9 +198,6 @@ const RegistroEmpleados: React.FC = () => {
               onBlur={formik.handleBlur}
               required
             />
-            {formik.touched.password && formik.errors.password ? (
-              <div className="text-red-500">{formik.errors.password}</div>
-            ) : null}
           </div>
 
           <div className="col-span-1 md:col-span-2">

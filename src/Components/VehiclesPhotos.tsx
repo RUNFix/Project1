@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -60,10 +60,6 @@ export default function PhotoMenu() {
           //resetForm() here we should reset the formulary fields
         }
       } catch (error: any) {
-        console.log(
-          'ESTE ES EL ERROR  CON RESPONSE CTM: ',
-          error.response.data,
-        );
         switch (error.response.data.message) {
           case 'INVALID_PARTS_FORMAT':
             errorToast('Datos de creación invalidos');
