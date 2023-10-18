@@ -124,9 +124,13 @@ const TablaEmpleados: React.FC = () => {
     });
 
     console.log('Esto es el filtadro ' + filtrado);
-    navegar('/register-employee', {
-      state: { filtrado: filtrado[0] },
-    });
+    if (id) {
+      navegar('/register-employee', {
+        state: { filtrado: filtrado[0] },
+      });
+    } else {
+      alert('Por favor, seleccione un empleado para actualizar');
+    }
   };
 
   const deleteEmployee = async () => {
