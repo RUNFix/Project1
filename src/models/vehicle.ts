@@ -1,6 +1,6 @@
-import { Schema, Types, model, Model } from "mongoose";
+import { Schema, Types, model, Model } from 'mongoose';
 
-import { Vehicle } from "../interfaces/vehicle";
+import { Vehicle } from '../interfaces/vehicle';
 
 const ItemSchema = new Schema<Vehicle>(
   {
@@ -8,8 +8,8 @@ const ItemSchema = new Schema<Vehicle>(
       type: String,
       required: true,
     },
-    plate:{
-      type:String,
+    plate: {
+      type: String,
       required: true,
       unique: true,
     },
@@ -50,15 +50,13 @@ const ItemSchema = new Schema<Vehicle>(
       type: Date,
       required: true,
     },
-    images: {
-      type: [String],
-    },
+    images: [String],
   },
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
-const vehicleModel = model("Vehicle", ItemSchema);
+const vehicleModel = model('Vehicle', ItemSchema);
 export default vehicleModel;
