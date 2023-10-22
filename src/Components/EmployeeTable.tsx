@@ -1,92 +1,55 @@
-import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 screen;
 import { Empleado } from '../types/Employee';
 import InvalidCredentialsModal from '../utils/Modal';
+import { useDispatch } from 'react-redux';
+import { deleteResource, getResource } from 'src/features/post/postAction';
+import { API_EMPLOYEE } from 'src/api/api';
+import { AppDispatch } from 'src/store/index';
+import { loadTokensFromSession } from 'src/features/auth/authUtils';
 
-const TablaEmpleados: React.FC = () => {
-  const [selectedEmpleado, setSelectedEmpleado] = useState<string | null>(null);
+const EmployeeTable: React.FC = () => {
+  const [selectedEmpleado, setSelectedEmpleado] = useState<number | null>(20);
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
   const [visibleCount, setVisibleCount] = useState(20);
-  const tableDivRef = useRef<HTMLDivElement>(null);
-  const navegar = useNavigate();
-
   const [showInvalidCredentialsModal, setShowInvalidCredentialsModal] =
     useState(false);
 
+  const tableDivRef = useRef<HTMLDivElement>(null);
+
+  const navegar = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  // GET EMPLEADOS
+
   useEffect(() => {
-    async function fetchEmployees() {
-      const accessToken = sessionStorage.getItem('accessToken');
-      console.log(accessToken);
+    dispatch(loadTokensFromSession());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchEmployee = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/employee/', {
-          headers: {
-            Authorization: 'Bearer ' + accessToken,
-          },
-        });
-        setEmpleados(res.data);
-      } catch (error: any) {
-        console.error('error', error);
-        if (
-          error.response &&
-          error.response.data.message === 'TokenExpiredError'
-        ) {
-          console.log('Token expirado zzz');
-          refreshAndRetry();
-        } else {
-          setShowInvalidCredentialsModal(true);
-        }
+        const actionResult = await dispatch(getResource(API_EMPLOYEE));
+/* 
+        if (!actionResult.payload || !actionResult.payload.payload) {
+          console.error('Unexpected payload structure:', actionResult);
+          return;
+        } */
+
+        const data = actionResult.payload.payload;
+        setEmpleados(data);
+      } catch (error) {
+        setShowInvalidCredentialsModal(true);
+        console.error('Unexpected error:', error);
+     
       }
-    }
+    };  
 
-    async function refreshAndRetry() {
-      const refreshToken = sessionStorage.getItem('refreshToken');
-      console.log(
-        'Token expired. Attempting refresh with token: ' + refreshToken,
-      );
-      if (!refreshToken) {
-        console.log('Refresh token not found in session storage.');
-        return;
-      }
+    fetchEmployee();
+  }, [dispatch]);
 
-      try {
-        const response = await axios.post(
-          'http://localhost:4000/auth/refresh',
-          {
-            refreshToken: refreshToken,
-          },
-        );
-        console.log(response);
-        const newAccessToken = response.data.accessToken.token;
-
-        sessionStorage.setItem('accessToken', newAccessToken);
-        console.log(
-          'Stored access token:',
-          sessionStorage.getItem('accessToken'),
-        );
-
-        fetchEmployees();
-      } catch (refreshError: any) {
-        console.log('Error refreshing the access token:', refreshError);
-        if (refreshError.response) {
-          console.log('Data:', refreshError.response.data);
-          console.log('Status:', refreshError.response.status);
-          console.log('Headers:', refreshError.response.headers);
-        } else if (refreshError.request) {
-          console.log('Request:', refreshError.request);
-        } else {
-          console.log('General Error:', refreshError.message);
-          <InvalidCredentialsModal />;
-        }
-      }
-    }
-    const initialAccessToken = sessionStorage.getItem('accessToken');
-    if (initialAccessToken) {
-      fetchEmployees();
-    }
-  }, [setEmpleados]);
-
+  // Manejo tabla empleados
   useEffect(() => {
     const handleScroll = () => {
       if (!tableDivRef.current) return;
@@ -97,7 +60,7 @@ const TablaEmpleados: React.FC = () => {
 
       if (isBottom) {
         setVisibleCount((prevCount) =>
-          Math.min(prevCount + 20, empleados.length),
+          Math.min(prevCount + 20, empleados ? empleados.length : 0),
         );
       }
     };
@@ -113,7 +76,7 @@ const TablaEmpleados: React.FC = () => {
     };
   }, [empleados]);
 
-  const handleButtonPress = (cc: string) => {
+  const handleButtonPress = (cc: number) => {
     setSelectedEmpleado(cc);
   };
 
@@ -140,14 +103,18 @@ const TablaEmpleados: React.FC = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:4000/employee/${selectedEmpleado}`);
+      await dispatch(deleteResource(API_EMPLOYEE, selectedEmpleado));
+
       // Actualiza el estado para reflejar que el empleado se ha eliminado
       setEmpleados(empleados.filter((emp) => emp.cc !== selectedEmpleado));
+
       setSelectedEmpleado(null);
     } catch (error) {
       console.error('Hubo un error al eliminar el empleado:', error);
+      alert('Hubo un error al eliminar el empleado');
     }
   };
+
   return (
     <>
       {showInvalidCredentialsModal && <InvalidCredentialsModal />}
@@ -179,41 +146,44 @@ const TablaEmpleados: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {empleados.slice(0, visibleCount).map((empleado) => (
-                  <tr
-                    key={empleado.cc}
-                    className={`${
-                      selectedEmpleado === empleado.cc ? 'bg-indigo-200' : ''
-                    }`}
-                  >
-                    <td className="text-left py-4 px-6">{empleado.fullName}</td>
-                    <td className="text-left py-4 px-6">{empleado.cc}</td>
-                    <td className="text-left py-4 px-6 hidden md:table-cell">
-                      {empleado.age}
-                    </td>
-                    <td className="text-left py-4 px-6 hidden md:table-cell">
-                      {empleado.position}
-                    </td>
-                    <td className="text-left py-4 px-6 hidden md:table-cell">
-                      {empleado.phone}
-                    </td>
-                    <td className="text-left py-4 px-6 hidden md:table-cell">
-                      {empleado.email}
-                    </td>
-                    <td className="text-center py-4 px-6">
-                      <button
-                        className={`text-white rounded-full h-10 w-10 focus:outline-none ${
-                          selectedEmpleado === empleado.cc
-                            ? 'bg-green-700'
-                            : 'bg-green-500'
-                        }`}
-                        onClick={() => handleButtonPress(empleado.cc)}
-                      >
-                        ✓
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {empleados &&
+                  empleados.slice(0, visibleCount).map((empleado) => (
+                    <tr
+                      key={empleado.cc}
+                      className={`${
+                        selectedEmpleado === empleado.cc ? 'bg-indigo-200' : ''
+                      }`}
+                    >
+                      <td className="text-left py-4 px-6">
+                        {empleado.fullName}
+                      </td>
+                      <td className="text-left py-4 px-6">{empleado.cc}</td>
+                      <td className="text-left py-4 px-6 hidden md:table-cell">
+                        {empleado.age}
+                      </td>
+                      <td className="text-left py-4 px-6 hidden md:table-cell">
+                        {empleado.position}
+                      </td>
+                      <td className="text-left py-4 px-6 hidden md:table-cell">
+                        {empleado.phone}
+                      </td>
+                      <td className="text-left py-4 px-6 hidden md:table-cell">
+                        {empleado.email}
+                      </td>
+                      <td className="text-center py-4 px-6">
+                        <button
+                          className={`text-white rounded-full h-10 w-10 focus:outline-none ${
+                            selectedEmpleado === empleado.cc
+                              ? 'bg-green-700'
+                              : 'bg-green-500'
+                          }`}
+                          onClick={() => handleButtonPress(empleado.cc)}
+                        >
+                          ✓
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -237,4 +207,4 @@ const TablaEmpleados: React.FC = () => {
   );
 };
 
-export default TablaEmpleados;
+export default EmployeeTable;

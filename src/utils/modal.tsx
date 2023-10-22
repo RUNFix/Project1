@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function InvalidCredentialsModal() {
+export  default function InvalidCredentialsModal() {
   const navigate = useNavigate();
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
@@ -10,7 +10,7 @@ export default function InvalidCredentialsModal() {
   };
 
   if (shouldRedirect) {
-    navigate('/login');
+    navigate('/home');
   }
 
   return (
@@ -35,6 +35,26 @@ export default function InvalidCredentialsModal() {
               >
                 Cerrar
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+    </>
+  );
+}
+
+export function LoadingModal() {
+  return (
+    <>
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+        <div className="relative w-auto my-6 mx-auto max-w-md">
+          <div className="border-0 rounded-lg shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none">
+            <div className="flex items-center justify-center p-5">
+              <h3 className="text-3xl font-semibold">Cargando...</h3>
+            </div>
+            <div className="relative p-6 flex-auto flex items-center justify-center">
+              <p className="animate-spin text-blueGray-500 text-2xl">🔄</p>
             </div>
           </div>
         </div>

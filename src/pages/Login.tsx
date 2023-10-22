@@ -4,6 +4,10 @@ import { errorToast, logUserToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
 import { isCcValid } from '../utils/ValueChecks';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../features/auth/authActions';
+import { AsyncThunkAction, Dispatch, AnyAction } from '@reduxjs/toolkit';
+import type { AppDispatch } from '../store/index';
 
 //CUSTOM TOASTS:
 const NOT_FOUND_USER = 'Usuario no encontrado';
@@ -15,38 +19,39 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
-  const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setUserError('');
     setPswdError('');
-    console.log(`documento: ${documento}, Password: ${password}`);
 
     const isValid = isCcValid(documento);
 
     if (isValid) {
-      // Realizar una solicitud POST utilizando Axios
-      axios
-        .post('http://localhost:4000/auth/login', {
-          cc: documento,
-          password: password,
-        })
-        .then((response) => {
-          // Manejar la respuesta del servidor
-          console.log('Respuesta del servidor:', response.data);
-          const usuario = response.data.user;
+      try {
+        const responseAction = await dispatch(
+          loginUser({
+            cc: documento,
+            password: password,
+          }),
+        );
 
-          logUserToast(usuario.fullName, usuario.position);
+        if (loginUser.fulfilled.match(responseAction)) {
+          const data = responseAction.payload;
+          logUserToast(data.user.fullName, data.user.position);
 
-          const accessToken = response.data.accessToken;
-          const refreshToken = response.data.refreshToken;
+          const accessToken = data.accessToken;
+          const refreshToken = data.refreshToken;
 
           sessionStorage.setItem('refreshToken', refreshToken);
           sessionStorage.setItem('accessToken', accessToken);
 
-          console.log('rol del usuario: ', usuario.position);
-          switch (usuario.position) {
+          console.log('rol del usuario: ', data.user.position);
+
+          switch (data.user.position) {
             case 'Administrador':
               navigate('/submenu', { state: { user: 'ADMIN' } });
               break;
@@ -56,22 +61,22 @@ const Login: React.FC = () => {
             default:
               navigate('/submenu');
           }
-        })
-        .catch((error) => {
-          console.log(error);
-          switch (error.response.data.message) {
-            case 'NOT_FOUND_USER':
-              setUserError(NOT_FOUND_USER);
-              errorToast(NOT_FOUND_USER);
-              break;
-            case 'PASSWORD_INCORRECT':
-              setPswdError(PASSWORD_INCORRECT);
-              errorToast(PASSWORD_INCORRECT);
-              break;
-          }
-          // DEBUG
-          console.error('Error al enviar la solicitud:', error);
-        });
+        }
+      } catch (error) {
+        // handle errors
+        console.log(error);
+
+        switch (error.response.data.error) {
+          case 'NOT_FOUND_USER':
+            setUserError(NOT_FOUND_USER);
+            errorToast(NOT_FOUND_USER);
+            break;
+          case 'PASSWORD_INCORRECT':
+            setPswdError(PASSWORD_INCORRECT);
+            errorToast(PASSWORD_INCORRECT);
+            break;
+        }
+      }
     } else {
       errorToast('El valor en el campo Cédula no es valido');
     }

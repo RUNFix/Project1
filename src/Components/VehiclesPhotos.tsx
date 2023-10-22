@@ -48,7 +48,7 @@ export default function PhotoMenu() {
         });
 
         const response = await axios.post(
-          'http://localhost:4000/vehicle',
+          'http://54.89.164.219/vehicle',
           formData,
         );
 
@@ -74,7 +74,6 @@ export default function PhotoMenu() {
             errorToast('Cliente no registrado en el sistema');
             break;
         }
-        //console.log('No funciona', error);
       }
     }
   };

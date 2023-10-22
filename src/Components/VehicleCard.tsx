@@ -21,7 +21,7 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
     async function fetchVehicleDetails() {
       try {
         const response = await axios.get(
-          `http://localhost:4000/vehicle/${plate}`,
+          `http://54.89.164.219/vehicle/${plate}`,
         );
         setVehicle(response.data);
       } catch (err) {

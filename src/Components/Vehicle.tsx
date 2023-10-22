@@ -12,7 +12,7 @@ export default function Vehicles() {
   useEffect(() => {
     async function fetchVehicles() {
       try {
-        const response = await axios.get('http://localhost:4000/vehicle');
+        const response = await axios.get('http://54.89.164.219/vehicle');
         setVehicles(response.data);
       } catch (error) {
         console.error('Error fetching vehicles:', error);
