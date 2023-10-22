@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import axios from 'axios';
 import { errorToast, logUserToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const NOT_FOUND_USER = 'Usuario no encontrado';
 const PASSWORD_INCORRECT = 'Contraseña incorrecta';
 
+
 //Loggin Toast
 const Login: React.FC = () => {
   const [documento, setDocumento] = useState<string>('');
@@ -16,6 +17,18 @@ const Login: React.FC = () => {
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
   const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    // Verify if its already logged in 
+    const accessToken = sessionStorage.getItem('accessToken');
+    console.log(accessToken)
+    if (accessToken != null) {
+      // If there's a non-empty accessToken, navigate to the home page
+      navigate('/home') // Replace '/home' with your actual home page URL
+    }
+  })
+
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

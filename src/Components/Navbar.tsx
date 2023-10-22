@@ -1,6 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
+  const navigate = useNavigate();
+  const navegarLogin = () => {
+    navigate("/login")
+  };
+
+  const logOut = () => {
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
+    navigate("/login")
+  };
+  const accessToken = sessionStorage.getItem('accessToken');
+
   return (
     <nav className="bg-slate-800  w-full  top-0 left-0  border-gray-200 z-20 sticky">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -15,10 +28,17 @@ const Navbar: React.FC = () => {
           />
         </a>
         <div className="flex md:order-2">
-          <button type="button" className="buttonBlueNavbarStyle">
-            Get started
+        {  
+        accessToken ? (  
+            <button type="button" className="buttonBlueNavbarStyle" onClick={logOut}>
+            Log out
           </button>
-
+          ) : (
+            <button type="button" className="buttonBlueNavbarStyle" onClick={navegarLogin}>
+              Log in
+            </button>
+          )
+          }
           <button type="button" className="grayBlueNavbarStyle ">
             <span className="sr-only">Open main menu</span>
             <svg
