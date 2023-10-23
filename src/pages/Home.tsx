@@ -3,11 +3,13 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
 import SocialMediaIcons from '../components/SocialMediaCards';
+import { LoadingModal, SuccessModal, ErrorModal } from 'src/utils/Modal';
 
 const MenuPrincipal: React.FC = () => {
   return (
     <>
       <Navbar />
+      <SuccessModal text={'Prueba modales'} />
       <div className="flex flex-col min-h-screen bg-gray-50 text-justify">
         <main className="flex-grow container mx-auto p-10 mt-14 ">
           <h1 className="text-4xl mb-12 text-center font-semibold">

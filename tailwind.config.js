@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  mode: "jit",
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  mode: 'jit',
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {},
   },
-  plugins: ["@tailwindcss/forms"],
+  plugins: ['@tailwindcss/forms', require('tailwindcss-animated')],
 };
