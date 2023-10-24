@@ -1,12 +1,22 @@
 import { NextFunction, Request, Response } from 'express';
 import { handleHttp } from '../utils/error.handle';
-import { insertveh, deleteVeh, getVechls, getVehl, updateVeh } from '../services/vehicle';
+import { insertveh, deleteVeh, getVechls, getVehl, updateVeh,getVechlpemployee } from '../services/vehicle';
 import fileUpload, { UploadedFile } from 'express-fileupload';
 
 const getVehicle = async ({ params }: Request, res: Response) => {
   try {
     const { plate } = params;
     const response = await getVehl(plate);
+    res.send(response);
+  } catch (e) {
+    handleHttp(res, 'ERROR_GET_VEHICLE');
+  }
+};
+
+const getVehiclePEmployee = async ({params}: Request, res: Response) => {
+  try {
+    const {id_employee} = params;
+    const response = await getVechlpemployee(id_employee);
     res.send(response);
   } catch (e) {
     handleHttp(res, 'ERROR_GET_VEHICLE');
@@ -79,4 +89,4 @@ const deleteVehicle = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-export { getVehicle, getVehicles, updateVehicle, postVehicle, deleteVehicle };
+export { getVehicle, getVehicles, updateVehicle, postVehicle, deleteVehicle, getVehiclePEmployee };

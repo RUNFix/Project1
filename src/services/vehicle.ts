@@ -24,21 +24,27 @@ const insertveh = async (vehicle: Vehicle, tempFilePaths?: string[]) => {
     return responseInsert;
   }
 };
+
+const getVechlpemployee = async (id_employee:string) => {
+  const responseVehicle = await vehicleModel.find({ employee: id_employee });
+  return responseVehicle;
+}
+
 const getVechls = async () => {
-  const responseEmployee = await vehicleModel.find({});
-  return responseEmployee;
+  const responseVehicle = await vehicleModel.find({});
+  return responseVehicle;
 };
 
 const getVehl = async (plate: string) => {
-  const responseEmployee = await vehicleModel.findOne({ plate: plate });
-  return responseEmployee;
+  const responseVehicle = await vehicleModel.findOne({ plate: plate });
+  return responseVehicle;
 };
 
 const updateVeh = async (plate: string, data: Vehicle) => {
-  const responseEmployee = await vehicleModel.findOneAndUpdate({ plate: plate }, data, {
+  const responseVehicle = await vehicleModel.findOneAndUpdate({ plate: plate }, data, {
     new: true,
   });
-  return responseEmployee;
+  return responseVehicle;
 };
 
 /**
@@ -85,4 +91,4 @@ const deleteVeh = async (id: string): Promise<Vehicle | null> => {
 function extractPublicIdFromUrl(url: string): string {
   return url.split('/').slice(-1)[0].split('.')[0];
 }
-export { insertveh, getVechls, getVehl, updateVeh, deleteVeh, updatePriceToPay };
+export { insertveh, getVechls, getVehl, updateVeh, deleteVeh, updatePriceToPay, getVechlpemployee};
