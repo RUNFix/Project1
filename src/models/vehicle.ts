@@ -11,7 +11,6 @@ const ItemSchema = new Schema<Vehicle>(
     plate: {
       type: String,
       required: true,
-      unique: true,
     },
     cc: {
       type: Number,
@@ -34,8 +33,9 @@ const ItemSchema = new Schema<Vehicle>(
       required: true,
     },
     status: {
-      type: String,
+      type: Number,
       required: true,
+      enum: [1, 2, 3],
     },
     priceToPay: {
       type: Number,

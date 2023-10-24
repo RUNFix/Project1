@@ -14,7 +14,7 @@ export interface Vehicle {
   brand: string;
   year: number;
   color: string;
-  status: string;
+  status: number;
   priceToPay: number;
   employee: string;
   date: Date;
