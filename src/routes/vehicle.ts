@@ -13,11 +13,7 @@ const router = Router();
 
 router.get("/", getVehicles);
 router.get("/:plate", logMiddleware, getVehicle);
-router.post(
-  "/",
-  fileUpload({ useTempFiles: true, tempFileDir: "./uploads" }),
-  postVehicle
-);
+router.post("/",postVehicle);
 router.put("/:plate", updateVehicle);
 router.delete("/:id", deleteVehicle);
 
