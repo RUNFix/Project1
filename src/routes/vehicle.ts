@@ -15,7 +15,7 @@ const router = Router();
 
 router.get("/", getVehicles);
 router.get("/:plate", logMiddleware, getVehicle);
-router.get("/:id",logMiddleware, getVehiclePEmployee);
+router.get("/employee/:id", getVehiclePEmployee);
 router.post("/",postVehicle);
 router.put("/:plate", updateVehicle);
 router.delete("/:id", deleteVehicle);

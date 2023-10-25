@@ -13,12 +13,13 @@ const getVehicle = async ({ params }: Request, res: Response) => {
   }
 };
 
-const getVehiclePEmployee = async ({params}: Request, res: Response) => {
+const getVehiclePEmployee = async ({ params }: Request, res: Response) => {
   try {
-    const {id_employee} = params;
-    const response = await getVechlpemployee(id_employee);
+    const {id} = params;
+    const response = await getVechlpemployee(id);
     res.send(response);
   } catch (e) {
+    console.error((e as Error).message);  // para registrar el error en el servidor
     handleHttp(res, 'ERROR_GET_VEHICLE');
   }
 };

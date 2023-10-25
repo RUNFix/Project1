@@ -25,8 +25,12 @@ const insertveh = async (vehicle: Vehicle, tempFilePaths?: string[]) => {
   }
 };
 
-const getVechlpemployee = async (id_employee:string) => {
-  const responseVehicle = await vehicleModel.find({ employee: id_employee });
+const getVechlpemployee = async (id:string) => {
+  const intIdEmployee = +id;
+  if (isNaN(intIdEmployee)) {
+    throw new Error("Invalid ID format");
+}
+  const responseVehicle = await vehicleModel.find({ employee: id});
   return responseVehicle;
 }
 
