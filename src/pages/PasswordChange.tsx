@@ -27,7 +27,7 @@ const PasswordChange: React.FC = () => {
     }
 
     axios
-      .put(`http://localhost:4000/auth/update/${documento}`, {
+      .put(`${documento}/${documento}`, {
         password: newPassword,
       })
       .then((response) => {

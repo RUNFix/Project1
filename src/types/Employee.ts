@@ -1,6 +1,6 @@
 export interface Empleado {
   fullName: string;
-  cc: number;
+  cc: string;
   age: string;
   position: string;
   phone: string;

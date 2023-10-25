@@ -3,17 +3,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
-
   const navegarLogin = () => {
-    navigate('/login');
+    navigate("/login")
   };
 
   const logOut = () => {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('refreshToken');
-    navigate('/home');
+    navigate("/login")
   };
-
   const accessToken = sessionStorage.getItem('accessToken');
 
   return (
@@ -30,23 +28,17 @@ const Navbar: React.FC = () => {
           />
         </a>
         <div className="flex md:order-2">
-          {accessToken ? (
-            <button
-              type="button"
-              className="buttonBlueNavbarStyle"
-              onClick={logOut}
-            >
-              Log out
-            </button>
+        {  
+        accessToken ? (  
+            <button type="button" className="buttonBlueNavbarStyle" onClick={logOut}>
+            Log out
+          </button>
           ) : (
-            <button
-              type="button"
-              className="buttonBlueNavbarStyle"
-              onClick={navegarLogin}
-            >
+            <button type="button" className="buttonBlueNavbarStyle" onClick={navegarLogin}>
               Log in
             </button>
-          )}
+          )
+          }
           <button type="button" className="grayBlueNavbarStyle ">
             <span className="sr-only">Open main menu</span>
             <svg

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Vehicle } from '../types/Vehicle';
-import ProgressBar from '../components/ProgressBar';
-import ImageDropzone from './ImageDropzone';
+import { Vehicle } from '../../types/Vehicle';
+import ProgressBar from '../ProgressBar';
+import ImageDropzone from '../ImageDropzone';
+import { API_VEHICLE } from 'src/api/api';
 
 type Props = {
   plate: string;
@@ -20,9 +21,7 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
   useEffect(() => {
     async function fetchVehicleDetails() {
       try {
-        const response = await axios.get(
-          `http://54.89.164.219/vehicle/${plate}`,
-        );
+        const response = await axios.get(`${API_VEHICLE}/${plate}`);
         setVehicle(response.data);
       } catch (err) {
         setError('Error fetching vehicle details.');

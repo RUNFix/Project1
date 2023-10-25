@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Card from '../components/Card';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import Card from './Card';
 import { useLocation } from 'react-router-dom';
 
 export default function SubMenu() {

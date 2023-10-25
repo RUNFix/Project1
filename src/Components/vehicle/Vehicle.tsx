@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 import axios from 'axios';
-import { Vehicle } from '../types/Vehicle';
-import VehicleCard from '../components/VehicleCard';
+import { Vehicle } from '../../types/Vehicle';
+import VehicleCard from './VehicleCard';
+import { API_VEHICLE } from 'src/api/api';
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -12,7 +13,7 @@ export default function Vehicles() {
   useEffect(() => {
     async function fetchVehicles() {
       try {
-        const response = await axios.get('http://54.89.164.219/vehicle');
+        const response = await axios.get(API_VEHICLE);
         setVehicles(response.data);
       } catch (error) {
         console.error('Error fetching vehicles:', error);

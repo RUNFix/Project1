@@ -4,11 +4,10 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { errorToast, notValidToast, succesToast } from '../utils/Toast';
-import { isCcValid } from '../utils/ValueChecks';
-import { TokenExists } from 'src/features/auth/authUtils';
-import  InvalidCredentialsModal, { LoadingModal } from '../utils/Modal';
- 
+import { errorToast, notValidToast, succesToast } from '../../utils/Toast';
+import { isCcValid } from '../../utils/ValueChecks';
+import { API_AUTH_REGISTER, API_EMPLOYEE } from 'src/api/api';
+
 //                TOAST PARAMETERS
 //Warning messages
 const ALREADY_USER = 'Cédula ya registrada en el sistema';
@@ -24,7 +23,7 @@ const RegistroEmpleados: React.FC = () => {
   const { fullName, cc, age, position, phone, email } =
     empleadoParaEditar || {};
 
-  const validationSchema = Yup.object({ 
+  const validationSchema = Yup.object({
     nombre: Yup.string().required('Requerido'),
     apellido: Yup.string().required('Requerido'),
     cedula: Yup.string().required('Requerido'),
@@ -53,8 +52,8 @@ const RegistroEmpleados: React.FC = () => {
       try {
         const method = empleadoParaEditar ? 'put' : 'post';
         const url = empleadoParaEditar
-          ? `http://localhost:4000/employee/${empleadoParaEditar.cc}`
-          : 'http://localhost:4000/auth/register';
+          ? `${API_EMPLOYEE}/${empleadoParaEditar.cc}`
+          : `${API_AUTH_REGISTER}`;
 
         let isValid = true;
         if (!isCcValid(values.cedula)) {
@@ -109,7 +108,6 @@ const RegistroEmpleados: React.FC = () => {
 
   return (
     <>
-      { TokenExists() ?  '' : <InvalidCredentialsModal/> }
       <Toaster />
       <div className="flex flex-col items-center justify-center min-h-screen min-w-max bg-gray-50">
         <h2 className="text-4xl font-bold mb-8 text-slate-800">
@@ -213,9 +211,8 @@ const RegistroEmpleados: React.FC = () => {
             </button>
           </div>
         </form>
-      </div> 
-      </>
-
+      </div>
+    </>
   );
 };
 

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import VehicleForm from '../components/VehicleForm';
-import { Vehicle } from '../types/Vehicle';
-import ImageDropzone from '../components/ImageDropzone';
-import { errorToast, notValidToast, succesToast } from '../utils/Toast';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
+import VehicleForm from './VehicleForm';
+import { Vehicle } from '../../types/Vehicle';
+import ImageDropzone from '../ImageDropzone';
+import { errorToast, notValidToast, succesToast } from '../../utils/Toast';
 import { Toaster } from 'react-hot-toast';
-import { isPlateValid } from '../utils/ValueChecks';
+import { isPlateValid } from '../../utils/ValueChecks';
 
 export default function PhotoMenu() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
@@ -48,7 +48,7 @@ export default function PhotoMenu() {
         });
 
         const response = await axios.post(
-          'http://54.89.164.219/vehicle',
+          'http://localhost:4000/vehicle',
           formData,
         );
 
@@ -74,6 +74,7 @@ export default function PhotoMenu() {
             errorToast('Cliente no registrado en el sistema');
             break;
         }
+        //console.log('No funciona', error);
       }
     }
   };

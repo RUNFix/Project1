@@ -55,8 +55,10 @@ export default function Card({
       {showDetails ? (
         <div>
           <p className="text-justify mb-2 p-1">{description}</p>
-          <button className="bg-blue-500  backdrop: hover:bg-green-500 text-white p-1 rounded ml-2 "
-          onClick={ () => navigate('/vehicle')}>
+          <button
+            className="bg-blue-500  backdrop: hover:bg-green-500 text-white p-1 rounded ml-2 "
+            onClick={() => navigate('/vehicle')}
+          >
             Leer más
           </button>
         </div>
