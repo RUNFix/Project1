@@ -16,7 +16,7 @@ export interface Vehicle {
   color: string;
   status: number;
   priceToPay: number;
-  employee: string;
+  employee: number;
   date: Date;
   images: string[];
 }

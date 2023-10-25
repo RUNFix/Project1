@@ -43,7 +43,7 @@ const ItemSchema = new Schema<Vehicle>(
       default: 0,
     },
     employee: {
-      type: String,
+      type: Number,
       required: true,
     },
     date: {

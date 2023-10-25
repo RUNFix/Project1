@@ -9,7 +9,7 @@ const insertveh = async (vehicle: Vehicle, tempFilePaths?: string[]) => {
   if (checkIs) return 'ALREADY_VEHICLE';
 
   const checkIsEmp = await employee.findOne({
-    fullName: vehicle.employee,
+    cc: vehicle.employee,
   });
   if (!checkIsEmp) return 'EMPLOYEE_NOT_FOUND';
 
