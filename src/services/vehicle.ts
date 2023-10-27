@@ -4,35 +4,43 @@ import { uploadImage, deleteImage } from '../config/cloudinary';
 import fs from 'fs-extra';
 import employee from '../models/employee';
 
-const insertveh = async (vehicle: Vehicle, tempFilePaths?: string[]) => {
-  const checkIs = await vehicleModel.findOne({ plate: vehicle.plate });
-  if (checkIs) return 'ALREADY_VEHICLE';
+import { v2 as cloudinary } from 'cloudinary';
+import { Readable } from 'stream';
 
-  const checkIsEmp = await employee.findOne({
-    cc: vehicle.employee,
-  });
-  if (!checkIsEmp) return 'EMPLOYEE_NOT_FOUND';
+const insertveh = async (
+  vehicle: Vehicle,
+  imageBuffers?: Buffer[],
+): Promise<Vehicle | string> => {
+  try {
+    const checkIs = await vehicleModel.findOne({ plate: vehicle.plate });
+    if (checkIs) return 'ALREADY_VEHICLE';
 
-  //TODO: checkIsClient: Check if client does exist
+    const checkIsEmp = await employee.findOne({ cc: vehicle.employee });
+    if (!checkIsEmp) return 'EMPLOYEE_NOT_FOUND';
 
-  if (tempFilePaths) {
-    const results = await Promise.all(tempFilePaths.map(uploadImage));
-    vehicle.images = results.map((result) => result.secure_url);
-    await Promise.all(tempFilePaths.map((filePath) => fs.unlink(filePath)));
+    // TODO: Implement a check for client existence.
+
+    if (imageBuffers) {
+      const results = await Promise.all(imageBuffers.map(uploadImage));
+      vehicle.images = results.map((result) => result.secure_url);
+    }
+
     const responseInsert = await vehicleModel.create(vehicle);
-
     return responseInsert;
+  } catch (error) {
+    console.error('Error in insertveh:', error);
+    throw new Error('INSERT_VEHICLE_FAILED');
   }
 };
 
-const getVechlpemployee = async (id:string) => {
+const getVechlpemployee = async (id: string) => {
   const intIdEmployee = +id;
   if (isNaN(intIdEmployee)) {
-    throw new Error("Invalid ID format");
-}
-  const responseVehicle = await vehicleModel.find({ employee: id});
+    throw new Error('Invalid ID format');
+  }
+  const responseVehicle = await vehicleModel.find({ employee: id });
   return responseVehicle;
-}
+};
 
 const getVechls = async () => {
   const responseVehicle = await vehicleModel.find({});
@@ -95,4 +103,12 @@ const deleteVeh = async (id: string): Promise<Vehicle | null> => {
 function extractPublicIdFromUrl(url: string): string {
   return url.split('/').slice(-1)[0].split('.')[0];
 }
-export { insertveh, getVechls, getVehl, updateVeh, deleteVeh, updatePriceToPay, getVechlpemployee};
+export {
+  insertveh,
+  getVechls,
+  getVehl,
+  updateVeh,
+  deleteVeh,
+  updatePriceToPay,
+  getVechlpemployee,
+};

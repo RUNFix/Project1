@@ -1,6 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import { handleHttp } from '../utils/error.handle';
-import { insertveh, deleteVeh, getVechls, getVehl, updateVeh,getVechlpemployee } from '../services/vehicle';
+import {
+  insertveh,
+  deleteVeh,
+  getVechls,
+  getVehl,
+  updateVeh,
+  getVechlpemployee,
+} from '../services/vehicle';
+import multer from 'multer';
+
 import fileUpload, { UploadedFile } from 'express-fileupload';
 
 const getVehicle = async ({ params }: Request, res: Response) => {
@@ -15,11 +24,11 @@ const getVehicle = async ({ params }: Request, res: Response) => {
 
 const getVehiclePEmployee = async ({ params }: Request, res: Response) => {
   try {
-    const {id} = params;
+    const { id } = params;
     const response = await getVechlpemployee(id);
     res.send(response);
   } catch (e) {
-    console.error((e as Error).message);  // para registrar el error en el servidor
+    console.error((e as Error).message); // para registrar el error en el servidor
     handleHttp(res, 'ERROR_GET_VEHICLE');
   }
 };
@@ -45,11 +54,11 @@ const updateVehicle = async ({ params, body }: Request, res: Response) => {
 
 const postVehicle = async (req: Request, res: Response) => {
   try {
-    let tempFilePaths: string[] = [];
+    let imageBuffers: Buffer[] = [];
 
-    if (req.files?.images) {
-      const uploadedFiles = req.files.images as UploadedFile[]; // Usando type assertion para indicar que es un arreglo de archivos
-      tempFilePaths = uploadedFiles.map((file) => file.tempFilePath);
+    if (req.files) {
+      const uploadedFiles = req.files as Express.Multer.File[];
+      imageBuffers = uploadedFiles.map((file) => file.buffer);
     }
 
     if (typeof req.body.parts === 'string') {
@@ -60,10 +69,9 @@ const postVehicle = async (req: Request, res: Response) => {
       }
     }
 
-    console.log(req.body);
-    console.log(req.files);
+    console.log('Este es el body', req.body);
 
-    const response = await insertveh(req.body, tempFilePaths);
+    const response = await insertveh(req.body, imageBuffers);
     if (typeof response === 'string') {
       return res.status(400).send({ message: response });
     }
@@ -90,4 +98,11 @@ const deleteVehicle = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-export { getVehicle, getVehicles, updateVehicle, postVehicle, deleteVehicle, getVehiclePEmployee };
+export {
+  getVehicle,
+  getVehicles,
+  updateVehicle,
+  postVehicle,
+  deleteVehicle,
+  getVehiclePEmployee,
+};

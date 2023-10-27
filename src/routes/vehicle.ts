@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Request, Response, Router } from 'express';
 import {
   getVehicle,
   getVehicles,
@@ -6,19 +6,21 @@ import {
   postVehicle,
   deleteVehicle,
   getVehiclePEmployee,
-}
- from "../controllers/vehicle";
-import { logMiddleware } from "../middleware/log";
-import fileUpload from "express-fileupload";
+} from '../controllers/vehicle';
+import { logMiddleware } from '../middleware/log';
+import fileUpload from 'express-fileupload';
+import multer from 'multer';
 
 const router = Router();
 
-router.get("/", getVehicles);
-router.get("/:plate", logMiddleware, getVehicle);
-router.get("/employee/:id", getVehiclePEmployee);
-router.post("/",postVehicle);
-router.put("/:plate", updateVehicle);
-router.delete("/:id", deleteVehicle);
+const storage = multer.memoryStorage(); // Store uploaded files in memory
+const upload = multer({ storage: storage });
 
+router.get('/', getVehicles);
+router.get('/:plate', logMiddleware, getVehicle);
+router.get('/employee/:id', getVehiclePEmployee);
+router.post('/', upload.array('images'), postVehicle);
+router.put('/:plate', updateVehicle);
+router.delete('/:id', deleteVehicle);
 
 export { router };
