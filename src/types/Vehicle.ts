@@ -1,5 +1,4 @@
 export interface Vehicle {
-  id: number;
   plate: string;
   name: string;
   cc: number;
@@ -7,15 +6,14 @@ export interface Vehicle {
   brand: string;
   year: number;
   color: string;
-  status: string;
+  status: number;
   priceToPay: number;
-  employee: string;
+  employee: number;
   date: Date;
   images: string[];
 }
 
 export const initialValues: Vehicle = {
-  id: 0,
   name: '',
   plate: '',
   cc: 0,
@@ -23,9 +21,9 @@ export const initialValues: Vehicle = {
   brand: '',
   year: 0,
   color: '',
-  status: '',
+  status: 1,
   priceToPay: 0,
-  employee: '',
+  employee: 0,
   date: new Date(),
   images: [],
 };

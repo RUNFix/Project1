@@ -17,7 +17,9 @@ const ALREADY_PHONE = 'Número de telefono ya registrado en el sitema';
 
 const RegistroEmpleados: React.FC = () => {
   const [userError, setUserError] = useState<string>('');
+
   const location = useLocation();
+
   const empleadoParaEditar = location.state?.filtrado;
 
   const { fullName, cc, age, position, phone, email } =

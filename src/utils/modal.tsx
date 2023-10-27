@@ -44,7 +44,13 @@ export default function InvalidCredentialsModal() {
   );
 }
 
-export function ConfirmModal() {
+export function ConfirmModal({
+  onConfirm,
+  onCancel,
+}: {
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
   const navigate = useNavigate();
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
@@ -73,14 +79,20 @@ export function ConfirmModal() {
               <button
                 className="bg-green-500 text-white font-bold uppercase text-sm px-6 py-3 rounded-xl shadow-lg hover:shadow-xl outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 mr-4"
                 type="button"
-                onClick={handleRedirect}
+                onClick={() => {
+                  onConfirm();
+                  handleRedirect();
+                }}
               >
                 Si
               </button>
               <button
                 className="bg-red-500 text-white font-bold uppercase text-sm px-6 py-3 rounded-xl shadow-lg hover:shadow-xl outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ml-4"
                 type="button"
-                onClick={handleRedirect}
+                onClick={() => {
+                  onCancel();
+                  handleRedirect();
+                }}
               >
                 No
               </button>
@@ -97,16 +109,13 @@ export function LoadingModal() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Configura el temporizador para ocultar el modal después de 3 segundos (3000ms)
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3000);
+    }, 2500);
 
-    // Limpia el temporizador al desmontar el componente
     return () => clearTimeout(timer);
   }, []);
 
-  // Si el modal no es visible, retorna null
   if (!isVisible) return null;
 
   return (
@@ -189,7 +198,7 @@ export function ErrorModal({ text }) {
     // Configura el temporizador para ocultar el modal después de 3 segundos (3000ms)
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3000);
+    }, 4000);
 
     // Limpia el temporizador al desmontar el componente
     return () => clearTimeout(timer);
@@ -200,7 +209,7 @@ export function ErrorModal({ text }) {
 
   return (
     <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none animate-wiggle animate-twice animate-delay-[15ms]">
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none animate-wiggle-more animate-twice animate-delay-[15ms]">
         <div className="relative w-96 my-6 mx-auto">
           <div className="border-0 rounded-xl shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-center justify-center p-5">
@@ -209,9 +218,7 @@ export function ErrorModal({ text }) {
               </span>
             </div>
             <div className="relative p-6 flex-auto">
-              <h3 className="text-center text-2xl font-semibold mb-4">
-                Error intentalo de nuevo
-              </h3>
+              <h3 className="text-center text-2xl font-semibold mb-4">Error</h3>
               <p className="my-4 text-gray-600 text-lg leading-relaxed text-center">
                 {text}
               </p>

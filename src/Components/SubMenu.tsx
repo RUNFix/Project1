@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Card from './Card';
-import { useLocation } from 'react-router-dom';
+import { useUserContext } from 'src/context/Context';
 
 export default function SubMenu() {
   const [adminActive, setAdminActive] = useState(true);
-  const location = useLocation();
-  const rol = location.state?.user || 'DEFAULT';
-  console.log('rol en submenu: ', rol);
+
+  const { position } = useUserContext();
+
+  console.log('rol en submenu: ', position);
 
   useEffect(() => {
-    if (rol === 'EMPLOYEE') {
+    if (position === 'Empleado') {
       setAdminActive(false);
     }
-  }, [rol]);
+  }, [position]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-justify">
@@ -27,7 +28,7 @@ export default function SubMenu() {
           ¿Hacia donde te diriges?
         </h2>
         {adminActive ? (
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
+          <section className="place-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
             <Card
               title={'Creacion de empleado'}
               img="https://img.freepik.com/vector-premium/oficina-negocios-empleado-espacio-trabajo-dibujos-animados_24640-32917.jpg"
@@ -42,7 +43,7 @@ export default function SubMenu() {
             />
           </section>
         ) : (
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
+          <section className="place-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
             <Card
               title={'Tareas pendientes'}
               img="https://img.freepik.com/vector-premium/lista-verificacion-completa-ilustracion-plana-mujer-dibujos-animados_74855-18269.jpg"

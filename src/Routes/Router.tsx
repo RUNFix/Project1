@@ -9,6 +9,7 @@ import SparePartsRegistration from '../components/SparePartsRegistration';
 import PhotoMenu from '../components/vehicle/VehiclesPhotos';
 import Vehicle from '../components/vehicle/Vehicle';
 import PasswordChange from '../pages/PasswordChange';
+import PrivateRoute from './PrivateRoute';
 
 function RoutesApp() {
   return (
@@ -16,20 +17,25 @@ function RoutesApp() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/password-change" element={<PasswordChange />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/register-employee" element={<EmployeeRegistration />} />
-        <Route path="/table-employee" element={<EmployeeTable />} />
-        <Route path="/submenu" element={<SubMenu />} />
-        <Route path="/watson" element={<Watson />} />
-        <Route
-          path="/spare-parts-registration"
-          element={<SparePartsRegistration />}
-        />
-        <Route path="/vehicle-menu" element={<PhotoMenu />} />
-        <Route path="/vehicle" element={<Vehicle />} />
+        <Route path="home" element={<Home />} />
+
+        <Route path="/*" element={<PrivateRoute />}>
+          <Route path="password-change" element={<PasswordChange />} />
+
+          <Route path="register-employee" element={<EmployeeRegistration />} />
+          <Route path="table-employee" element={<EmployeeTable />} />
+          <Route path="submenu" element={<SubMenu />} />
+          <Route path="watson" element={<Watson />} />
+          <Route
+            path="spare-parts-registration"
+            element={<SparePartsRegistration />}
+          />
+          <Route path="vehicle-menu" element={<PhotoMenu />} />
+          <Route path="vehicle" element={<Vehicle />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
 }
+
 export default RoutesApp;

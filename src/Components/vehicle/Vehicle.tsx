@@ -4,16 +4,23 @@ import Footer from '../Footer';
 import axios from 'axios';
 import { Vehicle } from '../../types/Vehicle';
 import VehicleCard from './VehicleCard';
-import { API_VEHICLE } from 'src/api/api';
+import { API_VEHICLE_EMPLOYEE } from 'src/api/api';
+import { useUserContext } from 'src/context/Context';
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [selectedPlate, setSelectedPlate] = useState<string>('');
 
+  const { cc } = useUserContext();
+
+  const ccEmployee = cc;
+
   useEffect(() => {
     async function fetchVehicles() {
       try {
-        const response = await axios.get(API_VEHICLE);
+        const response = await axios.get(
+          `${API_VEHICLE_EMPLOYEE}/${ccEmployee}`,
+        );
         setVehicles(response.data);
       } catch (error) {
         console.error('Error fetching vehicles:', error);
