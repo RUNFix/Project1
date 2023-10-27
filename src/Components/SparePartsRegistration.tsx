@@ -10,6 +10,7 @@ import {
 } from '../utils/ValueChecks';
 import { errorToast, notValidToast, succesToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
+import { API_BILL } from 'src/api/api';
 
 const TablaRepuestos: React.FC = () => {
   const [repuestos, setRepuestos] = useState<Repuesto[]>([]);
@@ -84,7 +85,7 @@ const TablaRepuestos: React.FC = () => {
           total: total,
         };
         // Realiza la solicitud al backend con vehiculoData
-        await axios.post('http://localhost:4000/bill', vehiculoData);
+        await axios.post(API_BILL, vehiculoData);
 
         // Aquí puedes manejar la respuesta del servidor si es necesario
         console.log('Datos del vehículo guardados exitosamente');

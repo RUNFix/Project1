@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { Vehicle, initialValues } from '../types/Vehicle';
-import '../index.css';
+import { Vehicle, initialValues } from 'src/types/Vehicle';
+import { API_EMPLOYEE } from 'src/api/api';
+import axios from 'axios';
+import { Empleado } from 'src/types/Employee';
 
 interface Props {
   onSubmit: (values: Vehicle) => void;
 }
 
 const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
+  const [employees, setEmployees] = useState<Empleado[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(API_EMPLOYEE);
+        setEmployees(response.data);
+      } catch (error: any) {
+        console.error('error', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -31,7 +47,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
           </div>
           <div className="mb-4">
             <label className="block  text-sm font-medium mb-3" htmlFor="cc">
-              CC
+              Documento de identidad
             </label>
             <Field
               className="fieldStyles"
@@ -76,24 +92,22 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
             <Field className="fieldStyles" type="text" name="color" required />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-3" htmlFor="status">
-              Estado del vehiculo
-            </label>
-            <Field className="fieldStyles" type="text" name="status" required />
-          </div>
-          <div className="mb-4">
             <label
               className="block text-sm font-medium mb-3"
               htmlFor="employee"
             >
               Empleado Encargado
             </label>
-            <Field
-              className="fieldStyles"
-              type="text"
-              name="employee"
-              required
-            />
+            <Field className="fieldStyles" as="select" name="employee" required>
+              <option value="" label="Select employee" />
+              {employees.map((employee) => (
+                <option
+                  value={employee.cc}
+                  label={employee.fullName}
+                  key={employee.cc}
+                />
+              ))}
+            </Field>
           </div>
           <button
             type="submit"

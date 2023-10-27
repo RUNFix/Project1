@@ -2,32 +2,42 @@ import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 screen;
-import { Empleado } from '../types/Employee';
-import InvalidCredentialsModal from '../utils/Modal';
+import { Empleado } from '../../types/Employee';
+import InvalidCredentialsModal, { ConfirmModal } from '../../utils/Modal';
+import { API_AUTH_REFRESH, API_EMPLOYEE } from 'src/api/api';
+import {
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+} from 'src/utils/Token';
+import { useUserContext } from 'src/context/Context';
 
-const TablaEmpleados: React.FC = () => {
+const EmployeeTable: React.FC = () => {
   const [selectedEmpleado, setSelectedEmpleado] = useState<string | null>(null);
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
   const [visibleCount, setVisibleCount] = useState(20);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const tableDivRef = useRef<HTMLDivElement>(null);
   const navegar = useNavigate();
-
   const [showInvalidCredentialsModal, setShowInvalidCredentialsModal] =
     useState(false);
+  const { position } = useUserContext();
 
   useEffect(() => {
     async function fetchEmployees() {
-      const accessToken = sessionStorage.getItem('accessToken');
-      console.log(accessToken);
+      const accessToken = getAccessToken();
+
       try {
-        const res = await axios.get('http://localhost:4000/employee/', {
+        const res = await axios.get(API_EMPLOYEE, {
           headers: {
             Authorization: 'Bearer ' + accessToken,
           },
         });
+
         setEmpleados(res.data);
       } catch (error: any) {
         console.error('error', error);
+
         if (
           error.response &&
           error.response.data.message === 'TokenExpiredError'
@@ -35,13 +45,15 @@ const TablaEmpleados: React.FC = () => {
           console.log('Token expirado zzz');
           refreshAndRetry();
         } else {
-          setShowInvalidCredentialsModal(true);
+          if (position !== 'Administrador')
+            setShowInvalidCredentialsModal(true);
         }
       }
     }
 
     async function refreshAndRetry() {
-      const refreshToken = sessionStorage.getItem('refreshToken');
+      const refreshToken = getRefreshToken();
+
       console.log(
         'Token expired. Attempting refresh with token: ' + refreshToken,
       );
@@ -51,20 +63,13 @@ const TablaEmpleados: React.FC = () => {
       }
 
       try {
-        const response = await axios.post(
-          'http://localhost:4000/auth/refresh',
-          {
-            refreshToken: refreshToken,
-          },
-        );
-        console.log(response);
+        const response = await axios.post(API_AUTH_REFRESH, {
+          refreshToken: refreshToken,
+        });
+
         const newAccessToken = response.data.accessToken.token;
 
-        sessionStorage.setItem('accessToken', newAccessToken);
-        console.log(
-          'Stored access token:',
-          sessionStorage.getItem('accessToken'),
-        );
+        setAccessToken(newAccessToken);
 
         fetchEmployees();
       } catch (refreshError: any) {
@@ -77,11 +82,10 @@ const TablaEmpleados: React.FC = () => {
           console.log('Request:', refreshError.request);
         } else {
           console.log('General Error:', refreshError.message);
-          <InvalidCredentialsModal />;
         }
       }
     }
-    const initialAccessToken = sessionStorage.getItem('accessToken');
+    const initialAccessToken = getAccessToken();
     if (initialAccessToken) {
       fetchEmployees();
     }
@@ -138,19 +142,30 @@ const TablaEmpleados: React.FC = () => {
       alert('Por favor, seleccione un empleado para eliminar');
       return;
     }
+    setShowConfirmModal(true);
+  };
 
+  const handleConfirm = async () => {
+    setShowConfirmModal(false);
     try {
-      await axios.delete(`http://localhost:4000/employee/${selectedEmpleado}`);
-      // Actualiza el estado para reflejar que el empleado se ha eliminado
+      await axios.delete(`${API_EMPLOYEE}/${selectedEmpleado}`);
       setEmpleados(empleados.filter((emp) => emp.cc !== selectedEmpleado));
       setSelectedEmpleado(null);
     } catch (error) {
       console.error('Hubo un error al eliminar el empleado:', error);
     }
   };
+
+  const handleCancel = () => {
+    setShowConfirmModal(false);
+  };
+
   return (
     <>
       {showInvalidCredentialsModal && <InvalidCredentialsModal />}
+      {showConfirmModal && (
+        <ConfirmModal onConfirm={handleConfirm} onCancel={handleCancel} />
+      )}
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
         <h2 className="text-2xl md:text-4xl font-bold mb-8 text-slate-800">
           Lista de empleados
@@ -237,4 +252,4 @@ const TablaEmpleados: React.FC = () => {
   );
 };
 
-export default TablaEmpleados;
+export default EmployeeTable;

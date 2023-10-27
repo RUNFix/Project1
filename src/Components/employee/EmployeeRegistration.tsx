@@ -4,8 +4,9 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { errorToast, notValidToast, succesToast } from '../utils/Toast';
-import { isCcValid } from '../utils/ValueChecks';
+import { errorToast, notValidToast, succesToast } from '../../utils/Toast';
+import { isCcValid } from '../../utils/ValueChecks';
+import { API_AUTH_REGISTER, API_EMPLOYEE } from 'src/api/api';
 
 //                TOAST PARAMETERS
 //Warning messages
@@ -16,7 +17,9 @@ const ALREADY_PHONE = 'Número de telefono ya registrado en el sitema';
 
 const RegistroEmpleados: React.FC = () => {
   const [userError, setUserError] = useState<string>('');
+
   const location = useLocation();
+
   const empleadoParaEditar = location.state?.filtrado;
 
   const { fullName, cc, age, position, phone, email } =
@@ -51,8 +54,8 @@ const RegistroEmpleados: React.FC = () => {
       try {
         const method = empleadoParaEditar ? 'put' : 'post';
         const url = empleadoParaEditar
-          ? `http://localhost:4000/employee/${empleadoParaEditar.cc}`
-          : 'http://localhost:4000/auth/register';
+          ? `${API_EMPLOYEE}/${empleadoParaEditar.cc}`
+          : `${API_AUTH_REGISTER}`;
 
         let isValid = true;
         if (!isCcValid(values.cedula)) {

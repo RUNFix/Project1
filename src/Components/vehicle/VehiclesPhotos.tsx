@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import VehicleForm from '../components/VehicleForm';
-import { Vehicle } from '../types/Vehicle';
-import ImageDropzone from '../components/ImageDropzone';
-import { errorToast, notValidToast, succesToast } from '../utils/Toast';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
+import VehicleForm from './VehicleForm';
+import { Vehicle } from '../../types/Vehicle';
+import ImageDropzone from '../ImageDropzone';
+import { errorToast, notValidToast, succesToast } from '../../utils/Toast';
 import { Toaster } from 'react-hot-toast';
-import { isPlateValid } from '../utils/ValueChecks';
+import { isPlateValid } from '../../utils/ValueChecks';
+import { API_VEHICLE } from 'src/api/api';
 
 export default function PhotoMenu() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
@@ -17,7 +18,6 @@ export default function PhotoMenu() {
   };
 
   const handleUpload = async (values: Vehicle) => {
-    //input handling
     let isValid = true;
     if (!isPlateValid(values.plate)) {
       notValidToast('Placa');
@@ -34,8 +34,8 @@ export default function PhotoMenu() {
         formData.append('brand', values.brand.trim());
         formData.append('year', values.year.toString());
         formData.append('color', values.color.trim());
-        formData.append('status', values.status.trim());
-        formData.append('employee', values.employee.trim());
+        formData.append('status', values.status.toString());
+        formData.append('employee', values.employee.toString());
         formData.append('date', values.date.toString());
 
         images.forEach((imageFile, index) => {
@@ -47,20 +47,16 @@ export default function PhotoMenu() {
           }
         });
 
-        const response = await axios.post(
-          'http://localhost:4000/vehicle',
-          formData,
-        );
+        const response = await axios.post(`${API_VEHICLE}`, formData);
 
         console.log('Funciona', response);
         if (response.status === 200) {
           succesToast('Historia de vehiculo creada exitosamente!');
-          //alert('Vehicle added');
+
           setImages([null, null, null]);
-          //resetForm() here we should reset the formulary fields
         }
       } catch (error: any) {
-        switch (error.response.data.message) {
+        switch (error.response?.data?.message) {
           case 'INVALID_PARTS_FORMAT':
             errorToast('Datos de creación invalidos');
             break;
@@ -74,7 +70,6 @@ export default function PhotoMenu() {
             errorToast('Cliente no registrado en el sistema');
             break;
         }
-        //console.log('No funciona', error);
       }
     }
   };

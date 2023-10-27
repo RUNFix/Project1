@@ -4,6 +4,10 @@ import { errorToast, logUserToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
 import { isCcValid } from '../utils/ValueChecks';
 import { useNavigate } from 'react-router-dom';
+import { API_AUTH_LOGIN } from 'src/api/api';
+import { TokenExists, setAccessToken, setRefreshToken } from 'src/utils/Token';
+import { useUserContext } from 'src/context/Context';
+import { LoadingModal } from 'src/utils/Modal';
 
 //CUSTOM TOASTS:
 const NOT_FOUND_USER = 'Usuario no encontrado';
@@ -16,24 +20,21 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [userError, setUserError] = useState<string>('');
   const [pswdError, setPswdError] = useState<string>('');
+  const { setCC, setPosition, setEmployeeName } = useUserContext();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  
   useEffect(() => {
-    // Verify if its already logged in 
-    const accessToken = sessionStorage.getItem('accessToken');
-    console.log(accessToken)
-    if (accessToken != null) {
-      // If there's a non-empty accessToken, navigate to the home page
-      navigate('/home') // Replace '/home' with your actual home page URL
+    if (TokenExists()) {
+      navigate('/home');
     }
-  })
-
+  }, []);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setUserError('');
     setPswdError('');
+
     console.log(`documento: ${documento}, Password: ${password}`);
 
     const isValid = isCcValid(documento);
@@ -41,13 +42,15 @@ const Login: React.FC = () => {
     if (isValid) {
       // Realizar una solicitud POST utilizando Axios
       axios
-        .post('http://localhost:4000/auth/login', {
+        .post(API_AUTH_LOGIN, {
           cc: documento,
           password: password,
         })
         .then((response) => {
           // Manejar la respuesta del servidor
+          setIsLoading(true);
           console.log('Respuesta del servidor:', response.data);
+
           const usuario = response.data.user;
 
           logUserToast(usuario.fullName, usuario.position);
@@ -55,20 +58,25 @@ const Login: React.FC = () => {
           const accessToken = response.data.accessToken;
           const refreshToken = response.data.refreshToken;
 
-          sessionStorage.setItem('refreshToken', refreshToken);
-          sessionStorage.setItem('accessToken', accessToken);
+          setAccessToken(accessToken);
+          setRefreshToken(refreshToken);
 
-          console.log('rol del usuario: ', usuario.position);
-          switch (usuario.position) {
-            case 'Administrador':
-              navigate('/submenu', { state: { user: 'ADMIN' } });
-              break;
-            case 'Empleado':
-              navigate('/submenu', { state: { user: 'EMPLOYEE' } });
-              break;
-            default:
-              navigate('/submenu');
+          const rol = usuario.position;
+          const cc = usuario.cc;
+
+          setPosition(rol);
+          setCC(cc);
+
+          if (rol === 'Empleado') {
+            const name = usuario.fullname;
+            console.log('Nombre del empleado: ', name);
+            setEmployeeName(name);
           }
+
+          setTimeout(() => {
+            setIsLoading(false);
+            navigate('/submenu');
+          }, 3000);
         })
         .catch((error) => {
           console.log(error);
@@ -92,6 +100,8 @@ const Login: React.FC = () => {
 
   return (
     <>
+      {isLoading && <LoadingModal />}
+
       <Toaster />
       <div className="min-h-screen flex flex-col items-center justify-center text-center bg-gray-50 px-4">
         <div className="mb-8 text-center px-4">
@@ -153,5 +163,4 @@ const Login: React.FC = () => {
     </>
   );
 };
-
 export default Login;

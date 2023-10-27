@@ -3,6 +3,7 @@ import axios from 'axios';
 import { errorToast, succesToast } from '../utils/Toast';
 import { Toaster } from 'react-hot-toast';
 import { isCcValid } from '../utils/ValueChecks';
+import { API_AUTH_UPDATE } from 'src/api/api';
 
 const PasswordChange: React.FC = () => {
   const [documento, setDocumento] = useState<string>('');
@@ -27,7 +28,7 @@ const PasswordChange: React.FC = () => {
     }
 
     axios
-      .put(`http://localhost:4000/auth/update/${documento}`, {
+      .put(`${API_AUTH_UPDATE}/${documento}`, {
         password: newPassword,
       })
       .then((response) => {
