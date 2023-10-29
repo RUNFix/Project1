@@ -19,4 +19,5 @@ export interface Vehicle {
   employee: number;
   date: Date;
   images: string[];
+  imagesFixed: string[];
 }

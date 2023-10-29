@@ -51,6 +51,7 @@ const ItemSchema = new Schema<Vehicle>(
       required: true,
     },
     images: [String],
+    imagesFixed: [String],
   },
   {
     timestamps: true,
