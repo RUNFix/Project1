@@ -5,6 +5,7 @@ import {
   getEmpl,
   updateEmpl,
   deleteEmpl,
+  getEmplfilter
 } from '../services/employee';
 
 const getEmployee = async ({ params }: Request, res: Response) => {
@@ -37,6 +38,16 @@ const updateEmployee = async ({ params, body }: Request, res: Response) => {
   }
 };
 
+const getEmployeeFilter = async ({ params }: Request, res: Response) => {
+  try {
+    const { name } = params;
+    const response = await getEmplfilter(name);
+    res.send(response);
+  } catch (e) {
+    handleHttp(res, 'ERROR_GET_EMPLOYEE');
+  }
+};
+
 /*
 const postEmployee=async ({body}:Request, res:Response)=>{
     try{
@@ -60,5 +71,5 @@ const deleteEmployee= async({params}:Request, res:Response, next: NextFunction)=
     }
 }
 
-export{getEmployee, getEmployees, updateEmployee, deleteEmployee};
+export{getEmployee, getEmployees, updateEmployee, deleteEmployee, getEmployeeFilter};
 
