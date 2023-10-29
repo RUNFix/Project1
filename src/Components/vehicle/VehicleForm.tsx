@@ -4,6 +4,7 @@ import { Vehicle, initialValues } from 'src/types/Vehicle';
 import { API_EMPLOYEE } from 'src/api/api';
 import axios from 'axios';
 import { Empleado } from 'src/types/Employee';
+import { useUserContext } from 'src/context/Context';
 
 interface Props {
   onSubmit: (values: Vehicle) => void;
@@ -11,18 +12,29 @@ interface Props {
 
 const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
   const [employees, setEmployees] = useState<Empleado[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(API_EMPLOYEE);
-        setEmployees(response.data);
-      } catch (error: any) {
-        console.error('error', error);
-      }
-    };
+  const [adminActive, setAdminActive] = useState(true);
 
-    fetchData();
-  }, []);
+  const { position } = useUserContext();
+  useEffect(() => {
+    console.log(position);
+    if (position === 'Empleado') {
+      setAdminActive(false);
+    } else {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(API_EMPLOYEE);
+          setEmployees(response.data);
+        } catch (error: any) {
+          console.error('error', error);
+        }
+      };
+  
+      fetchData();
+    }
+    
+
+    
+  }, [position]);
 
   return (
     <Formik
@@ -63,7 +75,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
             <label className="block  text-sm font-medium mb-3" htmlFor="model">
               Modelo
             </label>
-            <Field className="fieldStyles" type="text" name="model" required />
+            <Field className="fieldStyles" type="text" name="model" required/>
           </div>
           <div className="mb-4">
             <label className="block   text-sm font-medium mb-3" htmlFor="brand">
@@ -98,7 +110,8 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
             >
               Empleado Encargado
             </label>
-            <Field className="fieldStyles" as="select" name="employee" required>
+            {adminActive ? (
+              <Field className="fieldStyles" as="select" name="employee" required>
               <option value="" label="Select employee" />
               {employees.map((employee) => (
                 <option
@@ -108,6 +121,10 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
                 />
               ))}
             </Field>
+            ) : (
+              <input type="text" placeholder='papaya' />
+            )}
+            
           </div>
           <button
             type="submit"

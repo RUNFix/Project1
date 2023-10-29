@@ -1,6 +1,8 @@
 /* Api_key */
 const API = import.meta.env.VITE_APP_API_URL;
 
+
+
 /* AUTH LOGIN */
 export const API_AUTH_REGISTER = API + 'auth/register';
 export const API_AUTH_LOGIN = API + 'auth/login';

@@ -38,7 +38,7 @@ const Login: React.FC = () => {
     console.log(`documento: ${documento}, Password: ${password}`);
 
     const isValid = isCcValid(documento);
-
+    console.log('Auth Route',API_AUTH_LOGIN);
     if (isValid) {
       // Realizar una solicitud POST utilizando Axios
       axios
