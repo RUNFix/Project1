@@ -29,4 +29,10 @@ const deleteEmpl = async (cc:string)=> {
     return responseEmployee;
 }
 
-export { getEmpls, getEmpl, updateEmpl, deleteEmpl};
+const getEmplfilter = async (name:string)=> {
+    const regex = new RegExp(name, "i");
+    const responseEmployee = await employeeModel.find({fullName:regex});
+    return responseEmployee;
+}
+
+export { getEmpls, getEmpl, updateEmpl, deleteEmpl, getEmplfilter};
