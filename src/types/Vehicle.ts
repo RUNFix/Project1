@@ -1,6 +1,6 @@
 export interface Vehicle {
   plate: string;
-  name: string;
+  reasonForService: string;
   cc: number;
   model: string;
   brand: string;
@@ -14,7 +14,7 @@ export interface Vehicle {
 }
 
 export const initialValues: Vehicle = {
-  name: '',
+  reasonForService: '',
   plate: '',
   cc: 0,
   model: '',

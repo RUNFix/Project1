@@ -52,10 +52,24 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
             <Field className="fieldStyles" type="text" name="plate" required />
           </div>
           <div className="mb-4">
-            <label className="block  text-sm font-medium  mb-3" htmlFor="name">
-              Nombre
+            <label
+              className="block text-sm font-medium mb-3"
+              htmlFor="reasonForService"
+            >
+              Razón del servicio
             </label>
-            <Field className="fieldStyles" type="text" name="name" required />
+            {adminActive ? (
+              <Field className="fieldStyles" as="select" name="reasonForService" required>
+              <option value="" label="Seleccione una opción" />
+              <option value="Mantenimiento preventivo." label='Mantenimiento preventivo'/>
+              <option value="Reparación correctiva" label='Reparación correctiva'/>
+              <option value="Garantía" label='Garantía'/>
+              <option value="Otro" label='Otro'/>
+            </Field>
+            ) : (
+              <input type="text" placeholder='papaya' />
+            )}
+            
           </div>
           <div className="mb-4">
             <label className="block  text-sm font-medium mb-3" htmlFor="cc">

@@ -28,7 +28,7 @@ export default function PhotoMenu() {
       try {
         const formData = new FormData();
         formData.append('plate', values.plate);
-        formData.append('name', values.name.trim());
+        formData.append('reasonForService', values.reasonForService); // Cambio el campo 'nombre' a 'reasonForService'
         formData.append('cc', values.cc.toString());
         formData.append('model', values.model.trim());
         formData.append('brand', values.brand.trim());
