@@ -26,6 +26,7 @@ function RoutesApp() {
 
           <Route path="register-employee" element={<EmployeeRegistration />} />
           <Route path="table-employee" element={<EmployeeTable />} />
+          <Route path="search-employee" element={<SearchEmployee/>} />
           <Route path="submenu" element={<SubMenu />} />
           <Route path="watson" element={<Watson />} />
           <Route
@@ -34,6 +35,7 @@ function RoutesApp() {
           />
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle" element={<Vehicle />} />
+          <Route path='vehicle-info' element={<VehicleInfo />} />
         </Route>
       </Routes>
     </BrowserRouter>
