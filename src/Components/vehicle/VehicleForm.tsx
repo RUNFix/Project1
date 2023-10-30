@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Vehicle, initialValues } from 'src/types/Vehicle';
-import { API_EMPLOYEE } from 'src/api/api';
+import { API_AUTH_REFRESH, API_EMPLOYEE } from 'src/api/api';
 import axios from 'axios';
 import { Empleado } from 'src/types/Employee';
 import { useUserContext } from 'src/context/Context';
+import { getAccessToken, getRefreshToken, setAccessToken } from 'src/utils/Token';
 
 interface Props {
   onSubmit: (values: Vehicle) => void;
@@ -15,25 +16,81 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
   const [adminActive, setAdminActive] = useState(true);
 
   const { position } = useUserContext();
+  const { employeeName } = useUserContext();
+
   useEffect(() => {
+    /*REFRESH TOKEN*/
+    async function refreshAndRetry() {
+      const refreshToken = getRefreshToken();
+
+      console.log(
+        'Token expired. Attempting refresh with token: ' + refreshToken,
+      );
+      if (!refreshToken) {
+        console.log('Refresh token not found in session storage.');
+        return;
+      }
+
+      try {
+        const response = await axios.post(API_AUTH_REFRESH, {
+          refreshToken: refreshToken,
+        });
+
+        const newAccessToken = response.data.accessToken.token;
+
+        setAccessToken(newAccessToken);
+
+        fetchEmployees();
+      } catch (refreshError: any) {
+        console.log('Error refreshing the access token:', refreshError);
+        if (refreshError.response) {
+          console.log('Data:', refreshError.response.data);
+          console.log('Status:', refreshError.response.status);
+          console.log('Headers:', refreshError.response.headers);
+        } else if (refreshError.request) {
+          console.log('Request:', refreshError.request);
+        } else {
+          console.log('General Error:', refreshError.message);
+        }
+      }
+    }
+    /*FETCH EMPLOYEES */
+    async function fetchEmployees() {
+      const accessToken = getAccessToken();
+
+      try {
+        const res = await axios.get(API_EMPLOYEE, {
+          headers: {
+            Authorization: 'Bearer ' + accessToken,
+          },
+        });
+
+        setEmployees(res.data);
+      } catch (error: any) {
+        console.error('error', error);
+
+        if (
+          error.response &&
+          error.response.data.message === 'TokenExpiredError'
+        ) {
+          console.log('Token expirado zzz');
+          refreshAndRetry();
+        } else {
+          
+      }
+    }
+  }
+    /*code logic */
+
     console.log(position);
     if (position === 'Empleado') {
       setAdminActive(false);
     } else {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(API_EMPLOYEE);
-          setEmployees(response.data);
-        } catch (error: any) {
-          console.error('error', error);
-        }
-      };
-  
-      fetchData();
-    }
-    
-
-    
+      const initialAccessToken = getAccessToken();
+      if (initialAccessToken) {
+        fetchEmployees();
+      }
+    }  
   }, [position]);
 
   return (
@@ -122,7 +179,7 @@ const VehicleForm: React.FC<Props> = ({ onSubmit }) => {
               ))}
             </Field>
             ) : (
-              <input type="text" placeholder='papaya' />
+              <input type="text" placeholder={employeeName} />
             )}
             
           </div>

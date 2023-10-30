@@ -11,9 +11,11 @@ export const API_AUTH_UPDATE = API + 'auth/update';
 
 /* Employee */
 export const API_EMPLOYEE = API + 'employee';
+export const API_SEARCH_EMPLOYEE = API + 'employee/filter'
 
 /* Vehicle */
 export const API_VEHICLE = API + 'vehicle';
 export const API_VEHICLE_EMPLOYEE = API + 'vehicle/employee';
 
 export const API_BILL = API + 'bill';
+
