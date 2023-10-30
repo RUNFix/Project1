@@ -20,8 +20,13 @@ const getBills = async ()=>{
 }
 
 const getBill = async (id:string) =>{
-    const resGet = await BillModel.findOne({_id:id});
-    return resGet;
+    try{
+        const resGet = await BillModel.findOne({_id:id});
+        return resGet;
+    }catch(e){
+        return;
+    }
+    
 }
 
 const getUserBills =async (cc:Number) => {

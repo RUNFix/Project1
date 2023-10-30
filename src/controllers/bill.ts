@@ -93,6 +93,7 @@ const getFullBillController = async ({params}:Request, res: Response) => {
         const {id} = params;
         const resBill:any = await getBill(id);
         //check if resBill is succesful TODO
+        if(!resBill) throw new Error('NOT_VALID_BILL_ID')
         const {plate, cc} = resBill;
 
         const resVeh = await getVehl(plate);
@@ -121,7 +122,7 @@ const getFullBillController = async ({params}:Request, res: Response) => {
             });
         }
     }catch (e) {
-        handleHttp(response,'ERROR_GET_FULL_BILL') 
+        handleHttp(response,'ERROR_GET_FULL_BILL',e) 
     }
     
     
