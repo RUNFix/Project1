@@ -7,12 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import { API_AUTH_LOGIN } from 'src/api/api';
 import { TokenExists, setAccessToken, setRefreshToken } from 'src/utils/Token';
 import { useUserContext } from 'src/context/Context';
-import { LoadingModal } from 'src/utils/modal';
+import { LoadingModal } from 'src/utils/Modal';
 
 //CUSTOM TOASTS:
 const NOT_FOUND_USER = 'Usuario no encontrado';
 const PASSWORD_INCORRECT = 'Contraseña incorrecta';
-
 
 //Loggin Toast
 const Login: React.FC = () => {
@@ -38,7 +37,7 @@ const Login: React.FC = () => {
     //console.log(`documento: ${documento}, Password: ${password}`);
 
     const isValid = isCcValid(documento);
-    console.log('Auth Route',API_AUTH_LOGIN);
+    console.log('Auth Route', API_AUTH_LOGIN);
     if (isValid) {
       // Realizar una solicitud POST utilizando Axios
       axios
