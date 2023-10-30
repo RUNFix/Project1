@@ -5,6 +5,8 @@ import {
   updateEmployee,
   deleteEmployee,
   getEmployeeFilter,
+  getEmployeesFilterName,
+  getEmployeesFilterPosition,
 } from '../controllers/employee';
 import { logMiddleware } from '../middleware/log';
 import {
@@ -25,6 +27,8 @@ router.get('/', authMiddleware, adminAuthorize, getEmployees);
 
 router.get('/:id', authMiddleware, getEmployee);
 router.get('/filter/:name', authMiddleware,getEmployeeFilter);
+router.get('/filters/name', authMiddleware, getEmployeesFilterName);
+router.get('/filters/position', getEmployeesFilterPosition);
 //router.get('/:id', getEmployee);
 
 //router.post('/', authMiddleware,postEmployee);
