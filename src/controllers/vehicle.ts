@@ -7,11 +7,11 @@ import {
   getVehl,
   updateVeh,
   getVechlpemployee,
-  
 } from '../services/vehicle';
 import multer from 'multer';
 
 import fileUpload, { UploadedFile } from 'express-fileupload';
+import { uploadImage } from '../config/cloudinary';
 
 const getVehicle = async ({ params }: Request, res: Response) => {
   try {
@@ -43,10 +43,40 @@ const getVehicles = async (req: Request, res: Response) => {
   }
 };
 
-const updateVehicle = async ({ params, body }: Request, res: Response) => {
+const updateVehicle = async (req: Request, res: Response) => {
   try {
-    const { plate } = params;
-    const response = await updateVeh(plate, body);
+    const { plate } = req.params;
+    let updateData = { ...req.body };
+
+    console.log('DATOS', updateData.images);
+    console.log('Fixed', updateData.imagesFixed);
+
+    if (req.files) {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+      // Upload 'imagesFixed' if they exist
+      if (files.imagesFixed) {
+        const imagesFixedFiles = files.imagesFixed;
+        const imageBuffers = imagesFixedFiles.map((file) => file.buffer);
+        const uploadResults = await Promise.all(
+          imageBuffers.map((buffer) => uploadImage(buffer, 'imagesFixed')),
+        );
+        updateData.imagesFixed = uploadResults.map((result) => result.secure_url);
+      }
+      // Upload 'images' if they exist
+      if (files.images) {
+        // Process 'images' as needed
+        const images = files.images;
+        const imageBuffers = images.map((file) => file.buffer);
+        const uploadResults = await Promise.all(
+          imageBuffers.map((buffer) => uploadImage(buffer, 'images')),
+        );
+        // Assume you have a field in your model to store these URLs
+        updateData.images = uploadResults.map((result) => result.secure_url);
+      }
+    }
+
+    const response = await updateVeh(plate, updateData);
     res.send(response);
   } catch (e) {
     handleHttp(res, 'ERROR_UPDATE_VEHICLE');

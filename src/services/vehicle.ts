@@ -1,11 +1,7 @@
 import { Vehicle } from '../interfaces/vehicle';
 import vehicleModel from '../models/vehicle';
 import { uploadImage, deleteImage } from '../config/cloudinary';
-import fs from 'fs-extra';
 import employee from '../models/employee';
-
-import { v2 as cloudinary } from 'cloudinary';
-import { Readable } from 'stream';
 
 const insertveh = async (
   vehicle: Vehicle,
@@ -18,10 +14,10 @@ const insertveh = async (
     const checkIsEmp = await employee.findOne({ cc: vehicle.employee });
     if (!checkIsEmp) return 'EMPLOYEE_NOT_FOUND';
 
-    // TODO: Implement a check for client existence.
-
     if (imageBuffers) {
-      const results = await Promise.all(imageBuffers.map(uploadImage));
+      const results = await Promise.all(
+        imageBuffers.map((buffer) => uploadImage(buffer, 'images')),
+      );
       vehicle.images = results.map((result) => result.secure_url);
     }
 

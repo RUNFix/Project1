@@ -20,7 +20,13 @@ router.get('/', getVehicles);
 router.get('/:plate', logMiddleware, getVehicle);
 router.get('/employee/:id', getVehiclePEmployee);
 router.post('/', upload.array('images'), postVehicle);
-router.put('/:plate', updateVehicle);
+
+router.put(
+  '/:plate',
+  upload.fields([{ name: 'images' }, { name: 'imagesFixed' }]),
+  updateVehicle,
+);
+
 router.delete('/:id', deleteVehicle);
 
 export { router };

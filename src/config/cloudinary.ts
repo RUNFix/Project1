@@ -1,5 +1,6 @@
 var cloudinary = require('cloudinary').v2;
 import { Readable } from 'stream';
+import { updateBill } from '../services/bill';
 
 cloudinary.config({
   cloud_name: <string>process.env.CLOUDINARY_CLOUD_NAME,
@@ -8,9 +9,8 @@ cloudinary.config({
   secure: true,
 });
 
-export const uploadImage = async (input: string | Buffer) => {
-  let uploadConfig: any = { folder: 'RUNFIXvehicles' };
-
+export const uploadImage = async (input: string | Buffer, folder: string) => {
+  let uploadConfig: any = { folder: `RUNFIXvehicles/${folder}` };
   if (input instanceof Buffer) {
     const dataURL = `data:image/png;base64,${input.toString('base64')}`;
     uploadConfig.resource_type = 'image';
