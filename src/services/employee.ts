@@ -35,4 +35,15 @@ const getEmplfilter = async (name:string)=> {
     return responseEmployee;
 }
 
-export { getEmpls, getEmpl, updateEmpl, deleteEmpl, getEmplfilter};
+const getEmplfilterName = async ()=> {
+    const responseEmployee = await employeeModel.find({}).sort({ fullName: 1 });
+    return responseEmployee;
+
+}
+
+const getEmployeesByPosition = async () => {
+    const employees = await employeeModel.find({}).sort({ position: 1 });
+    return employees;
+};
+
+export { getEmpls, getEmpl, updateEmpl, deleteEmpl, getEmplfilter, getEmplfilterName, getEmployeesByPosition};

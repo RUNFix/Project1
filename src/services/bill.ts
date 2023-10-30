@@ -1,14 +1,15 @@
 import { response } from "express";
 import BillModel from "../models/bill";
 import vehicleModel from "../models/vehicle";
+import ClientModel from "../models/client";
 import { Bill } from "../interfaces/bill";
 
 
 const insertBill = async (item:Bill)=>{
     const responseVehicle = await vehicleModel.findOne({plate: item.plate});
     if (!responseVehicle) return "VEHICLE_DOES_NOT_EXIST";
-    // TODO: check if client exist "USER_DOES_NOT_EXIST"
-
+    const responseClient = await ClientModel.findOne({plate: item.cc});
+    if (!responseClient) return "CLIENT_DOES_NOT_EXIST";
     const responseInsert = await BillModel.create(item);
     return responseInsert;
 }
@@ -17,6 +18,16 @@ const insertBill = async (item:Bill)=>{
 const getBills = async ()=>{
     const responseGet = await BillModel.find({});
     return responseGet;
+}
+
+const getBill = async (id:string) =>{
+    try{
+        const resGet = await BillModel.findOne({_id:id});
+        return resGet;
+    }catch(e){
+        return;
+    }
+    
 }
 
 const getUserBills =async (cc:Number) => {
@@ -38,4 +49,4 @@ const deleteBill = async (id:string) => {
     const responseDelete = await BillModel.findOneAndDelete({_id:id});
     return responseDelete;
 }
-export {insertBill, getUserBills, getCarBills,getBills, updateBill, deleteBill}
+export {insertBill, getUserBills, getBill, getCarBills,getBills, updateBill, deleteBill}

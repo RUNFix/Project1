@@ -1,7 +1,9 @@
 import { Request, Response, response } from "express"
 import { handleHttp } from "../utils/error.handle"
-import { insertBill, getUserBills , getCarBills, getBills, updateBill, deleteBill} from "../services/bill"
-import { updatePriceToPay} from "../services/vehicle"
+import { insertBill, getUserBills ,getBill, getCarBills, getBills, updateBill, deleteBill} from "../services/bill"
+import { updatePriceToPay, getVehl} from "../services/vehicle"
+import { getClient } from "../services/client"
+import { Bill } from "../interfaces/bill"
 //If param is a cc, then search by user, if it is a plate, search by car
 const getBillsByParam = async ({params}:Request, res: Response) => {
     try{
@@ -46,11 +48,10 @@ const updateBillController = async ({params, body}:Request, res: Response)=> {
 }
 
 const postBill = async ({body}:Request, res: Response)=> {
-    // TODO: check if client AND vehicle exist
     try{
     
         const responseBill = await insertBill(body);
-        if (responseBill === "VEHICLE_DOES_NOT_EXIST") {
+        if (responseBill === "VEHICLE_DOES_NOT_EXIST" || responseBill === "CLIENT_DOES_NOT_EXIST") {
             return res.status(400).send({ message: responseBill});
         }
         //logic for updating the vehicle table
@@ -82,5 +83,49 @@ const deleteBillController = async ({params}:Request, res: Response)=> {
     }
 }
 
+/**
+ * 
+ * @param req needs a bill _id for consult 
+ */
+const getFullBillController = async ({params}:Request, res: Response) => {
+    try{
+        const {id} = params;
+        const resBill:any = await getBill(id);
+        if(!resBill) throw new Error('NOT_VALID_BILL_ID')
+        const {plate, cc} = resBill;
 
-export { updateBill, postBill, deleteBill, getBillsController,getBillsByParam, updateBillController,deleteBillController};
+        const resVeh = await getVehl(plate);
+
+        const resClient = await getClient(cc);
+        //if all data gathered
+        if(resBill && resVeh && resClient){
+            res.send({
+                //bill data
+                state: resBill.state,
+                plate: resBill.plate,
+                cc: resBill.cc,
+                items: resBill.items,
+                //client data
+                name: resClient.name,
+                surname: resClient.surname,
+                email: resClient.email,
+                phoneNumer: resClient.phoneNumber,
+                //veh data
+                model: resVeh.model,
+                brand: resVeh.brand,
+                year: resVeh.year,
+                color: resVeh.color,
+                status: resVeh.status,
+                priceToPay: resVeh.priceToPay
+            });
+        }else{
+            throw new Error('NOT_VALID_BILL')
+        }
+    }catch (e) {
+        handleHttp(response,'ERROR_GET_FULL_BILL',e) 
+    }
+    
+    
+}
+
+export { updateBill, postBill, deleteBill, getFullBillController, getBillsController,getBillsByParam, updateBillController,deleteBillController};
