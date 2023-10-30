@@ -48,11 +48,10 @@ const updateBillController = async ({params, body}:Request, res: Response)=> {
 }
 
 const postBill = async ({body}:Request, res: Response)=> {
-    // TODO: check if client AND vehicle exist
     try{
     
         const responseBill = await insertBill(body);
-        if (responseBill === "VEHICLE_DOES_NOT_EXIST") {
+        if (responseBill === "VEHICLE_DOES_NOT_EXIST" || responseBill === "CLIENT_DOES_NOT_EXIST") {
             return res.status(400).send({ message: responseBill});
         }
         //logic for updating the vehicle table
@@ -92,7 +91,6 @@ const getFullBillController = async ({params}:Request, res: Response) => {
     try{
         const {id} = params;
         const resBill:any = await getBill(id);
-        //check if resBill is succesful TODO
         if(!resBill) throw new Error('NOT_VALID_BILL_ID')
         const {plate, cc} = resBill;
 
@@ -120,6 +118,8 @@ const getFullBillController = async ({params}:Request, res: Response) => {
                 status: resVeh.status,
                 priceToPay: resVeh.priceToPay
             });
+        }else{
+            throw new Error('NOT_VALID_BILL')
         }
     }catch (e) {
         handleHttp(response,'ERROR_GET_FULL_BILL',e) 

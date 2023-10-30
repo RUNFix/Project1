@@ -1,14 +1,15 @@
 import { response } from "express";
 import BillModel from "../models/bill";
 import vehicleModel from "../models/vehicle";
+import ClientModel from "../models/client";
 import { Bill } from "../interfaces/bill";
 
 
 const insertBill = async (item:Bill)=>{
     const responseVehicle = await vehicleModel.findOne({plate: item.plate});
     if (!responseVehicle) return "VEHICLE_DOES_NOT_EXIST";
-    // TODO: check if client exist "USER_DOES_NOT_EXIST"
-
+    const responseClient = await ClientModel.findOne({plate: item.cc});
+    if (!responseClient) return "CLIENT_DOES_NOT_EXIST";
     const responseInsert = await BillModel.create(item);
     return responseInsert;
 }
