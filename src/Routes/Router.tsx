@@ -10,6 +10,7 @@ import PhotoMenu from '../components/vehicle/VehiclesPhotos';
 import Vehicle from '../components/vehicle/Vehicle';
 import PasswordChange from '../pages/PasswordChange';
 import PrivateRoute from './PrivateRoute';
+import VehicleInfo from 'src/pages/VehicleInfo';
 
 function RoutesApp() {
   return (
@@ -32,6 +33,7 @@ function RoutesApp() {
           />
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle" element={<Vehicle />} />
+          <Route path='vehicle-info' element={<VehicleInfo />} />
         </Route>
       </Routes>
     </BrowserRouter>
