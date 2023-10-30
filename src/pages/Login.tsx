@@ -13,6 +13,7 @@ import { LoadingModal } from 'src/utils/modal';
 const NOT_FOUND_USER = 'Usuario no encontrado';
 const PASSWORD_INCORRECT = 'Contraseña incorrecta';
 
+
 //Loggin Toast
 const Login: React.FC = () => {
   const [documento, setDocumento] = useState<string>('');
@@ -37,7 +38,7 @@ const Login: React.FC = () => {
     //console.log(`documento: ${documento}, Password: ${password}`);
 
     const isValid = isCcValid(documento);
-
+    console.log('Auth Route',API_AUTH_LOGIN);
     if (isValid) {
       // Realizar una solicitud POST utilizando Axios
       axios

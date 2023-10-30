@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SuccessModal } from 'src/utils/Modal';
 import { TokenExists, removeTokens } from 'src/utils/Token';
+import logo from '../assets/RUNFIX.png'
+
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -29,12 +31,10 @@ const Navbar: React.FC = () => {
       <nav className="bg-slate-800  w-full  top-0 left-0  border-gray-200 z-20 sticky">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="#" className="flex items-center">
-            <span className="self-center text-2xl font-semibold whitespace-nowra text-gray-50">
-              RUNFIX
-            </span>
+
             <img
-              src="https://img.icons8.com/emoji/48/racing-car.png"
-              className="h-8 ml-4"
+              src={logo}
+              className="h-10 ml-6"
               alt="Runfix logo"
             />
           </a>
@@ -44,6 +44,7 @@ const Navbar: React.FC = () => {
                 type="button"
                 className="buttonBlueNavbarStyle"
                 onClick={logOut}
+                color='#ffbd59'
               >
                 Log out
               </button>
@@ -52,6 +53,7 @@ const Navbar: React.FC = () => {
                 type="button"
                 className="buttonBlueNavbarStyle"
                 onClick={navegarLogin}
+                color='#ffbd59'
               >
                 Log in
               </button>
