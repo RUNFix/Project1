@@ -12,6 +12,7 @@ import PasswordChange from '../pages/PasswordChange';
 import PrivateRoute from './PrivateRoute';
 import VehicleInfo from 'src/pages/VehicleInfo';
 
+import SearchEmployee from 'src/Components/SearchEmployee';
 function RoutesApp() {
   return (
     <BrowserRouter>
@@ -25,6 +26,7 @@ function RoutesApp() {
 
           <Route path="register-employee" element={<EmployeeRegistration />} />
           <Route path="table-employee" element={<EmployeeTable />} />
+          <Route path="search-employee" element={<SearchEmployee/>} />
           <Route path="submenu" element={<SubMenu />} />
           <Route path="watson" element={<Watson />} />
           <Route
