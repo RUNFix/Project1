@@ -3,7 +3,7 @@ import Navbar from '../Navbar';
 import Footer from '../Footer';
 import axios from 'axios';
 import { Vehicle } from '../../types/Vehicle';
-import VehicleCard from './VehicleCard';
+import VehicleRepair from './VehicleRepair';
 import { API_VEHICLE_EMPLOYEE } from 'src/api/api';
 import { useUserContext } from 'src/context/Context';
 
@@ -35,13 +35,13 @@ export default function Vehicles() {
       <Navbar />
       <main className="flex-grow mb-16">
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center m-4 sm:m-8 md:m-16">
-          Reparacion de vehiculo
+          {selectedPlate ? 'Reparacion de vehiculo' : 'Vehiculos asignados '}
         </h1>
 
         <div className="flex-grow">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 m-4 md:m-8 lg:m-16">
             {selectedPlate ? (
-              <VehicleCard plate={selectedPlate} />
+              <VehicleRepair plate={selectedPlate} />
             ) : (
               vehicles.map((vehicle) => (
                 <button

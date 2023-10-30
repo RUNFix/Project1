@@ -4,15 +4,21 @@ import { Vehicle } from '../../types/Vehicle';
 import ProgressBar from '../ProgressBar';
 import ImageDropzone from '../ImageDropzone';
 import { API_VEHICLE } from 'src/api/api';
+import { useUserContext } from 'src/context/Context';
 
 type Props = {
   plate: string;
 };
 
-const VehicleCard: React.FC<Props> = ({ plate }) => {
+const vehicleRepair: React.FC<Props> = ({ plate }) => {
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
+
+  const { status } = useUserContext();
+
+  console.log('Estado actual:', status);
+  console.log('Placa del vehículo:', plate);
 
   const handleImageDrop = (index: number) => (file: File) => {
     setImages(images.map((img, i) => (i === index ? file : img)));
@@ -31,6 +37,31 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
 
     fetchVehicleDetails();
   }, [plate]);
+
+  useEffect(() => {
+    // Verifica si el paso es 4 para actualizar los detalles del vehículo
+    if (status === 4) {
+      updateVehicleDetails();
+    }
+  }, [status]);
+
+  async function updateVehicleDetails() {
+    const formData = new FormData();
+
+    images.forEach((image) => {
+      if (image) formData.append(`imagesFixed`, image);
+    });
+
+    try {
+      const response = await axios.put(`${API_VEHICLE}/${plate}`, formData);
+
+      console.log('SE actualiza el estado del vehículo con la respuesta');
+      setVehicle(response.data);
+    } catch (err) {
+      setError('Error updating vehicle images.');
+      console.error('Error updating vehicle images:', err);
+    }
+  }
 
   if (error) {
     return <p>{error}</p>;
@@ -53,7 +84,7 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
         </div>
       ))}
 
-      <div className=" justify-center items-center col-span-3 my-16">
+      <div className=" justify-center items-center col-span-3">
         <ProgressBar />
       </div>
 
@@ -77,4 +108,4 @@ const VehicleCard: React.FC<Props> = ({ plate }) => {
     </>
   );
 };
-export default VehicleCard;
+export default vehicleRepair;

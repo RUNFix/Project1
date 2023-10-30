@@ -3,6 +3,8 @@ import { FaCarCrash } from 'react-icons/fa';
 
 import { ImHammer } from 'react-icons/im';
 import { HiOutlineCheck } from 'react-icons/hi';
+import { SuccessModal } from 'src/utils/Modal';
+import { useUserContext } from 'src/context/Context';
 
 type StepProps = {
   completed: boolean;
@@ -41,9 +43,18 @@ const TOTAL_STEPS = 4; // 4 pasos en total
 
 const ProgressBar: React.FC = () => {
   const [step, setStep] = useState(1);
+  const { setStatus } = useUserContext();
 
-  const handleNextStep = () =>
-    setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+  setStatus(step);
+
+  const handleNextStep = () => {
+    if (step === TOTAL_STEPS - 1) {
+      setStep(TOTAL_STEPS);
+      // Aquí puedes agregar cualquier otra acción que quieras hacer al confirmar.
+    } else {
+      setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+    }
+  };
 
   const handlePrevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
@@ -60,52 +71,56 @@ const ProgressBar: React.FC = () => {
 
   return (
     <>
+      <div className="flex items-center justify-center m-auto space-x-4">
+        {[...Array(TOTAL_STEPS - 1).keys()].map((_, index) => (
+          <Step
+            key={index}
+            completed={step > index}
+            isLastStep={index === TOTAL_STEPS - 2}
+            title={stepTitles[index]}
+          >
+            {stepIcons[index]}
+          </Step>
+        ))}
+      </div>
       {step < TOTAL_STEPS ? (
-        <>
-          <div className="flex items-center justify-center m-auto space-x-4">
-            {[...Array(TOTAL_STEPS - 1).keys()].map((_, index) => (
-              <Step
-                key={index}
-                completed={step > index}
-                isLastStep={index === TOTAL_STEPS - 2}
-                title={stepTitles[index]}
-              >
-                {stepIcons[index]}
-              </Step>
-            ))}
-          </div>
-          <div className="mt-16 flex justify-center  items-center space-x-2">
-            <button
-              onClick={handlePrevStep}
-              disabled={step === 1}
-              className={`py-2 px-4 w-32 border border-transparent shadow-sm text-sm font-medium rounded-md text-white 
-                  ${
-                    step === 1
-                      ? 'bg-gray-300 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
-                  }`}
-            >
-              Previous
-            </button>
+        <div className="mt-16 flex justify-center  items-center space-x-2">
+          <button
+            onClick={handlePrevStep}
+            disabled={step === 1}
+            className={`py-2 px-4 w-32 border border-transparent shadow-sm text-sm font-medium rounded-md text-white 
+                ${
+                  step === 1
+                    ? 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                }`}
+          >
+            Previous
+          </button>
 
+          {step === TOTAL_STEPS - 1 ? (
             <button
               onClick={handleNextStep}
-              disabled={step === TOTAL_STEPS}
+              className="py-2 px-4 w-32 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Confirmar Reparaciones
+            </button>
+          ) : (
+            <button
+              onClick={handleNextStep}
               className={`py-2 px-4 w-32 border border-transparent shadow-sm text-sm font-medium rounded-md text-white 
                   ${
-                    step === TOTAL_STEPS
+                    step === TOTAL_STEPS - 1
                       ? 'bg-gray-300 cursor-not-allowed'
                       : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                   }`}
             >
               Next
             </button>
-          </div>
-        </>
+          )}
+        </div>
       ) : (
-        <h2 className="text-2xl text-gray-700  font-bold transition-opacity duration-700 opacity-100 text-center 🚘">
-          Reparaciones finalizadas con exito 🛻
-        </h2>
+        <SuccessModal text={'Reparacion hecha con exito'} />
       )}
     </>
   );

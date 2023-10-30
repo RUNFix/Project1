@@ -177,11 +177,11 @@ export function SuccessModal({ text }) {
             </div>
             <div className="relative p-6 flex-auto">
               <h3 className="text-center text-2xl font-semibold mb-4">
-                Operacion exitosa
-              </h3>
-              <p className="my-4 text-gray-600 text-lg leading-relaxed text-center">
                 {text}
-              </p>
+              </h3>
+              {/*   <p className="my-4 text-gray-600 text-lg leading-relaxed text-center">
+                {text}
+              </p> */}
             </div>
           </div>
         </div>

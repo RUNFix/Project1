@@ -1,6 +1,10 @@
-// UserContext.tsx
-
-import { createContext, useContext, ReactNode, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from 'react';
 
 interface UserContextType {
   cc?: string;
@@ -9,18 +13,52 @@ interface UserContextType {
   setPosition: (position: string) => void;
   employeeName?: string;
   setEmployeeName: (employee: string) => void;
+  status?: number;
+  setStatus: (status: number) => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
   undefined,
 );
 
+const USER_STORAGE_KEY = import.meta.env.REACT_APP_USER_STORAGE_KEY;
+
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [cc, setCC] = useState<string | undefined>();
-  const [position, setPosition] = useState<string | undefined>();
-  const [employeeName, setEmployeeName] = useState<string | undefined>();
+  const [cc, setCC] = useState<string | undefined>(
+    () => sessionStorage.getItem(`${USER_STORAGE_KEY}_cc`) || undefined,
+  );
+  const [position, setPosition] = useState<string | undefined>(
+    () => sessionStorage.getItem(`${USER_STORAGE_KEY}_position`) || undefined,
+  );
+  const [employeeName, setEmployeeName] = useState<string | undefined>(
+    () =>
+      sessionStorage.getItem(`${USER_STORAGE_KEY}_employeeName`) || undefined,
+  );
+  const [status, setStatus] = useState<number | undefined>(() => {
+    const storedstatus = sessionStorage.getItem(`${USER_STORAGE_KEY}_status`);
+    return storedstatus ? parseInt(storedstatus, 10) : undefined;
+  });
+
+  useEffect(() => {
+    if (cc !== undefined) sessionStorage.setItem(`${USER_STORAGE_KEY}_cc`, cc);
+  }, [cc]);
+
+  useEffect(() => {
+    if (position !== undefined)
+      sessionStorage.setItem(`${USER_STORAGE_KEY}_position`, position);
+  }, [position]);
+
+  useEffect(() => {
+    if (employeeName !== undefined)
+      sessionStorage.setItem(`${USER_STORAGE_KEY}_employeeName`, employeeName);
+  }, [employeeName]);
+
+  useEffect(() => {
+    if (status !== undefined)
+      sessionStorage.setItem(`${USER_STORAGE_KEY}_status`, status.toString());
+  }, [status]);
 
   return (
     <UserContext.Provider
@@ -31,6 +69,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setPosition,
         employeeName,
         setEmployeeName,
+        status,
+        setStatus,
       }}
     >
       {children}

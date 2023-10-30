@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { API_AUTH_LOGIN } from 'src/api/api';
 import { TokenExists, setAccessToken, setRefreshToken } from 'src/utils/Token';
 import { useUserContext } from 'src/context/Context';
-import { LoadingModal } from 'src/utils/Modal';
+import { LoadingModal } from 'src/utils/modal';
 
 //CUSTOM TOASTS:
 const NOT_FOUND_USER = 'Usuario no encontrado';
@@ -34,7 +34,7 @@ const Login: React.FC = () => {
     setUserError('');
     setPswdError('');
 
-    console.log(`documento: ${documento}, Password: ${password}`);
+    //console.log(`documento: ${documento}, Password: ${password}`);
 
     const isValid = isCcValid(documento);
 
