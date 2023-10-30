@@ -19,6 +19,11 @@ const getBills = async ()=>{
     return responseGet;
 }
 
+const getBill = async (id:string) =>{
+    const resGet = await BillModel.findOne({_id:id});
+    return resGet;
+}
+
 const getUserBills =async (cc:Number) => {
     const responseGet = await BillModel.find({cc:cc});
     return responseGet;
@@ -38,4 +43,4 @@ const deleteBill = async (id:string) => {
     const responseDelete = await BillModel.findOneAndDelete({_id:id});
     return responseDelete;
 }
-export {insertBill, getUserBills, getCarBills,getBills, updateBill, deleteBill}
+export {insertBill, getUserBills, getBill, getCarBills,getBills, updateBill, deleteBill}
