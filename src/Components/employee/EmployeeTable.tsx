@@ -12,6 +12,8 @@ import {
 } from 'src/utils/Token';
 import { useUserContext } from 'src/context/Context';
 
+import  SearchEmployee  from '../SearchEmployee';
+
 const EmployeeTable: React.FC = () => {
   const [selectedEmpleado, setSelectedEmpleado] = useState<string | null>(null);
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
@@ -166,10 +168,12 @@ const EmployeeTable: React.FC = () => {
       {showConfirmModal && (
         <ConfirmModal onConfirm={handleConfirm} onCancel={handleCancel} />
       )}
+      
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
         <h2 className="text-2xl md:text-4xl font-bold mb-8 text-slate-800">
           Lista de empleados
         </h2>
+        <SearchEmployee/>
         <div className=" bg-slate-800 px-4 lg:p-8 rounded-3xl shadow-2xl mb-6">
           <div
             ref={tableDivRef}
