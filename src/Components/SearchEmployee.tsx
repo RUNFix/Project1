@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_SEARCH_EMPLOYEE } from 'src/api/api';
 
-const SearchEmployee: React.FC  = () => {
+interface SearchEmployeeProps {
+  onEmployeeFilter: (datos: any) => void;
+}
+
+
+const SearchEmployee:  React.FC<SearchEmployeeProps>  = ({onEmployeeFilter}) => {
 const [searchTerm, setSearchTerm] = useState('');
 const [results, setResults] = useState([]);
   useEffect(() => {
@@ -21,6 +26,7 @@ const [results, setResults] = useState([]);
         const resultsApi = response.data;
         console.log(resultsApi);
         setResults(resultsApi);
+        onEmployeeFilter(resultsApi);
     }
     );
     
@@ -37,13 +43,7 @@ const [results, setResults] = useState([]);
         onChange={handleSearch}
         className="w-full px-4 py-2 rounded-md border focus:outline-none focus:ring focus:border-blue-500"
       />
-      <ul className="mt-2">
-        {results.map((employee, index) => (
-          <li key={index} className="p-2 hover:bg-gray-200 cursor-pointer">
-            <span className="font-semibold">Nombre:</span> {employee.fullName}  <span className="font-semibold">Cedula:</span> {employee.cc} <span className="font-semibold">Cargo:</span> {employee.position}
-          </li>
-        ))}
-      </ul>
+      
     </div>
    </>
   );

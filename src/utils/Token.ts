@@ -25,3 +25,4 @@ export function removeTokens() {
   sessionStorage.removeItem('accessToken');
   sessionStorage.removeItem('refreshToken');
 }
+

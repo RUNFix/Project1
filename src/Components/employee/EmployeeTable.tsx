@@ -24,6 +24,12 @@ const EmployeeTable: React.FC = () => {
   const [showInvalidCredentialsModal, setShowInvalidCredentialsModal] =
     useState(false);
   const { position } = useUserContext();
+  const [EmployeeFilter, setEmployeeFilter] = useState<any>(null);
+
+  const handleEmployeeFilter = (datos: any) => {
+    setEmpleados(datos);
+    console.log("pasando props")
+  };
 
   useEffect(() => {
     async function fetchEmployees() {
@@ -173,7 +179,7 @@ const EmployeeTable: React.FC = () => {
         <h2 className="text-2xl md:text-4xl font-bold mb-8 text-slate-800">
           Lista de empleados
         </h2>
-        <SearchEmployee/>
+        <SearchEmployee onEmployeeFilter={handleEmployeeFilter}/>
         <div className=" bg-slate-800 px-4 lg:p-8 rounded-3xl shadow-2xl mb-6">
           <div
             ref={tableDivRef}
