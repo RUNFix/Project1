@@ -1,51 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { debounce } from 'lodash';
 import { API_SEARCH_EMPLOYEE } from 'src/api/api';
 
 interface SearchEmployeeProps {
   onEmployeeFilter: (datos: any) => void;
 }
 
+const SearchEmployee: React.FC<SearchEmployeeProps> = ({
+  onEmployeeFilter,
+}) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [resultsCache, setResultsCache] = useState<{ [query: string]: any }>(
+    {},
+  );
 
-const SearchEmployee:  React.FC<SearchEmployeeProps>  = ({onEmployeeFilter}) => {
-const [searchTerm, setSearchTerm] = useState('');
-const [results, setResults] = useState([]);
+  const debouncedSearch = useCallback(
+    debounce(async (query) => {
+      if (resultsCache[query]) {
+        onEmployeeFilter(resultsCache[query]);
+      } else {
+        try {
+          const response = await axios.get(`${API_SEARCH_EMPLOYEE}/${query}`);
+          const resultsApi = response.data;
+          setResultsCache((prevCache) => ({
+            ...prevCache,
+            [query]: resultsApi,
+          }));
+          onEmployeeFilter(resultsApi);
+        } catch (error) {
+          console.error('Error fetching the search results', error);
+        }
+      }
+    }, 300), // A more balanced debounce value
+    [resultsCache, onEmployeeFilter],
+  );
+
   useEffect(() => {
-    
-  }, []);
-
-  const handleSearch = (e) => {
-    
-    const query = e.target.value;
-
-    setSearchTerm(query);
-    console.log(searchTerm);
-    console.log(`${API_SEARCH_EMPLOYEE}/${searchTerm}`)
-    axios
-    .get(`${API_SEARCH_EMPLOYEE}/${searchTerm}`).then((response) => {
-        const resultsApi = response.data;
-        console.log(resultsApi);
-        setResults(resultsApi);
-        onEmployeeFilter(resultsApi);
+    if (searchTerm) {
+      debouncedSearch(searchTerm);
     }
-    );
-    
-  };
- 
+  }, [searchTerm, debouncedSearch]);
 
   return (
-   <>
     <div className="bg-gray-100 p-4 rounded-lg shadow-md">
       <input
         type="text"
         placeholder="Search employees"
         value={searchTerm}
-        onChange={handleSearch}
+        onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full px-4 py-2 rounded-md border focus:outline-none focus:ring focus:border-blue-500"
       />
-      
     </div>
-   </>
   );
 };
+
 export default SearchEmployee;

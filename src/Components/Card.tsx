@@ -20,10 +20,10 @@ export default function Card({
 
   const handlebutton = () => {
     if (screen === 'register-employee') {
-      navigate('/register-employee');
+      navigate('/employee-register');
     }
     if (screen === 'tableEmployee') {
-      navigate('/table-employee');
+      navigate('/employee-table');
     }
     if (screen === 'password-change') {
       navigate('/password-change');

@@ -1,18 +1,14 @@
-import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 screen;
 import { Empleado } from '../../types/Employee';
 import InvalidCredentialsModal, { ConfirmModal } from '../../utils/Modal';
-import { API_AUTH_REFRESH, API_EMPLOYEE } from 'src/api/api';
-import {
-  getAccessToken,
-  getRefreshToken,
-  setAccessToken,
-} from 'src/utils/Token';
+import { API_EMPLOYEE } from 'src/api/api';
+import { getAccessToken } from 'src/utils/Token';
 import { useUserContext } from 'src/context/Context';
 
-import  SearchEmployee  from '../SearchEmployee';
+import SearchEmployee from '../SearchEmployee';
+import axiosInstance from 'src/utils/Auth';
 
 const EmployeeTable: React.FC = () => {
   const [selectedEmpleado, setSelectedEmpleado] = useState<string | null>(null);
@@ -28,71 +24,24 @@ const EmployeeTable: React.FC = () => {
 
   const handleEmployeeFilter = (datos: any) => {
     setEmpleados(datos);
-    console.log("pasando props")
+    console.log('pasando props');
   };
 
   useEffect(() => {
     async function fetchEmployees() {
-      const accessToken = getAccessToken();
-
       try {
-        const res = await axios.get(API_EMPLOYEE, {
-          headers: {
-            Authorization: 'Bearer ' + accessToken,
-          },
-        });
-
+        const res = await axiosInstance.get(API_EMPLOYEE);
         setEmpleados(res.data);
-      } catch (error: any) {
+      } catch (error) {
         console.error('error', error);
-
-        if (
-          error.response &&
-          error.response.data.message === 'TokenExpiredError'
-        ) {
-          console.log('Token expirado zzz');
-          refreshAndRetry();
-        } else {
-          if (position !== 'Administrador')
+        if (error.response?.status === 401) {
+          if (position !== 'Administrador') {
             setShowInvalidCredentialsModal(true);
+          }
         }
       }
     }
 
-    async function refreshAndRetry() {
-      const refreshToken = getRefreshToken();
-
-      console.log(
-        'Token expired. Attempting refresh with token: ' + refreshToken,
-      );
-      if (!refreshToken) {
-        console.log('Refresh token not found in session storage.');
-        return;
-      }
-
-      try {
-        const response = await axios.post(API_AUTH_REFRESH, {
-          refreshToken: refreshToken,
-        });
-
-        const newAccessToken = response.data.accessToken.token;
-
-        setAccessToken(newAccessToken);
-
-        fetchEmployees();
-      } catch (refreshError: any) {
-        console.log('Error refreshing the access token:', refreshError);
-        if (refreshError.response) {
-          console.log('Data:', refreshError.response.data);
-          console.log('Status:', refreshError.response.status);
-          console.log('Headers:', refreshError.response.headers);
-        } else if (refreshError.request) {
-          console.log('Request:', refreshError.request);
-        } else {
-          console.log('General Error:', refreshError.message);
-        }
-      }
-    }
     const initialAccessToken = getAccessToken();
     if (initialAccessToken) {
       fetchEmployees();
@@ -156,7 +105,7 @@ const EmployeeTable: React.FC = () => {
   const handleConfirm = async () => {
     setShowConfirmModal(false);
     try {
-      await axios.delete(`${API_EMPLOYEE}/${selectedEmpleado}`);
+      await axiosInstance.delete(`${API_EMPLOYEE}/${selectedEmpleado}`);
       setEmpleados(empleados.filter((emp) => emp.cc !== selectedEmpleado));
       setSelectedEmpleado(null);
     } catch (error) {
@@ -174,13 +123,13 @@ const EmployeeTable: React.FC = () => {
       {showConfirmModal && (
         <ConfirmModal onConfirm={handleConfirm} onCancel={handleCancel} />
       )}
-      
+
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
         <h2 className="text-2xl md:text-4xl font-bold mb-8 text-slate-800">
           Lista de empleados
         </h2>
-        <SearchEmployee onEmployeeFilter={handleEmployeeFilter}/>
-        <div className=" bg-slate-800 px-4 lg:p-8 rounded-3xl shadow-2xl mb-6">
+        <SearchEmployee onEmployeeFilter={handleEmployeeFilter} />
+        <div className=" bg-slate-800 mt-8 px-4 lg:p-8 rounded-3xl shadow-2xl mb-6">
           <div
             ref={tableDivRef}
             className="flex justify-center text-xs md:text-base w-3/4 md:w-full max-w-3xl md:max-w-6xl overflow-x-auto mb-4 overflow-y-auto max-h-[480px]"
