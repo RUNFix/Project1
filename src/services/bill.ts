@@ -8,7 +8,7 @@ import { Bill } from "../interfaces/bill";
 const insertBill = async (item:Bill)=>{
     const responseVehicle = await vehicleModel.findOne({plate: item.plate});
     if (!responseVehicle) return "VEHICLE_DOES_NOT_EXIST";
-    const responseClient = await ClientModel.findOne({plate: item.cc});
+    const responseClient = await ClientModel.findOne({cc: item.cc});
     if (!responseClient) return "CLIENT_DOES_NOT_EXIST";
     const responseInsert = await BillModel.create(item);
     return responseInsert;

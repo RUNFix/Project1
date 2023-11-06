@@ -11,9 +11,6 @@ const insertveh = async (
     const checkIs = await vehicleModel.findOne({ plate: vehicle.plate });
     if (checkIs) return 'ALREADY_VEHICLE';
 
-    const checkIsEmp = await employee.findOne({ cc: vehicle.employee });
-    if (!checkIsEmp) return 'EMPLOYEE_NOT_FOUND';
-
     if (imageBuffers) {
       const results = await Promise.all(
         imageBuffers.map((buffer) => uploadImage(buffer, 'images')),
@@ -29,14 +26,15 @@ const insertveh = async (
   }
 };
 
-const getVechlpemployee = async (id: string) => {
-  const intIdEmployee = +id;
-  if (isNaN(intIdEmployee)) {
-    throw new Error('Invalid ID format');
-  }
-  const responseVehicle = await vehicleModel.find({ employee: id });
-  return responseVehicle;
-};
+//creo que este metodo ya no tiene sentido en vehicle, pasa a ser de repair
+// const getVechlpemployee = async (id: string) => {
+//   const intIdEmployee = +id;
+//   if (isNaN(intIdEmployee)) {
+//     throw new Error('Invalid ID format');
+//   }
+//   const responseVehicle = await vehicleModel.find({ employee: id });
+//   return responseVehicle;
+// };
 
 const getVechls = async () => {
   const responseVehicle = await vehicleModel.find({});
@@ -55,25 +53,25 @@ const updateVeh = async (plate: string, data: Vehicle) => {
   return responseVehicle;
 };
 
-/**
- *
- * @param plate Plate of the vehicle to update
- * @param total Total ammount to update
- * @param mode If 1 (add) or -1(rest)
- * @returns if succesful the updated "vehicle", if failed "null"
- */
-const updatePriceToPay = async (plate: string, total: number, mode: -1 | 1) => {
-  const responseVehicle: Vehicle | null = await getVehl(plate);
+// /**
+//  *Igual que pasó con getVehPEmployee, pasa a ser de repair, aqui no creo que tenga sentido
+//  * @param plate Plate of the vehicle to update
+//  * @param total Total ammount to update
+//  * @param mode If 1 (add) or -1(rest)
+//  * @returns if succesful the updated "vehicle", if failed "null"
+//  */
+// const updatePriceToPay = async (plate: string, total: number, mode: -1 | 1) => {
+//   const responseVehicle: Vehicle | null = await getVehl(plate);
 
-  if (responseVehicle !== null) {
-    responseVehicle.priceToPay += total * mode;
-    const resUpdateVeh = await updateVeh(plate, responseVehicle);
-    return responseVehicle;
-  } else {
-    //failed to update vehicle
-    return null;
-  }
-};
+//   if (responseVehicle !== null) {
+//     responseVehicle.priceToPay += total * mode;
+//     const resUpdateVeh = await updateVeh(plate, responseVehicle);
+//     return responseVehicle;
+//   } else {
+//     //failed to update vehicle
+//     return null;
+//   }
+// };
 
 const deleteVeh = async (id: string): Promise<Vehicle | null> => {
   const vehicle = await vehicleModel.findById(id);
@@ -104,7 +102,5 @@ export {
   getVechls,
   getVehl,
   updateVeh,
-  deleteVeh,
-  updatePriceToPay,
-  getVechlpemployee,
+  deleteVeh
 };

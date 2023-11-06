@@ -5,8 +5,7 @@ import {
   deleteVeh,
   getVechls,
   getVehl,
-  updateVeh,
-  getVechlpemployee,
+  updateVeh
 } from '../services/vehicle';
 import multer from 'multer';
 
@@ -23,16 +22,17 @@ const getVehicle = async ({ params }: Request, res: Response) => {
   }
 };
 
-const getVehiclePEmployee = async ({ params }: Request, res: Response) => {
-  try {
-    const { id } = params;
-    const response = await getVechlpemployee(id);
-    res.send(response);
-  } catch (e) {
-    console.error((e as Error).message); // para registrar el error en el servidor
-    handleHttp(res, 'ERROR_GET_VEHICLE');
-  }
-};
+//Al igual que pasó con el servicio, esto pasa a ser de repair
+// const getVehiclePEmployee = async ({ params }: Request, res: Response) => {
+//   try {
+//     const { id } = params;
+//     const response = await getVechlpemployee(id);
+//     res.send(response);
+//   } catch (e) {
+//     console.error((e as Error).message); // para registrar el error en el servidor
+//     handleHttp(res, 'ERROR_GET_VEHICLE');
+//   }
+// };
 
 const getVehicles = async (req: Request, res: Response) => {
   try {
@@ -49,20 +49,21 @@ const updateVehicle = async (req: Request, res: Response) => {
     let updateData = { ...req.body };
 
     console.log('DATOS', updateData.images);
-    console.log('Fixed', updateData.imagesFixed);
+    //console.log('Fixed', updateData.imagesFixed);
 
     if (req.files) {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
       // Upload 'imagesFixed' if they exist
-      if (files.imagesFixed) {
-        const imagesFixedFiles = files.imagesFixed;
-        const imageBuffers = imagesFixedFiles.map((file) => file.buffer);
-        const uploadResults = await Promise.all(
-          imageBuffers.map((buffer) => uploadImage(buffer, 'imagesFixed')),
-        );
-        updateData.imagesFixed = uploadResults.map((result) => result.secure_url);
-      }
+      // if (files.imagesFixed) {
+      //   const imagesFixedFiles = files.imagesFixed;
+      //   const imageBuffers = imagesFixedFiles.map((file) => file.buffer);
+      //   const uploadResults = await Promise.all(
+      //     imageBuffers.map((buffer) => uploadImage(buffer, 'imagesFixed')),
+      //   );
+      //   updateData.imagesFixed = uploadResults.map((result) => result.secure_url);
+      // }
+
       // Upload 'images' if they exist
       if (files.images) {
         // Process 'images' as needed
@@ -134,6 +135,5 @@ export {
   getVehicles,
   updateVehicle,
   postVehicle,
-  deleteVehicle,
-  getVehiclePEmployee,
+  deleteVehicle
 };

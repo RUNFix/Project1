@@ -1,7 +1,8 @@
 import { Request, Response, response } from "express"
 import { handleHttp } from "../utils/error.handle"
 import { insertBill, getUserBills ,getBill, getCarBills, getBills, updateBill, deleteBill} from "../services/bill"
-import { updatePriceToPay, getVehl} from "../services/vehicle"
+import {getVehl} from "../services/vehicle"
+import {updatePriceToPay, getRepair} from "../services/repair"
 import { getClient } from "../services/client"
 import { Bill } from "../interfaces/bill"
 //If param is a cc, then search by user, if it is a plate, search by car
@@ -57,13 +58,14 @@ const postBill = async ({body}:Request, res: Response)=> {
         //logic for updating the vehicle table
         const {plate} = body;
         const {total} = body;
-        const updatedPrice = await updatePriceToPay(plate,total,1)
+        const {cc} = body;
+        const updatedPrice = await updatePriceToPay(plate, cc, total,1)
         if((responseBill!==null)&&(updatedPrice!==null)){
             res.send(body)
         }else{
             //this undo whatever half of the operation was done
             if((typeof responseBill) !== 'string') deleteBill(responseBill.id);
-            if(updatedPrice) updatePriceToPay(plate,total,-1);
+            if(updatedPrice) updatePriceToPay(plate, cc, total,-1);
             throw new Error();
         }
     }catch (e){
@@ -97,8 +99,10 @@ const getFullBillController = async ({params}:Request, res: Response) => {
         const resVeh = await getVehl(plate);
 
         const resClient = await getClient(cc);
+
+        const resRepair = await getRepair(plate, cc);
         //if all data gathered
-        if(resBill && resVeh && resClient){
+        if(resBill && resVeh && resClient && resRepair){
             res.send({
                 //bill data
                 state: resBill.state,
@@ -110,13 +114,15 @@ const getFullBillController = async ({params}:Request, res: Response) => {
                 surname: resClient.surname,
                 email: resClient.email,
                 phoneNumer: resClient.phoneNumber,
-                //veh data
+                //vehicle data
                 model: resVeh.model,
                 brand: resVeh.brand,
                 year: resVeh.year,
                 color: resVeh.color,
-                status: resVeh.status,
-                priceToPay: resVeh.priceToPay
+                //repair data
+                status: resRepair.status,
+                priceToPay: resRepair.priceToPay,
+                employee: resRepair.employee,
             });
         }else{
             throw new Error('NOT_VALID_BILL')

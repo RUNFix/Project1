@@ -4,8 +4,7 @@ import {
   getVehicles,
   updateVehicle,
   postVehicle,
-  deleteVehicle,
-  getVehiclePEmployee,
+  deleteVehicle
 } from '../controllers/vehicle';
 import { logMiddleware } from '../middleware/log';
 import fileUpload from 'express-fileupload';
@@ -18,12 +17,12 @@ const upload = multer({ storage: storage });
 
 router.get('/', getVehicles);
 router.get('/:plate', logMiddleware, getVehicle);
-router.get('/employee/:id', getVehiclePEmployee);
+//router.get('/employee/:id', getVehiclePEmployee);//esto ya no tiene sentido en vehicle, pasa a repair
 router.post('/', upload.array('images'), postVehicle);
 
 router.put(
   '/:plate',
-  upload.fields([{ name: 'images' }, { name: 'imagesFixed' }]),
+  upload.fields([{ name: 'images' }]),
   updateVehicle,
 );
 
