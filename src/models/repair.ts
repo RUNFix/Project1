@@ -12,6 +12,10 @@ const ItemSchema = new Schema<Repair>(
       type: Number,
       required: true,
     },
+    reasonForService: {
+      type: String,
+      required: true,
+    },
     status: {
       type: Number,
       required: true,

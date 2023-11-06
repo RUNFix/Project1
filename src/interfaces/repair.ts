@@ -3,6 +3,7 @@ import { Date } from 'mongoose';
 export interface Repair {
   plate: string;
   cc: number;
+  reasonForService: string;
   status: number;
   priceToPay: number;
   employee: number;
