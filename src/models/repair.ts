@@ -2,7 +2,7 @@ import { Schema, Types, model, Model } from 'mongoose';
 
 import { Repair } from '../interfaces/repair';
 
-const ItemSchema = new Schema<Repair>(
+const RepairSchema = new Schema<Repair>(
   {
     plate: {
       type: String,
@@ -45,5 +45,5 @@ const ItemSchema = new Schema<Repair>(
   },
 );
 
-const repairModel = model('Repair', ItemSchema);
+const repairModel = model('Repair', RepairSchema);
 export default repairModel;
