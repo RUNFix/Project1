@@ -6,6 +6,8 @@ import {
   setAccessToken,
 } from 'src/utils/Token';
 
+//const navegar = useNavigate();
+
 const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use(
@@ -41,6 +43,7 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(originalRequest);
         } catch (refreshError) {
           // handle the error, possibly redirect to login
+          //navegar('/login');
           return Promise.reject(refreshError);
         }
       }

@@ -7,7 +7,7 @@ import { API_EMPLOYEE } from 'src/api/api';
 import { getAccessToken } from 'src/utils/Token';
 import { useUserContext } from 'src/context/Context';
 
-import SearchEmployee from '../SearchEmployee';
+import SearchEmployee from './SearchEmployee';
 import axiosInstance from 'src/utils/Auth';
 
 const EmployeeTable: React.FC = () => {
@@ -20,7 +20,6 @@ const EmployeeTable: React.FC = () => {
   const [showInvalidCredentialsModal, setShowInvalidCredentialsModal] =
     useState(false);
   const { position } = useUserContext();
-  const [EmployeeFilter, setEmployeeFilter] = useState<any>(null);
 
   const handleEmployeeFilter = (datos: any) => {
     setEmpleados(datos);
@@ -30,8 +29,8 @@ const EmployeeTable: React.FC = () => {
   useEffect(() => {
     async function fetchEmployees() {
       try {
-        const res = await axiosInstance.get(API_EMPLOYEE);
-        setEmpleados(res.data);
+        const response = await axiosInstance.get(API_EMPLOYEE);
+        setEmpleados(response.data);
       } catch (error) {
         console.error('error', error);
         if (error.response?.status === 401) {

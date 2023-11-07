@@ -35,9 +35,9 @@ export default function Card({
 
   return (
     <Element
-      className="rounded-3xl shadow-lg p-2 bg-slate-200 max-w-[450px] transform hover:scale-105 
+      className="rounded-3xl shadow-lg p-2 bg-slate-200 max-w-[450px] transform hover:scale-110 
     transition-transform duration-300  
-    hover:rotate-3 
+
     hover:bg-slate-800
     hover:text-slate-50  
     hover:shadow-lg 

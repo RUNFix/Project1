@@ -32,13 +32,15 @@ const SearchEmployee: React.FC<SearchEmployeeProps> = ({
           console.error('Error fetching the search results', error);
         }
       }
-    }, 300), // A more balanced debounce value
+    }, 200),
     [resultsCache, onEmployeeFilter],
   );
 
   useEffect(() => {
     if (searchTerm) {
       debouncedSearch(searchTerm);
+    } else {
+      onEmployeeFilter([]);
     }
   }, [searchTerm, debouncedSearch]);
 

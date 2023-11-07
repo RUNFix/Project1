@@ -12,13 +12,12 @@ import { API_VEHICLE } from 'src/api/api';
 
 export default function PhotoMenu() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
-
   const handleImageDrop = (index: number) => (file: File) => {
     setImages(images.map((img, i) => (i === index ? file : img)));
   };
 
   const handleUpload = async (values: Vehicle) => {
-    let isValid = true;
+    let isValid = false;
     if (!isPlateValid(values.plate)) {
       notValidToast('Placa');
       isValid = false;
@@ -28,15 +27,10 @@ export default function PhotoMenu() {
       try {
         const formData = new FormData();
         formData.append('plate', values.plate);
-        formData.append('reasonForService', values.reasonForService); // Cambio el campo 'nombre' a 'reasonForService'
-        formData.append('cc', values.cc.toString());
         formData.append('model', values.model.trim());
         formData.append('brand', values.brand.trim());
         formData.append('year', values.year.toString());
         formData.append('color', values.color.trim());
-        formData.append('status', values.status.toString());
-        formData.append('employee', values.employee.toString());
-        formData.append('date', values.date.toString());
 
         images.forEach((imageFile, index) => {
           if (imageFile) {

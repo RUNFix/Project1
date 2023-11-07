@@ -48,15 +48,10 @@ const vehicleRepair: React.FC<Props> = ({ plate }) => {
   async function updateVehicleDetails() {
     const formData = new FormData();
     formData.append('plate', vehicle.plate);
-    formData.append('name', vehicle.name.trim());
-    formData.append('cc', vehicle.cc.toString());
     formData.append('model', vehicle.model.trim());
     formData.append('brand', vehicle.brand.trim());
     formData.append('year', vehicle.year.toString());
     formData.append('color', vehicle.color.trim());
-    formData.append('status', vehicle.status.toString());
-    formData.append('employee', vehicle.employee.toString());
-    formData.append('date', vehicle.date.toString());
 
     await Promise.all(
       vehicle.images.map(async (imageFile, index) => {
