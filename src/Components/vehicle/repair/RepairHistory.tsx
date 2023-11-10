@@ -23,7 +23,10 @@ export default function Repairs() {
             `${API_REPAIR}/${plate}?cc=${documento}`,
           );
           const reparaciones = response.data;
-          setRepairs(reparaciones); // Assuming the API returns an array
+          // Normalize the response to always be an array
+          setRepairs(
+            Array.isArray(reparaciones) ? reparaciones : [reparaciones],
+          );
         } catch (error) {
           console.error('Error fetching repairs:', error);
         }

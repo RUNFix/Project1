@@ -22,7 +22,13 @@ function RoutesApp() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="home" element={<Home />} />
+        <Route path="repair-search" element={<RepairSearch />} />
+        <Route
+          path="repair-history/:plate/:documento"
+          element={<RepairHistory />}
+        />
 
+        {/*  Rutas protegidas */}
         <Route path="/*" element={<PrivateRoute />}>
           <Route path="password-change" element={<PasswordChange />} />
 
@@ -37,12 +43,6 @@ function RoutesApp() {
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle-repair" element={<RepairRegister />} />
           {/*   <Route path="repair-history" element={<RepairHistory />} /> */}
-          <Route
-            path="repair-history/:plate/:documento"
-            element={<RepairHistory />}
-          />
-
-          <Route path="repair-search" element={<RepairSearch />} />
           <Route path="vehicle" element={<Vehicle />} />
           <Route path="vehicle-info" element={<VehicleInfo />} />
         </Route>
