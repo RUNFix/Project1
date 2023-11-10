@@ -19,7 +19,11 @@ const getRepairController = async (req: Request, res: Response) => {
     const {plate} = req.params;
     const {cc} = req.query;
     const response = await getRepair(plate,Number(cc));
-    res.send(response);
+    if(response){
+      res.send(response);
+    }else{
+      res.send('THERE_IS_NO_REPAIR_WITH_THIS_CREDENTIALS')
+    }
   } catch (e) {
     handleHttp(res, 'ERROR_GET_REPAIR');
   }
