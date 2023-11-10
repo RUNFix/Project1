@@ -12,6 +12,8 @@ import PasswordChange from '../pages/PasswordChange';
 import PrivateRoute from './PrivateRoute';
 import VehicleInfo from 'src/pages/VehicleInfo';
 import RepairRegister from 'src/components/vehicle/repair/RepairRegister';
+import RepairHistory from 'src/components/vehicle/repair/RepairHistory';
+import RepairSearch from 'src/pages/RepairsSearch';
 
 function RoutesApp() {
   return (
@@ -34,6 +36,13 @@ function RoutesApp() {
           />
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle-repair" element={<RepairRegister />} />
+          {/*   <Route path="repair-history" element={<RepairHistory />} /> */}
+          <Route
+            path="repair-history/:plate/:documento"
+            element={<RepairHistory />}
+          />
+
+          <Route path="repair-search" element={<RepairSearch />} />
           <Route path="vehicle" element={<Vehicle />} />
           <Route path="vehicle-info" element={<VehicleInfo />} />
         </Route>

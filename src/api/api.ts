@@ -18,4 +18,8 @@ export const API_VEHICLE = API + 'vehicle';
 export const API_REPAIR_EMPLOYEE = API + 'repair/employee';
 export const API_REPAIR = API + 'repair';
 
+/* Bil */
 export const API_BILL = API + 'bill';
+
+/* Client */
+export const API_CLIENT = API + 'client';

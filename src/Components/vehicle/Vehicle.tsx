@@ -13,9 +13,7 @@ export default function Vehicles() {
   const [vehicleDetails, setVehicleDetails] = useState([]);
   const { cc } = useUserContext();
 
-  const ccEmployee = 666;
-
-  console.log(ccEmployee);
+  const ccEmployee = cc;
 
   useEffect(() => {
     async function fetchRepair() {
@@ -51,6 +49,7 @@ export default function Vehicles() {
         // Extrae los datos de cada respuesta y establécelos en el estado
         const vehicleData = vehicleResponses.map((response) => response.data);
         setVehicleDetails(vehicleData);
+        console.log('data', typeof vehicleData);
       } catch (error) {
         console.error('Error fetching vehicle details:', error);
       }
@@ -68,7 +67,6 @@ export default function Vehicles() {
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center m-4 sm:m-8 md:m-16">
           {selectedPlate ? 'Reparacion de vehiculo' : 'Vehiculos asignados '}
         </h1>
-
         <div className="flex-grow">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 m-4 md:m-8 lg:m-16">
             {selectedPlate ? (

@@ -66,10 +66,6 @@ const Login: React.FC = () => {
           setPosition(rol);
           setCC(cc);
 
-          /* if (rol === 'Empleado') {
-            setCC(cc);
-          }
- */
           if (rol === 'Empleado') {
             const name = usuario.fullname;
             console.log('Nombre del empleado: ', name);
