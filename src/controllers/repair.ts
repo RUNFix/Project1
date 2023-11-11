@@ -4,10 +4,10 @@ import {
     insertRepair,
     getRepairs,
     getRepair,
+    getRepairById,
     getRepairsByPlate_Cc,
     updateRepair,
     deleteRepair,
-    updatePriceToPay,
     getRepairEmployee,
   } from '../services/repair';
 import multer from 'multer';
@@ -42,6 +42,20 @@ const getRepairController = async (req: Request, res: Response) => {
     }
   } catch (e) {
     handleHttp(res, 'ERROR_GET_REPAIR');
+  }
+};
+
+const getRepairByIdController = async (req: Request, res: Response) => {
+  try {
+    const {id} = req.params;
+    const response = await getRepairById(id);
+    if(response){
+      res.send(response);
+    }else{
+      res.send('THERE_IS_NO_REPAIR_WITH_THIS_ID')
+    }
+  } catch (e) {
+    handleHttp(res, 'ERROR_GET_REPAIR_BY_ID');
   }
 };
 
@@ -156,6 +170,7 @@ export {
     getRepairController,
     getRepairEmployeeController,
     getRepairsController,
+    getRepairByIdController,
     getRepairsByPlate_CcController,
     updateRepairController,
     postRepairController,

@@ -51,6 +51,11 @@ const getRepair = async (plate: string, cc:number) => {
   return responseRepair;
 };
 
+const getRepairById = async (id: string) => {
+  const responseRepair = await repairModel.findOne({ _id: id});
+  return responseRepair;
+};
+
 const getRepairsByPlate_Cc = async (plate: string, cc:number) => {
   const responseRepair = await repairModel.find({ plate: plate , cc: cc});
   return responseRepair;
@@ -123,6 +128,7 @@ export {
   insertRepair,
   getRepairs,
   getRepair,
+  getRepairById,
   getRepairsByPlate_Cc,
   updateRepair,
   deleteRepair,

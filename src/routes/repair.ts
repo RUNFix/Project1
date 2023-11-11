@@ -3,6 +3,7 @@ import {
     getRepairController,
     getRepairEmployeeController,
     getRepairsController,
+    getRepairByIdController,
     getRepairsByPlate_CcController,
     updateRepairController,
     postRepairController,
@@ -18,8 +19,9 @@ const storage = multer.memoryStorage(); // Store uploaded files in memory
 const upload = multer({ storage: storage });
 
 router.get('/', getRepairsController);
-router.get('/:plate', logMiddleware, getRepairController);//example: GET /your-endpoint/abc123?cc=777
-router.get('/history/:plate',getRepairsByPlate_CcController);//example: GET /your-endpoint/history/abc123?cc=777
+router.get('/:plate', logMiddleware, getRepairController);//example: GET http://localhost:4000//abc123?cc=777
+router.get('/history/:plate',getRepairsByPlate_CcController);//example: GET http://localhost:4000//history/abc123?cc=777
+router.get('/id/:id',getRepairByIdController)//example: GET http://localhost:4000/repair/id/65482b1671ec5ebe128f138d
 router.get('/employee/:id', getRepairEmployeeController);
 router.post('/', upload.array('beforeImages'), postRepairController);
 
