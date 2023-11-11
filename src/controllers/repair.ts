@@ -4,6 +4,7 @@ import {
     insertRepair,
     getRepairs,
     getRepair,
+    getRepairsByPlate_Cc,
     updateRepair,
     deleteRepair,
     updatePriceToPay,
@@ -13,6 +14,21 @@ import multer from 'multer';
 
 import fileUpload, { UploadedFile } from 'express-fileupload';
 import { uploadImage } from '../config/cloudinary';
+
+const getRepairsByPlate_CcController = async (req: Request, res: Response) => {
+  try {
+    const {plate} = req.params;
+    const {cc} = req.query;
+    const response = await getRepairsByPlate_Cc(plate,Number(cc));
+    if(response){
+      res.send(response);
+    }else{
+      res.send('THERE_IS_NO_REPAIRS_WITH_THIS_CREDENTIALS')
+    }
+  } catch (e) {
+    handleHttp(res, 'ERROR_GET_REPAIRS');
+  }
+};
 
 const getRepairController = async (req: Request, res: Response) => {
   try {
@@ -140,6 +156,7 @@ export {
     getRepairController,
     getRepairEmployeeController,
     getRepairsController,
+    getRepairsByPlate_CcController,
     updateRepairController,
     postRepairController,
     deleteRepairController,

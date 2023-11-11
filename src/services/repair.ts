@@ -51,6 +51,11 @@ const getRepair = async (plate: string, cc:number) => {
   return responseRepair;
 };
 
+const getRepairsByPlate_Cc = async (plate: string, cc:number) => {
+  const responseRepair = await repairModel.find({ plate: plate , cc: cc});
+  return responseRepair;
+};
+
 const updateRepair = async (plate: string, cc: number, data: Repair) => {
   const responseRepair = await repairModel.findOneAndUpdate({ plate: plate, cc: cc }, data, {
     new: true,
@@ -118,6 +123,7 @@ export {
   insertRepair,
   getRepairs,
   getRepair,
+  getRepairsByPlate_Cc,
   updateRepair,
   deleteRepair,
   updatePriceToPay,

@@ -3,6 +3,7 @@ import {
     getRepairController,
     getRepairEmployeeController,
     getRepairsController,
+    getRepairsByPlate_CcController,
     updateRepairController,
     postRepairController,
     deleteRepairController,
@@ -18,6 +19,7 @@ const upload = multer({ storage: storage });
 
 router.get('/', getRepairsController);
 router.get('/:plate', logMiddleware, getRepairController);//example: GET /your-endpoint/abc123?cc=777
+router.get('/history/:plate',getRepairsByPlate_CcController);//example: GET /your-endpoint/history/abc123?cc=777
 router.get('/employee/:id', getRepairEmployeeController);
 router.post('/', upload.array('beforeImages'), postRepairController);
 
