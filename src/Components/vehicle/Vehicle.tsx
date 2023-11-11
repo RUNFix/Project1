@@ -25,7 +25,6 @@ export default function Vehicles() {
         if (response && response.data) {
           const plates = response.data.map((vehicle) => vehicle.plate);
           setPlates(plates);
-          console.log('Plates:', plates);
         }
       } catch (error) {
         console.error('Error fetching vehicles:', error);

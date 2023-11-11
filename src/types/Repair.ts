@@ -22,6 +22,6 @@ export const initialValues: Repair = {
   date: new Date(),
   beforeImages: [],
   afterImages: [],
-  beforeDescriptions: [],
-  afterDescriptions: [],
+  beforeDescriptions: ['Trabajo realizado', 'Piezas cambiadas, etc.'],
+  afterDescriptions: ['Trabajo realizado', 'Piezas cambiadas, etc.'],
 };

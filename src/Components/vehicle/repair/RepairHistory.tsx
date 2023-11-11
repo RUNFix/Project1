@@ -1,29 +1,26 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { API_REPAIR } from 'src/api/api';
+import { API_REPAIR_HISTORY } from 'src/api/api';
 import Footer from 'src/components/Footer';
 import Navbar from 'src/components/Navbar';
+import Repair from './Repair';
 
 export default function Repairs() {
   const [repairs, setRepairs] = useState([]);
+  const [selectedID, setSelectedID] = useState('');
   const params = useParams();
 
-  // The params object will contain the `plate` and `documento` as defined in your route
   const { plate, documento } = params;
 
-  console.log('placa', plate, 'cedula', documento);
-
   useEffect(() => {
-    // Ensure that plate and documento are not undefined
     if (plate && documento) {
       async function fetchRepair() {
         try {
           const response = await axios.get(
-            `${API_REPAIR}/${plate}?cc=${documento}`,
+            `${API_REPAIR_HISTORY}/${plate}?cc=${documento}`,
           );
           const reparaciones = response.data;
-          // Normalize the response to always be an array
           setRepairs(
             Array.isArray(reparaciones) ? reparaciones : [reparaciones],
           );
@@ -45,23 +42,35 @@ export default function Repairs() {
         </h1>
         <div className="flex-grow">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 m-4 md:m-8 lg:m-16">
-            {repairs &&
+            {selectedID ? (
+              <Repair id={selectedID} />
+            ) : (
               repairs.map((repair) => (
-                <div key={repair.plate} className="vehicleStyle">
+                <div
+                  key={repair._id}
+                  className="vehicleStyle"
+                  onClick={() => setSelectedID(repair._id)}
+                >
                   <img
                     src={repair.beforeImages[0]}
                     className="object-cover w-full h-40 sm:h-60 rounded-t-3xl"
                   />
                   <div className="p-2 sm:p-4">
                     <h2>
-                      <strong>Fecha:</strong> {repair.date}
+                      <strong>Fecha: </strong>
+                      {new Date(repair.date).toLocaleDateString('es-CO', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
                     </h2>
                     <h2>
                       <strong>Servicio:</strong> {repair.reasonForService}
                     </h2>
                   </div>
                 </div>
-              ))}
+              ))
+            )}
           </div>
         </div>
       </main>

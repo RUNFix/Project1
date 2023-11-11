@@ -10,7 +10,7 @@ type Props = {
   plate: string;
 };
 
-const vehicleRepair: React.FC<Props> = ({ plate }) => {
+const VehicleRepair: React.FC<Props> = ({ plate }) => {
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
@@ -18,7 +18,6 @@ const vehicleRepair: React.FC<Props> = ({ plate }) => {
   const { status } = useUserContext();
 
   console.log('Estado actual:', status);
-  console.log('Placa del vehículo:', plate);
 
   const handleImageDrop = (index: number) => (file: File) => {
     setImages(images.map((img, i) => (i === index ? file : img)));
@@ -71,7 +70,7 @@ const vehicleRepair: React.FC<Props> = ({ plate }) => {
     try {
       const response = await axios.put(`${API_VEHICLE}/${plate}`, formData);
 
-      console.log('SE actualiza el estado del vehículo con la respuesta');
+      console.log('Se actualiza el estado del vehículo con la respuesta');
       setVehicle(response.data);
     } catch (err) {
       setError('Error updating vehicle images.');
@@ -124,4 +123,4 @@ const vehicleRepair: React.FC<Props> = ({ plate }) => {
     </>
   );
 };
-export default vehicleRepair;
+export default VehicleRepair;

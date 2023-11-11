@@ -54,15 +54,18 @@ const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        if (plateExists(values.plate) && CCExists(values.cc)) {
-          console.log('Carro ya existe y cliente ya existe');
+        /*      if (plateExists(values.plate) && CCExists(values.cc)) {
+          alert('Carro ya existe y cliente ya existe');
         } else if (plateExists(values.plate) && !CCExists(values.cc)) {
-          console.log('La placa existe, mandar a cliente');
+          alert('Carro ya existe y cliente no');
+          ('La placa existe, mandar a cliente');
         } else if (!plateExists(values.plate) && CCExists(values.cc)) {
-          console.log('El cliente existe, enviar a vehículo');
+          alert('El cliente existe, enviar a vehículo');
         } else {
           onSubmitRepair(values);
-        }
+        } */
+
+        onSubmitRepair(values);
       }}
     >
       {({ values }) => (
