@@ -48,7 +48,6 @@ export default function Vehicles() {
         // Extrae los datos de cada respuesta y establécelos en el estado
         const vehicleData = vehicleResponses.map((response) => response.data);
         setVehicleDetails(vehicleData);
-        console.log('data', typeof vehicleData);
       } catch (error) {
         console.error('Error fetching vehicle details:', error);
       }
@@ -69,11 +68,11 @@ export default function Vehicles() {
         <div className="flex-grow">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 m-4 md:m-8 lg:m-16">
             {selectedPlate ? (
-              <VehicleRepair plate={selectedPlate} />
+              <VehicleRepair plate={selectedPlate} cc={ccEmployee} />
             ) : (
               vehicleDetails.map((vehicle) => (
                 <button
-                  key={vehicle.plate}
+                  key={vehicle._id}
                   onClick={() => setSelectedPlate(vehicle.plate)}
                   className="vehicleStyle"
                 >

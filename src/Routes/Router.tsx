@@ -42,7 +42,6 @@ function RoutesApp() {
           />
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle-repair" element={<RepairRegister />} />
-          {/*   <Route path="repair-history" element={<RepairHistory />} /> */}
           <Route path="vehicle" element={<Vehicle />} />
           <Route path="vehicle-info" element={<VehicleInfo />} />
         </Route>

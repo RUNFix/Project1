@@ -1,77 +1,90 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Vehicle } from '../../types/Vehicle';
 import ProgressBar from '../ProgressBar';
 import ImageDropzone from '../ImageDropzone';
-import { API_VEHICLE } from 'src/api/api';
+import { API_REPAIR, API_REPAIR_EMPLOYEE } from 'src/api/api';
 import { useUserContext } from 'src/context/Context';
+import { Repair } from 'src/types/Repair';
 
 type Props = {
   plate: string;
+  cc: string;
 };
 
-const VehicleRepair: React.FC<Props> = ({ plate }) => {
-  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
+const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
+  const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
-  const [images, setImages] = useState<(File | null)[]>([null, null, null]);
+
+  const [afterImages, setafterImages] = useState<(File | null)[]>([
+    null,
+    null,
+    null,
+  ]);
 
   const { status } = useUserContext();
 
   console.log('Estado actual:', status);
 
   const handleImageDrop = (index: number) => (file: File) => {
-    setImages(images.map((img, i) => (i === index ? file : img)));
+    setafterImages(afterImages.map((img, i) => (i === index ? file : img)));
   };
 
   useEffect(() => {
-    async function fetchVehicleDetails() {
+    async function fetchRepair() {
       try {
-        const response = await axios.get(`${API_VEHICLE}/${plate}`);
-        setVehicle(response.data);
-      } catch (err) {
-        setError('Error fetching vehicle details.');
-        console.error('Error fetching vehicle details:', err);
+        const response = await axios.get(
+          `${API_REPAIR_EMPLOYEE}/${plate}?cc=${cc}`,
+        );
+        if (response && response.data) {
+          setRepair(response.data);
+          console.log(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching vehicles:', error);
       }
     }
 
-    fetchVehicleDetails();
-  }, [plate]);
+    fetchRepair();
+  }, [cc]);
 
   useEffect(() => {
     // Verifica si el paso es 4 para actualizar los detalles del vehículo
     if (status === 4) {
-      updateVehicleDetails();
+      updateRepairDetails();
     }
   }, [status]);
 
-  async function updateVehicleDetails() {
+  async function updateRepairDetails() {
     const formData = new FormData();
-    formData.append('plate', vehicle.plate);
-    formData.append('model', vehicle.model.trim());
-    formData.append('brand', vehicle.brand.trim());
-    formData.append('year', vehicle.year.toString());
-    formData.append('color', vehicle.color.trim());
+    formData.append('plate', repair.plate);
+    formData.append('cc', repair.cc.toString());
+    formData.append('status', repair.status.toString());
+    formData.append('priceToPay', repair.priceToPay.toString());
+    formData.append('reasonForService', repair.reasonForService);
+    formData.append('date', repair.date.toString());
+    formData.append('employee', repair.employee.toString());
 
     await Promise.all(
-      vehicle.images.map(async (imageFile, index) => {
+      repair.beforeImages.map(async (imageFile, index) => {
         if (imageFile) {
           const response = await fetch(imageFile);
           const blob = await response.blob();
-          formData.append('images', blob, `image${index}.jpg`);
+          formData.append('beforeImages', blob, `image${index}.jpg`);
         }
       }),
     );
-    images.forEach((imageFile, index) => {
+    afterImages.forEach((imageFile, index) => {
       if (imageFile) {
-        formData.append('imagesFixed', imageFile, `imageFixed${index}.jpg`);
+        formData.append('afterImages', imageFile, `afterImages${index}.jpg`);
       }
     });
 
     try {
-      const response = await axios.put(`${API_VEHICLE}/${plate}`, formData);
+      const response = await axios.put(`${API_REPAIR}/${plate}`, formData);
 
       console.log('Se actualiza el estado del vehículo con la respuesta');
-      setVehicle(response.data);
+      setRepair(response.data);
+      console.log(repair);
     } catch (err) {
       setError('Error updating vehicle images.');
       console.error('Error updating vehicle images:', err);
@@ -82,13 +95,9 @@ const VehicleRepair: React.FC<Props> = ({ plate }) => {
     return <p>{error}</p>;
   }
 
-  if (!vehicle) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <>
-      {vehicle.images.map((image, index) => (
+      {repair.beforeImages.map((image, index) => (
         <div key={index} className="border p-4 rounded shadow">
           <img
             src={image}
@@ -98,15 +107,13 @@ const VehicleRepair: React.FC<Props> = ({ plate }) => {
           <p className="text-center">Descripción de la Imagen</p>
         </div>
       ))}
-
       <div className=" justify-center items-center col-span-3">
         <ProgressBar />
       </div>
-
       <h2 className="col-span-3 text-2xl font-bold  text-center">
         Fotos de las reparaciones
       </h2>
-      {images.map((imageFile, index) => (
+      {afterImages.map((imageFile, index) => (
         <div key={index} className="mb-8 border-4 flex-shrink-0">
           <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
           {imageFile && (
