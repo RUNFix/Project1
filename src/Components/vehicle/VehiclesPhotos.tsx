@@ -17,7 +17,7 @@ export default function PhotoMenu() {
   };
 
   const handleUpload = async (values: Vehicle) => {
-    let isValid = false;
+    let isValid = true;
     if (!isPlateValid(values.plate)) {
       notValidToast('Placa');
       isValid = false;

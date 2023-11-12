@@ -10,10 +10,21 @@ import { useUserContext } from 'src/context/Context';
 export default function Vehicles() {
   const [plates, setPlates] = useState<Vehicle[]>([]);
   const [selectedPlate, setSelectedPlate] = useState<string>('');
+  const [clientID, setClientID] = useState<string>('');
+  const [repairs, setRepairs] = useState([]);
+
   const [vehicleDetails, setVehicleDetails] = useState([]);
   const { cc } = useUserContext();
 
   const ccEmployee = cc;
+
+  const handleSelectPlate = (plate) => {
+    setSelectedPlate(plate);
+    const repair = repairs.find((repair) => repair.plate === plate);
+    if (repair) {
+      setClientID(repair.cc.toString());
+    }
+  };
 
   useEffect(() => {
     async function fetchRepair() {
@@ -21,10 +32,11 @@ export default function Vehicles() {
         const response = await axios.get(
           `${API_REPAIR_EMPLOYEE}/${ccEmployee}`,
         );
-
         if (response && response.data) {
-          const plates = response.data.map((vehicle) => vehicle.plate);
-          setPlates(plates);
+          const fetchedRepairs = response.data;
+          setRepairs(fetchedRepairs);
+          const fetchedPlates = fetchedRepairs.map((repair) => repair.plate);
+          setPlates(fetchedPlates);
         }
       } catch (error) {
         console.error('Error fetching vehicles:', error);
@@ -32,7 +44,7 @@ export default function Vehicles() {
     }
 
     fetchRepair();
-  }, []);
+  }, [ccEmployee]);
 
   useEffect(() => {
     async function fetchVehicleDetails() {
@@ -68,12 +80,12 @@ export default function Vehicles() {
         <div className="flex-grow">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 m-4 md:m-8 lg:m-16">
             {selectedPlate ? (
-              <VehicleRepair plate={selectedPlate} cc={ccEmployee} />
+              <VehicleRepair plate={selectedPlate} cc={clientID} />
             ) : (
               vehicleDetails.map((vehicle) => (
                 <button
                   key={vehicle._id}
-                  onClick={() => setSelectedPlate(vehicle.plate)}
+                  onClick={() => handleSelectPlate(vehicle.plate)}
                   className="vehicleStyle"
                 >
                   <img

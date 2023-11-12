@@ -14,8 +14,7 @@ type Props = {
 const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
-
-  const [afterImages, setafterImages] = useState<(File | null)[]>([
+  const [afterImages, setAfterImages] = useState<(File | null)[]>([
     null,
     null,
     null,
@@ -24,20 +23,20 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   const { status } = useUserContext();
 
   console.log('Estado actual:', status);
+  console.log('Placa:', plate);
+  console.log('Cédula:', cc);
 
   const handleImageDrop = (index: number) => (file: File) => {
-    setafterImages(afterImages.map((img, i) => (i === index ? file : img)));
+    setAfterImages(afterImages.map((img, i) => (i === index ? file : img)));
   };
 
   useEffect(() => {
     async function fetchRepair() {
       try {
-        const response = await axios.get(
-          `${API_REPAIR_EMPLOYEE}/${plate}?cc=${cc}`,
-        );
+        const response = await axios.get(`${API_REPAIR}/${plate}?cc=${cc}`);
+
         if (response && response.data) {
           setRepair(response.data);
-          console.log(response.data);
         }
       } catch (error) {
         console.error('Error fetching vehicles:', error);
@@ -45,7 +44,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
     }
 
     fetchRepair();
-  }, [cc]);
+  }, [cc, plate]);
 
   useEffect(() => {
     // Verifica si el paso es 4 para actualizar los detalles del vehículo
@@ -54,6 +53,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
     }
   }, [status]);
 
+  console.log('Datos backend', repair);
   async function updateRepairDetails() {
     const formData = new FormData();
     formData.append('plate', repair.plate);
@@ -73,6 +73,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
         }
       }),
     );
+
     afterImages.forEach((imageFile, index) => {
       if (imageFile) {
         formData.append('afterImages', imageFile, `afterImages${index}.jpg`);
@@ -97,16 +98,17 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
 
   return (
     <>
-      {repair.beforeImages.map((image, index) => (
-        <div key={index} className="border p-4 rounded shadow">
-          <img
-            src={image}
-            alt={`Vehicle Image ${index}`}
-            className="object-cover w-full h-60 mb-4"
-          />
-          <p className="text-center">Descripción de la Imagen</p>
-        </div>
-      ))}
+      {repair &&
+        repair.beforeImages.map((image, index) => (
+          <div key={index} className="border p-4 rounded shadow">
+            <img
+              src={image}
+              alt={`Vehicle Image ${index}`}
+              className="object-cover w-full h-60 mb-4"
+            />
+            <p className="text-center">Descripción de la Imagen</p>
+          </div>
+        ))}
       <div className=" justify-center items-center col-span-3">
         <ProgressBar />
       </div>
