@@ -14,6 +14,7 @@ import VehicleInfo from 'src/pages/VehicleInfo';
 import RepairRegister from 'src/components/vehicle/repair/RepairRegister';
 import RepairHistory from 'src/components/vehicle/repair/RepairHistory';
 import RepairSearch from 'src/pages/RepairsSearch';
+import CustomerRegistration from 'src/Components/CustomerRegistration';
 
 function RoutesApp() {
   return (
@@ -33,6 +34,7 @@ function RoutesApp() {
           <Route path="password-change" element={<PasswordChange />} />
 
           <Route path="employee-register" element={<EmployeeRegistration />} />
+          <Route path="customer-register" element={<CustomerRegistration />} />
           <Route path="employee-table" element={<EmployeeTable />} />
           <Route path="submenu" element={<SubMenu />} />
           <Route path="watson" element={<Watson />} />
