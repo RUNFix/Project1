@@ -15,15 +15,21 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   const { status, setStatus } = useUserContext();
   const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
-  const [afterImages, setAfterImages] = useState<(File | null)[]>([null, null, null]);
-  const [originalAfterImages, setOriginalAfterImages] = useState<(string | null)[]>([null, null, null]);
+  const [afterImages, setAfterImages] = useState<(File | null)[]>([
+    null,
+    null,
+    null,
+  ]);
+  const [originalAfterImages, setOriginalAfterImages] = useState<
+    (string | null)[]
+  >([null, null, null]);
 
   console.log('Placa:', plate);
   console.log('Cédula:', cc);
   console.log('Estado:', status);
 
   const handleImageDrop = (index: number) => (file: File) => {
-    setAfterImages(currentAfterImages => {
+    setAfterImages((currentAfterImages) => {
       // Crear un nuevo array para asegurar que el estado cambie y cause un rerender
       const newAfterImages = [...currentAfterImages];
       // Actualizar la imagen en el índice correcto
@@ -32,8 +38,6 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
       return newAfterImages;
     });
   };
-  
-  
 
   useEffect(() => {
     async function fetchRepair() {
@@ -45,9 +49,6 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
           setStatus(response.data.status);
           setOriginalAfterImages(response.data.afterImages);
           setAfterImages(response.data.afterImages.map((img) => img || null));
-        
-
-        
         }
       } catch (error) {
         console.error('Error fetching vehicles:', error);
@@ -67,14 +68,14 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
 
   async function updateRepairDetails() {
     const formData = new FormData();
-    formData.append('status',  status.toString() /*  '2'*/ );
+    formData.append('status', status.toString());
 
     afterImages.forEach((image, index) => {
       if (image instanceof File) {
         formData.append('afterImages', image, `afterImages${index}.jpg`);
       }
     });
-  
+
     // Envía las URLs de las imágenes existentes para indicar al backend que deben mantenerse
     originalAfterImages.forEach((image, index) => {
       if (image && !(afterImages[index] instanceof File)) {
@@ -118,13 +119,13 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
         Fotos de las reparaciones
       </h2>
       {Array.from({ length: 3 }).map((_, index) => (
-      <div key={index} className="mb-8 border-4 overflow-hidden">
-        <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
-        <p className="text-center">{repair?.afterDescriptions && repair.afterDescriptions[index]}</p>
-      </div>
-    ))}
-
-
+        <div key={index} className="mb-8 border-4 overflow-hidden">
+          <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
+          <p className="text-center">
+            {repair?.afterDescriptions && repair.afterDescriptions[index]}
+          </p>
+        </div>
+      ))}
     </>
   );
 };
