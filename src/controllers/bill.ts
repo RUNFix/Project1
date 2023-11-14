@@ -111,7 +111,7 @@ const getFullBillController = async ({params}:Request, res: Response) => {
                 items: resBill.items,
                 //client data
                 name: resClient.name,
-                surname: resClient.surname,
+                lastname: resClient.lastname,
                 email: resClient.email,
                 phoneNumer: resClient.phoneNumber,
                 //vehicle data

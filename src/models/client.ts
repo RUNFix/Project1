@@ -33,7 +33,7 @@ const clientSchema = new Schema<Client>(
             type: String,
             required: true,
         },
-        surname: {
+        lastname: {
             type: String,
             required: true,
         },

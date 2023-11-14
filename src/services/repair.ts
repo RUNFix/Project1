@@ -83,10 +83,6 @@ const updateRepair = async (plate: string, cc: number, data: Partial<Repair>) =>
 
 
 
-
-
-
-
 /**
  *
  * @param plate plate of the repair to update

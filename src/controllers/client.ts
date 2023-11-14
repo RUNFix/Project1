@@ -1,4 +1,4 @@
-import e, { Request, Response, response } from "express"
+import { Request, Response, response } from "express"
 import { handleHttp } from "../utils/error.handle"
 import {insertClient, getClients, getClient, updateClient, deleteClient} from "../services/client"
 
@@ -24,6 +24,8 @@ const getClientsController = async (req:Request, res: Response)=> {
 }
 
 const postClientController = async ({body}:Request, res: Response)=> {
+    
+    console.log('Post CLIENTE', body)
     try{
         const {cc} = body;
         const checkIs = await getClient(cc);

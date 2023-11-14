@@ -8,6 +8,7 @@ import {
   getEmplfilter,
   getEmplfilterName,
   getEmployeesByPosition,
+  insertEmpl,
 } from '../services/employee';
 
 const getEmployee = async ({ params }: Request, res: Response) => {
@@ -67,7 +68,7 @@ const getEmployeesFilterPosition = async (req: Request, res: Response) => {
   }
 };
 
-/*
+
 const postEmployee=async ({body}:Request, res:Response)=>{
     try{
         const response= await insertEmpl(body);
@@ -77,7 +78,7 @@ const postEmployee=async ({body}:Request, res:Response)=>{
         handleHttp(res, 'ERROR_POST_ITEM');
     }
 }
-*/
+
 
 
 const deleteEmployee= async({params}:Request, res:Response, next: NextFunction)=>{
@@ -93,5 +94,5 @@ const deleteEmployee= async({params}:Request, res:Response, next: NextFunction)=
 
 
 
-export{getEmployee, getEmployees, updateEmployee, deleteEmployee, getEmployeeFilter, getEmployeesFilterName,getEmployeesFilterPosition};
+export{postEmployee,getEmployee, getEmployees, updateEmployee, deleteEmployee, getEmployeeFilter, getEmployeesFilterName,getEmployeesFilterPosition};
 
