@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 type Props = {
   onImageDrop: (file: File) => void;
@@ -6,8 +6,9 @@ type Props = {
   className?: string;
 };
 
-export default function ImageDropzone({ onImageDrop, className }: Props) {
+export default function ImageDropzone({ onImageDrop, index, className }: Props) {
   const [dragging, setDragging] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null); // Estado para la vista previa de la imagen
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -23,12 +24,16 @@ export default function ImageDropzone({ onImageDrop, className }: Props) {
     event.preventDefault();
     setDragging(false);
     const file = event.dataTransfer.files[0];
-    onImageDrop(file);
+    if (file) {
+      setPreview(URL.createObjectURL(file)); // Crear y almacenar la URL de la vista previa de la imagen
+      onImageDrop(file);
+    }
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setPreview(URL.createObjectURL(file)); // Crear y almacenar la URL de la vista previa de la imagen
       onImageDrop(file);
     }
   };
@@ -38,12 +43,16 @@ export default function ImageDropzone({ onImageDrop, className }: Props) {
       <div
         className={`dropzone ${
           dragging ? 'dragging' : ''
-        } border-4 border-gray-700 relative p-3 text-center mb-2`}
+        } border-4 border-dashed relative p-3 text-center mb-2`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        {dragging ? <p>Drop image here</p> : `Foto del vehículo `}
+        {preview ? (
+          <img src={preview} alt={`Preview ${index}`} className="object-cover w-full h-full" />
+        ) : (
+          dragging ? <p>Drop image here</p> : <p>Foto del vehículo</p>
+        )}
         <input
           type="file"
           onChange={handleFileSelect}

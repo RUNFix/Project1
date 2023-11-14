@@ -93,13 +93,6 @@ export default function RepairRegister() {
                   onImageDrop={handleImageDrop(index)}
                   index={index}
                 />
-                {imageFile && (
-                  <img
-                    src={URL.createObjectURL(imageFile)}
-                    alt={`Dropped Image ${index}`}
-                    className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300 relative p-4 text-center"
-                  />
-                )}
               </div>
             ))}
           </div>

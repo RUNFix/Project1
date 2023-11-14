@@ -84,16 +84,6 @@ export default function PhotoMenu() {
                   onImageDrop={handleImageDrop(index)}
                   index={index}
                 />
-                {imageFile && (
-                  <div>
-                    <img
-                      src={URL.createObjectURL(imageFile)}
-                      alt="Dropped Image"
-                      className="object-cover w-full h-full ransform hover:scale-105 
-                        transition-transform duration-300  relative p-4 text-center"
-                    />
-                  </div>
-                )}
               </div>
             ))}
           </div>

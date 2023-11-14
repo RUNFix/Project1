@@ -12,7 +12,6 @@ export default function Vehicles() {
   const [selectedPlate, setSelectedPlate] = useState<string>('');
   const [clientID, setClientID] = useState<string>('');
   const [repairs, setRepairs] = useState([]);
-
   const [vehicleDetails, setVehicleDetails] = useState([]);
   const { cc } = useUserContext();
 

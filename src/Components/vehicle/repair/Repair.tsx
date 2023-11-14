@@ -10,14 +10,12 @@ type Props = {
 const Repair: React.FC<Props> = ({ id }) => {
   const [repair, setrepair] = useState<Repair | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<number | null>(null);
 
   useEffect(() => {
     async function fetchrepairDetails() {
       try {
         const response = await axios.get(`${API_REPAIR_ID}/${id}`);
         setrepair(response.data);
-        setStatus(response.data.status);
       } catch (err) {
         setError('Error fetching repairdetails.');
         console.error('Error fetching repairdetails:', err);

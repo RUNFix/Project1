@@ -1,10 +1,11 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { FaCarCrash } from 'react-icons/fa';
 
 import { ImHammer } from 'react-icons/im';
 import { HiOutlineCheck } from 'react-icons/hi';
 import { SuccessModal } from 'src/utils/Modal';
 import { useUserContext } from 'src/context/Context';
+import { TokenExists } from 'src/utils/Token';
 
 type StepProps = {
   completed: boolean;
@@ -43,20 +44,32 @@ const TOTAL_STEPS = 4; // 4 pasos en total
 
 const ProgressBar: React.FC = () => {
   const [step, setStep] = useState(1);
-  const { setStatus } = useUserContext();
+  const { status, setStatus } = useUserContext();
 
-  setStatus(step);
+  const token = TokenExists();
+
+  useEffect(() => {
+    if (status !== step) {
+      setStep(status);
+    }
+  }, [status]);
 
   const handleNextStep = () => {
+    let newStep;
     if (step === TOTAL_STEPS - 1) {
-      setStep(TOTAL_STEPS);
-      // Aquí puedes agregar cualquier otra acción que quieras hacer al confirmar.
+      newStep = TOTAL_STEPS;
     } else {
-      setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+      newStep = Math.min(step + 1, TOTAL_STEPS);
     }
+    setStep(newStep);
+    setStatus(newStep); // Actualizar el status en el contexto
   };
 
-  const handlePrevStep = () => setStep((prev) => Math.max(prev - 1, 1));
+  const handlePrevStep = () => {
+    const newStep = Math.max(step - 1, 1);
+    setStep(newStep);
+    setStatus(newStep); // Actualizar el status en el contexto
+  };
 
   const stepTitles = [
     'Inicio de reparaciones',
@@ -83,17 +96,17 @@ const ProgressBar: React.FC = () => {
           </Step>
         ))}
       </div>
-      {step < TOTAL_STEPS ? (
-        <div className="mt-16 flex justify-center  items-center space-x-2">
+      {token && step < TOTAL_STEPS && (
+        <div className="mt-16 flex justify-center items-center space-x-2">
           <button
             onClick={handlePrevStep}
             disabled={step === 1}
             className={`py-2 px-4 w-32 border border-transparent shadow-sm text-sm font-medium rounded-md text-white 
-                ${
-                  step === 1
-                    ? 'bg-gray-300 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
-                }`}
+              ${
+                step === 1
+                  ? 'bg-gray-300 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+              }`}
           >
             Previous
           </button>
@@ -103,7 +116,7 @@ const ProgressBar: React.FC = () => {
               onClick={handleNextStep}
               className="py-2 px-4 w-32 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Confirmar reparacion
+              Confirmar
             </button>
           ) : (
             <button
@@ -119,7 +132,8 @@ const ProgressBar: React.FC = () => {
             </button>
           )}
         </div>
-      ) : (
+      )}
+      {step >= TOTAL_STEPS && (
         <SuccessModal text={'Reparacion hecha con exito'} />
       )}
     </>

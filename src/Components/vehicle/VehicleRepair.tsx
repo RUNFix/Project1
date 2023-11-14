@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProgressBar from '../ProgressBar';
 import ImageDropzone from '../ImageDropzone';
-import { API_REPAIR, API_REPAIR_EMPLOYEE } from 'src/api/api';
-import { useUserContext } from 'src/context/Context';
+import { API_REPAIR, API_REPAIR_UPDATE } from 'src/api/api';
 import { Repair } from 'src/types/Repair';
+import { useUserContext } from 'src/context/Context';
 
 type Props = {
   plate: string;
@@ -12,23 +12,28 @@ type Props = {
 };
 
 const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
+  const { status, setStatus } = useUserContext();
   const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
-  const [afterImages, setAfterImages] = useState<(File | null)[]>([
-    null,
-    null,
-    null,
-  ]);
+  const [afterImages, setAfterImages] = useState<(File | null)[]>([null, null, null]);
+  const [originalAfterImages, setOriginalAfterImages] = useState<(string | null)[]>([null, null, null]);
 
-  const { status } = useUserContext();
-
-  console.log('Estado actual:', status);
   console.log('Placa:', plate);
   console.log('Cédula:', cc);
+  console.log('Estado:', status);
 
   const handleImageDrop = (index: number) => (file: File) => {
-    setAfterImages(afterImages.map((img, i) => (i === index ? file : img)));
+    setAfterImages(currentAfterImages => {
+      // Crear un nuevo array para asegurar que el estado cambie y cause un rerender
+      const newAfterImages = [...currentAfterImages];
+      // Actualizar la imagen en el índice correcto
+      newAfterImages[index] = file;
+      // Devolver el nuevo array para actualizar el estado
+      return newAfterImages;
+    });
   };
+  
+  
 
   useEffect(() => {
     async function fetchRepair() {
@@ -37,6 +42,12 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
 
         if (response && response.data) {
           setRepair(response.data);
+          setStatus(response.data.status);
+          setOriginalAfterImages(response.data.afterImages);
+          setAfterImages(response.data.afterImages.map((img) => img || null));
+        
+
+        
         }
       } catch (error) {
         console.error('Error fetching vehicles:', error);
@@ -44,51 +55,42 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
     }
 
     fetchRepair();
-  }, [cc, plate]);
+  }, [cc, plate, setStatus]);
 
   useEffect(() => {
-    // Verifica si el paso es 4 para actualizar los detalles del vehículo
-    if (status === 4) {
+    if (status !== undefined) {
       updateRepairDetails();
     }
   }, [status]);
 
   console.log('Datos backend', repair);
+
   async function updateRepairDetails() {
     const formData = new FormData();
-    formData.append('plate', repair.plate);
-    formData.append('cc', repair.cc.toString());
-    formData.append('status', repair.status.toString());
-    formData.append('priceToPay', repair.priceToPay.toString());
-    formData.append('reasonForService', repair.reasonForService);
-    formData.append('date', repair.date.toString());
-    formData.append('employee', repair.employee.toString());
+    formData.append('status',  status.toString() /*  '2'*/ );
 
-    await Promise.all(
-      repair.beforeImages.map(async (imageFile, index) => {
-        if (imageFile) {
-          const response = await fetch(imageFile);
-          const blob = await response.blob();
-          formData.append('beforeImages', blob, `image${index}.jpg`);
-        }
-      }),
-    );
-
-    afterImages.forEach((imageFile, index) => {
-      if (imageFile) {
-        formData.append('afterImages', imageFile, `afterImages${index}.jpg`);
+    afterImages.forEach((image, index) => {
+      if (image instanceof File) {
+        formData.append('afterImages', image, `afterImages${index}.jpg`);
+      }
+    });
+  
+    // Envía las URLs de las imágenes existentes para indicar al backend que deben mantenerse
+    originalAfterImages.forEach((image, index) => {
+      if (image && !(afterImages[index] instanceof File)) {
+        formData.append(`originalAfterImages[${index}]`, image);
       }
     });
 
     try {
-      const response = await axios.put(`${API_REPAIR}/${plate}`, formData);
-
-      console.log('Se actualiza el estado del vehículo con la respuesta');
+      const response = await axios.patch(
+        `${API_REPAIR_UPDATE}/${plate}/${cc}`,
+        formData,
+      );
       setRepair(response.data);
-      console.log(repair);
     } catch (err) {
+      console.error('Mi error', err);
       setError('Error updating vehicle images.');
-      console.error('Error updating vehicle images:', err);
     }
   }
 
@@ -106,7 +108,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
               alt={`Vehicle Image ${index}`}
               className="object-cover w-full h-60 mb-4"
             />
-            <p className="text-center">Descripción de la Imagen</p>
+            <p className="text-center">{repair?.beforeDescriptions}</p>
           </div>
         ))}
       <div className=" justify-center items-center col-span-3">
@@ -115,21 +117,16 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
       <h2 className="col-span-3 text-2xl font-bold  text-center">
         Fotos de las reparaciones
       </h2>
-      {afterImages.map((imageFile, index) => (
-        <div key={index} className="mb-8 border-4 flex-shrink-0">
-          <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
-          {imageFile && (
-            <div>
-              <img
-                src={URL.createObjectURL(imageFile)}
-                alt="Dropped Image"
-                className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300 relative p-4 text-center"
-              />
-            </div>
-          )}
-        </div>
-      ))}
+      {Array.from({ length: 3 }).map((_, index) => (
+      <div key={index} className="mb-8 border-4 overflow-hidden">
+        <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
+        <p className="text-center">{repair?.afterDescriptions && repair.afterDescriptions[index]}</p>
+      </div>
+    ))}
+
+
     </>
   );
 };
+
 export default VehicleRepair;
