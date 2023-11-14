@@ -4,10 +4,10 @@ import { uploadImage, deleteImage } from '../config/cloudinary';
 import employee from '../models/employee';
 
 /**
- * 
+ *
  * @param repair repair object
  * @param bImageBuffers images before repair
- * @returns 
+ * @returns
  */
 const insertRepair = async (
   repair: Repair,
@@ -46,38 +46,67 @@ const getRepairs = async () => {
   return responseRepair;
 };
 
-const getRepair = async (plate: string, cc:number) => {
-  const responseRepair = await repairModel.findOne({ plate: plate , cc: cc});
+const getRepair = async (plate: string, cc: number) => {
+  const responseRepair = await repairModel.findOne({ plate: plate, cc: cc });
   return responseRepair;
 };
 
 const getRepairById = async (id: string) => {
-  const responseRepair = await repairModel.findOne({ _id: id});
+  const responseRepair = await repairModel.findOne({ _id: id });
   return responseRepair;
 };
 
-const getRepairsByPlate_Cc = async (plate: string, cc:number) => {
-  const responseRepair = await repairModel.find({ plate: plate , cc: cc});
+const getRepairsByPlate_Cc = async (plate: string, cc: number) => {
+  const responseRepair = await repairModel.find({ plate: plate, cc: cc });
   return responseRepair;
 };
 
-const updateRepair = async (plate: string, cc: number, data: Repair) => {
-  const responseRepair = await repairModel.findOneAndUpdate({ plate: plate, cc: cc }, data, {
-    new: true,
-  });
-  return responseRepair;
+const updateRepair = async (plate: string, cc: number, data: Partial<Repair>) => {
+  try {
+    // Encuentra y actualiza el registro, solo con los campos proporcionados
+    const updatedRepair = await repairModel.findOneAndUpdate(
+      { plate: plate, cc: cc },
+      { $set: data },
+      { new: true }, // Devuelve el objeto actualizado
+    );
+
+    if (!updatedRepair) {
+      throw new Error('Repair not found');
+    }
+
+    return updatedRepair;
+  } catch (error) {
+    console.error('Error in updateRepair:', error);
+    throw new Error('UPDATE_REPAIR_FAILED');
+  }
 };
+
+/* const updateRepair = async (plate: string, cc: number, data: Repair) => {
+  const responseRepair = await repairModel.findOneAndUpdate(
+    { plate: plate, cc: cc },
+    data,
+    {
+      new: true,
+    },
+  );
+  return responseRepair;
+}; */
 
 /**
- * 
+ *
  * @param plate plate of the repair to update
  * @param cc cc of the repair to update
  * @param total Total ammount to update
  * @param mode If 1 (add) or -1(rest)
  * @returns if succesful the updated "vehicle", if failed "null"
  */
-const updatePriceToPay = async (plate: string, cc: number, total: number, mode: -1 | 1) => {
-  const responseRepair: Repair | null = await getRepair(plate,cc);
+const updatePriceToPay = async (
+  plate: string,
+  cc: number,
+  total: number,
+  mode: -1 | 1,
+) => {
+  const responseRepair: Repair | null = await getRepair(plate, cc);
 
   if (responseRepair !== null) {
     responseRepair.priceToPay += total * mode;
@@ -102,7 +131,6 @@ const deleteRepair = async (id: string): Promise<Repair | null> => {
       return deleteImage(publicId);
     });
 
-    
     await Promise.all(deletePromises);
   }
 
@@ -112,7 +140,6 @@ const deleteRepair = async (id: string): Promise<Repair | null> => {
       return deleteImage(publicId);
     });
 
-    
     await Promise.all(deletePromises);
   }
 

@@ -4,7 +4,7 @@ import {
   getVehicles,
   updateVehicle,
   postVehicle,
-  deleteVehicle
+  deleteVehicle,
 } from '../controllers/vehicle';
 import { logMiddleware } from '../middleware/log';
 import fileUpload from 'express-fileupload';
@@ -20,11 +20,7 @@ router.get('/:plate', logMiddleware, getVehicle);
 //router.get('/employee/:id', getVehiclePEmployee);//esto ya no tiene sentido en vehicle, pasa a repair
 router.post('/', upload.array('images'), postVehicle);
 
-router.put(
-  '/:plate',
-  upload.fields([{ name: 'images' }]),
-  updateVehicle,
-);
+router.put('/:plate', upload.fields([{ name: 'images' }]), updateVehicle);
 
 router.delete('/:id', deleteVehicle);
 

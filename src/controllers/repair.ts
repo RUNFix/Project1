@@ -81,44 +81,32 @@ const getRepairsController = async (req: Request, res: Response) => {
 
 const updateRepairController = async (req: Request, res: Response) => {
   try {
-    const { plate,cc } = req.params;
+    const { plate, cc } = req.params;
     let updateData = { ...req.body };
 
-    console.log('Before images: ', updateData.beforeImages);
-    console.log('After images: ', updateData.afterImages);
-
-    if (req.files) {
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-      // Upload 'afterImages' if they exist
-      if (files.afterImages) {
-        const afterImagesFiles = files.afterImages;
-        const imageBuffers = afterImagesFiles.map((file) => file.buffer);
-        const uploadResults = await Promise.all(
-          imageBuffers.map((buffer) => uploadImage(buffer, 'afterImages')),
-        );
-        updateData.afterImages = uploadResults.map((result) => result.secure_url);
-      }
-
-      // Upload 'beforeImages' if they exist
-      if (files.beforeImages) {
-        // Process 'beforeImages' as needed
-        const beforeImages = files.beforeImages;
-        const beforeImagesBuffers = beforeImages.map((file) => file.buffer);
-        const uploadResults = await Promise.all(
-            beforeImagesBuffers.map((buffer) => uploadImage(buffer, 'beforeImages')),
-        );
-        // Assume you have a field in your model to store these URLs
-        updateData.beforeImages = uploadResults.map((result) => result.secure_url);
-      }
+    // Asegúrate de que 'req.files' se trata como un objeto con claves de campo que son arrays de archivos
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    
+    if (files && files.afterImages) {
+      // 'afterImages' se trata ahora como un array de archivos
+      const afterImagesFiles = files.afterImages;
+      const uploadResults = await Promise.all(
+        afterImagesFiles.map(file => uploadImage(file.buffer, 'afterImages'))
+      );
+      updateData.afterImages = uploadResults.map(result => result.secure_url);
+    } else {
+      // Si no hay archivos nuevos, manejar las URLs existentes de las imágenes
+      updateData.afterImages = req.body.afterImages; // Estas deberían ser las URLs existentes
     }
 
-    const response = await updateRepair(plate,Number(cc), updateData);
+    // Actualiza la reparación en la base de datos
+    const response = await updateRepair(plate, Number(cc), updateData);
     res.send(response);
   } catch (e) {
     handleHttp(res, 'ERROR_UPDATE_REPAIR');
   }
 };
+
 
 const postRepairController = async (req: Request, res: Response) => {
   try {

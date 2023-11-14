@@ -97,10 +97,4 @@ const deleteVeh = async (id: string): Promise<Vehicle | null> => {
 function extractPublicIdFromUrl(url: string): string {
   return url.split('/').slice(-1)[0].split('.')[0];
 }
-export {
-  insertveh,
-  getVechls,
-  getVehl,
-  updateVeh,
-  deleteVeh
-};
+export { insertveh, getVechls, getVehl, updateVeh, deleteVeh };
