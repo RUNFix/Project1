@@ -14,6 +14,7 @@ import multer from 'multer';
 
 import fileUpload, { UploadedFile } from 'express-fileupload';
 import { uploadImage } from '../config/cloudinary';
+import repairModel from '../models/repair';
 
 const getRepairsByPlate_CcController = async (req: Request, res: Response) => {
   try {
@@ -82,30 +83,39 @@ const getRepairsController = async (req: Request, res: Response) => {
 const updateRepairController = async (req: Request, res: Response) => {
   try {
     const { plate, cc } = req.params;
-    let updateData = { ...req.body };
-
-    // Asegúrate de que 'req.files' se trata como un objeto con claves de campo que son arrays de archivos
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-    
+    const originalAfterImages = req.body.originalAfterImages || [];
+
+    // Actualiza las imágenes nuevas si se proporcionan
+    let afterImagesUpdate = originalAfterImages.slice(0, 3); // Comienza con las imágenes originales
     if (files && files.afterImages) {
-      // 'afterImages' se trata ahora como un array de archivos
-      const afterImagesFiles = files.afterImages;
-      const uploadResults = await Promise.all(
-        afterImagesFiles.map(file => uploadImage(file.buffer, 'afterImages'))
-      );
-      updateData.afterImages = uploadResults.map(result => result.secure_url);
-    } else {
-      // Si no hay archivos nuevos, manejar las URLs existentes de las imágenes
-      updateData.afterImages = req.body.afterImages; // Estas deberían ser las URLs existentes
+      const uploadPromises = files.afterImages.map((file, index) => {
+        if (file) { // Solo procesar si se proporcionó un archivo
+          return uploadImage(file.buffer, 'afterImages');
+        }
+        return Promise.resolve(null); // No hay archivo para este índice
+      });
+
+      const uploadResults = await Promise.all(uploadPromises);
+      uploadResults.forEach((result, index) => {
+        if (result) {
+          afterImagesUpdate[index] = result.secure_url; // Reemplaza con la nueva URL si la carga fue exitosa
+        }
+      });
     }
 
-    // Actualiza la reparación en la base de datos
-    const response = await updateRepair(plate, Number(cc), updateData);
-    res.send(response);
+    // Llama a la función que actualiza la base de datos
+    const updatedRepair = await updateRepair(plate, Number(cc), {
+      ...req.body, // Incluye otros campos que se puedan haber enviado
+      afterImages: afterImagesUpdate // Arreglo actualizado de imágenes
+    });
+
+    res.send(updatedRepair);
   } catch (e) {
     handleHttp(res, 'ERROR_UPDATE_REPAIR');
   }
 };
+
 
 
 const postRepairController = async (req: Request, res: Response) => {

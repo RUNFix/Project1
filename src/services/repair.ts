@@ -63,11 +63,11 @@ const getRepairsByPlate_Cc = async (plate: string, cc: number) => {
 
 const updateRepair = async (plate: string, cc: number, data: Partial<Repair>) => {
   try {
-    // Encuentra y actualiza el registro, solo con los campos proporcionados
+    // Encuentra y actualiza el registro
     const updatedRepair = await repairModel.findOneAndUpdate(
       { plate: plate, cc: cc },
-      { $set: data },
-      { new: true }, // Devuelve el objeto actualizado
+      { $set: data }, // Aplica todos los cambios que se han incluido en data
+      { new: true } // Devuelve el objeto actualizado
     );
 
     if (!updatedRepair) {
@@ -81,16 +81,11 @@ const updateRepair = async (plate: string, cc: number, data: Partial<Repair>) =>
   }
 };
 
-/* const updateRepair = async (plate: string, cc: number, data: Repair) => {
-  const responseRepair = await repairModel.findOneAndUpdate(
-    { plate: plate, cc: cc },
-    data,
-    {
-      new: true,
-    },
-  );
-  return responseRepair;
-}; */
+
+
+
+
+
 
 /**
  *
