@@ -10,11 +10,10 @@ import PhotoMenu from '../components/vehicle/VehiclesPhotos';
 import Vehicle from '../components/vehicle/Vehicle';
 import PasswordChange from '../pages/PasswordChange';
 import PrivateRoute from './PrivateRoute';
-import VehicleInfo from 'src/pages/VehicleInfo';
 import RepairRegister from 'src/components/vehicle/repair/RepairRegister';
 import RepairHistory from 'src/components/vehicle/repair/RepairHistory';
 import RepairSearch from 'src/pages/RepairsSearch';
-import CustomerRegistration from 'src/Components/CustomerRegistration';
+import CustomerRegistration from 'src/components/customer/CustomerRegistration';
 
 function RoutesApp() {
   return (
@@ -34,8 +33,8 @@ function RoutesApp() {
           <Route path="password-change" element={<PasswordChange />} />
 
           <Route path="employee-register" element={<EmployeeRegistration />} />
-          <Route path="customer-register" element={<CustomerRegistration />} />
           <Route path="employee-table" element={<EmployeeTable />} />
+          <Route path="customer-register" element={<CustomerRegistration />} />
           <Route path="submenu" element={<SubMenu />} />
           <Route path="watson" element={<Watson />} />
           <Route
@@ -45,7 +44,6 @@ function RoutesApp() {
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle-repair" element={<RepairRegister />} />
           <Route path="vehicle" element={<Vehicle />} />
-          <Route path="vehicle-info" element={<VehicleInfo />} />
         </Route>
       </Routes>
     </BrowserRouter>

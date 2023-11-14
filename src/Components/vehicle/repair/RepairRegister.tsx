@@ -47,9 +47,7 @@ export default function RepairRegister() {
             formData.append('beforeImages', file);
           }
         });
-        console.log('Form data', formData.get('cc'));
-        console.log('Form data', formData.get('employee'));
-
+    
         const response = await axios.post(`${API_REPAIR}`, formData);
 
         console.log('Funciona', response);
