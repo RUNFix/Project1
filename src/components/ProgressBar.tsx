@@ -62,13 +62,13 @@ const ProgressBar: React.FC = () => {
       newStep = Math.min(step + 1, TOTAL_STEPS);
     }
     setStep(newStep);
-    setStatus(newStep); // Actualizar el status en el contexto
+    setStatus(newStep);
   };
 
   const handlePrevStep = () => {
     const newStep = Math.max(step - 1, 1);
     setStep(newStep);
-    setStatus(newStep); // Actualizar el status en el contexto
+    setStatus(newStep);
   };
 
   const stepTitles = [
