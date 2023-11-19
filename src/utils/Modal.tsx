@@ -230,3 +230,59 @@ export function ErrorModal({ text }) {
     </>
   );
 }
+
+
+export function NotificationModal({
+  onConfirm,
+  onCancel,
+}: {
+  onConfirm: () => void;
+  onCancel: () => void;
+}) 
+{
+  return (
+    <>
+    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none border-radius rounded-3xl animate-jump-in animate-once animate-delay-[10ms]">
+    <div className="relative w-auto my-6 mx-auto max-w-md">
+    <div className="border-0 rounded-xl shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
+    <div className="flex items-center justify-center p-5 border-b border-solid border-blueGray-200 rounded-t-xl">
+    <div className={`modal`}>
+      <div className="modal-content">
+        <h2 className="text-2xl font-bold mb-4">Notificación Cliente</h2>
+
+        {/* Description input box */}
+        <div className="mb-4">
+          <label htmlFor="description" className="block text-sm font-medium text-gray-600">Descripción</label>
+          <textarea
+            id="description"
+      
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          ></textarea>
+        </div>
+
+        {/* Image input box */}
+        <div className="mb-4">
+          <label htmlFor="image" className="block text-sm font-medium text-gray-600">Imagen</label>
+          <input
+            type="file"
+            id="image"
+        
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          />
+        </div>
+        </div>
+        </div>
+        </div>
+
+        {/* Submit button */}
+        <button onClick={() => {onConfirm()}} className="bg-blue-500 mt-2 mb-2  text-white px-4 py-2 rounded-md max-w-xs">Enviar</button>
+
+        {/* Close button */}
+        <button onClick={() => {onCancel()}} className="bg-red-600 mb-2 text-white px-4 py-2 rounded-md max-w-xs">Cerrar</button>
+      </div>
+    </div>
+    </div>
+    
+    </>
+  );
+}

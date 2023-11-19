@@ -7,6 +7,7 @@ import VehicleRepair from './VehicleRepair';
 import { API_REPAIR_EMPLOYEE, API_VEHICLE } from 'src/api/api';
 import { useUserContext } from 'src/context/Context';
 
+
 export default function Vehicles() {
   const [plates, setPlates] = useState<Vehicle[]>([]);
   const [selectedPlate, setSelectedPlate] = useState<string>('');
@@ -14,6 +15,7 @@ export default function Vehicles() {
   const [repairs, setRepairs] = useState([]);
   const [vehicleDetails, setVehicleDetails] = useState([]);
   const { cc } = useUserContext();
+  
 
   const ccEmployee = cc;
 
@@ -32,6 +34,7 @@ export default function Vehicles() {
           `${API_REPAIR_EMPLOYEE}/${ccEmployee}`,
         );
         if (response && response.data) {
+          console.log(response)
           const fetchedRepairs = response.data;
           setRepairs(fetchedRepairs);
           const fetchedPlates = fetchedRepairs.map((repair) => repair.plate);
@@ -41,7 +44,6 @@ export default function Vehicles() {
         console.error('Error fetching vehicles:', error);
       }
     }
-
     fetchRepair();
   }, [ccEmployee]);
 
@@ -64,6 +66,8 @@ export default function Vehicles() {
       }
     }
 
+
+    console.log(vehicleDetails);
     if (plates.length > 0) {
       fetchVehicleDetails();
     }
@@ -71,6 +75,7 @@ export default function Vehicles() {
 
   return (
     <div className="flex flex-col h-screen">
+      
       <Navbar />
       <main className="flex-grow mb-16">
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center m-4 sm:m-8 md:m-16">

@@ -5,6 +5,7 @@ import ImageDropzone from '../ImageDropzone';
 import { API_REPAIR, API_REPAIR_UPDATE } from 'src/api/api';
 import { Repair } from 'src/types/Repair';
 import { useUserContext } from 'src/context/Context';
+import {NotificationModal}  from '../../utils/Modal';
 
 type Props = {
   plate: string;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
+  const [showNotiModal, setShowNotiModal] = useState(false);
   const { status, setStatus } = useUserContext();
   const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
@@ -64,6 +66,20 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
     }
   }, [status]);
 
+  const handleNotiButton = () => {
+    setShowNotiModal(true);
+  };
+
+  const handleOnSubmit = () => {
+    console.log("Se envía")
+  };
+
+
+  const handleCancel = () => {
+    setShowNotiModal(false);
+  };
+
+
   console.log('Datos backend', repair);
 
   async function updateRepairDetails() {
@@ -100,7 +116,8 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   }
 
   return (
-    <>
+    <> 
+      { showNotiModal &&  <NotificationModal onConfirm={handleOnSubmit} onCancel={handleCancel}/>}
       {repair &&
         repair.beforeImages.map((image, index) => (
           <div key={index} className="border p-4 rounded shadow">
@@ -115,6 +132,11 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
       <div className=" justify-center items-center col-span-3">
         <ProgressBar />
       </div>
+      <button className="bg-green-600 text-white rounded-md max-w-xs"
+      onClick={handleNotiButton}
+      >
+        Notificar Cliente
+      </button>
       <h2 className="col-span-3 text-2xl font-bold  text-center">
         Fotos de las reparaciones
       </h2>
