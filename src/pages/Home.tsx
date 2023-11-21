@@ -122,7 +122,7 @@ const MenuPrincipal: React.FC = () => {
               etapas del servicio.
             </p>
           </section>
-          <section className="m-8 bg-slate-50 border-4 p-12 rounded-3xl">
+          <section className="m-8 bg-azul border-4 p-12 rounded-3xl">
             <h2 className="text-3xl mb-12 text-center font-semibold">
               Acerca de RUNFIX
             </h2>
@@ -221,7 +221,7 @@ const MenuPrincipal: React.FC = () => {
             <h3 className="text-center font-semibold text-3xl mb-8">
               Valores de la empresa
             </h3>
-            <article className="flex mt-4 bg-white rounded-lg shadow-lg p-5 mb-8  transform hover:translate-x-10 transition-transform duration-300">
+            <article className="flex mt-4 bg-azul rounded-lg shadow-lg p-5 mb-8  transform hover:translate-x-10 transition-transform duration-300">
               <div className="w-1/2">
                 <h2 className="text-xl font-semibold mb-2">
                   Responsabilidad y Eficacia: Los Valores que Impulsan al Equipo
@@ -244,14 +244,14 @@ const MenuPrincipal: React.FC = () => {
                 alt="imagen del equipo"
               />
             </article>
-            <article className="flex mt-4 bg-white rounded-lg shadow-lg p-5 ">
+            <article className="flex mt-4 bg-azul rounded-lg shadow-lg p-5 ">
               <img
                 className="mr-5 rounded-lg w-1/3"
                 src="https://www.autoavance.co/wp-content/uploads/2021/10/taller-mecanico-productividad.jpeg"
                 alt="imagen del taller"
               />
-              <div className="w-2/3">
-                <h2 className="text-xl font-semibold mb-2">
+              <div className="w-2/3 ">
+                <h2 className="text-xl font-semibold mb-2 ">
                   Redefiniendo la Experiencia de Reparación de Automóviles
                 </h2>
                 <p>
@@ -260,7 +260,7 @@ const MenuPrincipal: React.FC = () => {
                   experimentan el proceso de reparación y mantenimiento
                   automotriz. ¿Cómo lo hacemos? A través de un enfoque en tres
                   pilares fundamentales: transparencia, tecnología y talento.
-                  Pero no nos detenemos ahí; también priorizamos la comunicación
+                  Pero no nos detenemos ahí; También priorizamos la comunicación
                   continua y la educación del cliente, asegurando que cada
                   interacción con RunFix no sea simplemente una transacción,
                   sino una experiencia educativa y enriquecedora.
