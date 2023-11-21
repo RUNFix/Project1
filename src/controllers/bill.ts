@@ -95,12 +95,13 @@ const getFullBillController = async ({params}:Request, res: Response) => {
         const resBill:any = await getBill(id);
         if(!resBill) throw new Error('NOT_VALID_BILL_ID')
         const {plate, cc} = resBill;
-
+        
         const resVeh = await getVehl(plate);
-
+        
         const resClient = await getClient(cc);
-
+        
         const resRepair = await getRepair(plate, cc);
+
         //if all data gathered
         if(resBill && resVeh && resClient && resRepair){
             res.send({
@@ -125,7 +126,12 @@ const getFullBillController = async ({params}:Request, res: Response) => {
                 employee: resRepair.employee,
             });
         }else{
-            throw new Error('NOT_VALID_BILL')
+            let error = ''
+            if(resBill === null) error = 'NOT_BILL'
+            if(resVeh === null) error = 'NOT_VEHICLE'
+            if(resClient === null) error = 'NOT_CLIENT'
+            if(resRepair === null) error = 'NOT_REPAIR'
+            throw new Error(error)
         }
     }catch (e) {
         handleHttp(response,'ERROR_GET_FULL_BILL',e) 
