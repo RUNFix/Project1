@@ -3,29 +3,48 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
 import SocialMediaIcons from '../components/SocialMediaCards';
+import logo from '../assets/RUNFIX.png'
+
 
 const MenuPrincipal: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col min-h-screen bg-gray-50 text-justify">
-        <main className="flex-grow container mx-auto p-10 mt-14 ">
-          <h1 className="text-4xl mb-12 text-center font-semibold">
-            Bienvenido a RUNFIX
-          </h1>
-          <p className="mb-20 text-xl ">
-            ¡Bienvenido a RunFix, su taller de confianza para el mantenimiento y
-            reparación de vehículos! Sabemos lo estresante que puede ser
-            enfrentar problemas con su automóvil, y es por eso que estamos
-            comprometidos con la transparencia y la eficiencia en cada paso del
-            proceso. Desde el momento en que su vehículo entra en nuestro
-            taller, hasta que está listo para volver a la carretera, ofrecemos
-            un flujo constante de comunicación y actualizaciones fotográficas.
-            De esta manera, eliminamos las conjeturas y las preocupaciones,
-            brindándole una experiencia de servicio al cliente que es tan fluida
-            como la operación de su vehículo después de salir de nuestro taller.
-          </p>
-          <h2 className="text-2xl mb-16 text-center font-semibold">
+      <div className="flex flex-col min-h-screen bg-azul text-justify">
+        <main className="flex-grow container mx-auto p-10 mt-14 text-white ">
+
+          <div className='grid grid-cols-2 gap-20 h-80'>
+            <div className='col-span-1'>
+              <h1 className="text-4xl mb-12 text-center font-semibold text-white">
+                Una Nueva Forma de ir al Mecánico
+              </h1>
+              <p>Velamos por tu tranquilidad, al llevar el proceso de reparación al siguiente
+                nivel, con personal integro y transparente que hará lo mejor por tu vehículo
+              </p>
+
+              <div className='grid grid-cols-1 mt-5'>
+              <div className="flex">
+                <button className="bg-logo hover:bg-green-500 text-white p-1 rounded ml-2 flex-grow-0">
+                  Conoce más
+                </button>
+
+                <button className="bg-logo hover:bg-green-500 text-white p-1 rounded ml-2 flex-grow-0">
+                  Agenda una cita
+                </button>
+              </div>
+            </div>
+              
+            </div>
+
+            <div>
+
+              <img src={logo} alt="" />
+            </div>
+            
+          </div>
+          
+          
+          <h2 className="text-2xl mb-16 text-center font-semibold text-white">
             Con RunFix puede esperar nada menos que integridad, habilidad y un
             servicio excepcional."
           </h2>
