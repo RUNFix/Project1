@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       {succesLogOut && <SuccessModal text={'Log out exitoso'} />}
-      <nav className="bg-slate-800  w-full  top-0 left-0  border-gray-200 z-20 sticky">
+      <nav className="bg-azul  w-full  top-0 left-0  border-gray-200 z-20 sticky">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="#" className="flex items-center">
 
@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
                 type="button"
                 className="buttonBlueNavbarStyle"
                 onClick={logOut}
-                color='#ffbd59'
+                color='#FFBD59'
               >
                 Log out
               </button>
@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
                 type="button"
                 className="buttonBlueNavbarStyle"
                 onClick={navegarLogin}
-                color='#ffbd59'
+                color='#FFBD59'
               >
                 Log in
               </button>
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
             </button>
           </div>
           <div
-            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 bg-slate-800"
+            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
             id="navbar-sticky"
           >
             <ul className="ulNavbarStyle">
