@@ -17,7 +17,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   const { status, setStatus } = useUserContext();
   const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
-  const [afterImages, setAfterImages] = useState<File[]>([]);
+  const [afterImages, setAfterImages] = useState<(File | string | null)[]>([null, null, null]);
   const [originalAfterImages, setOriginalAfterImages] = useState<string[]>([]);
 
   console.log('Placa:', plate);
@@ -25,26 +25,40 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   console.log('Estado:', status);
 
   const handleImageDrop = (index: number) => (file: File) => {
-    setAfterImages((currentAfterImages) => {
+    setAfterImages(currentAfterImages => {
       const newAfterImages = [...currentAfterImages];
-      newAfterImages[index] = file; // Update only the specific index
+      // Replace the image at the specific index
+      newAfterImages[index] = file;
+
+      // If any null entries exist before the current index, replace them with the original images
+      for (let i = 0; i < index; i++) {
+        if (newAfterImages[i] === null && originalAfterImages[i]) {
+          newAfterImages[i] = originalAfterImages[i];
+        }
+      }
+
       return newAfterImages;
     });
   };
 
+
   useEffect(() => {
     async function fetchRepair() {
-      // Fetch repair logic
-      // Assuming response.data.afterImages is an array of image URLs or nulls
-      setAfterImages([
-        response.data.afterImages[0] || null,
-        response.data.afterImages[1] || null,
-        response.data.afterImages[2] || null,
-      ]);
+      try {
+        const response = await axios.get(`${API_REPAIR}/${plate}?cc=${cc}`);
+        if (response && response.data) {
+          setRepair(response.data);
+          setStatus(response.data.status);
+          setOriginalAfterImages(response.data.afterImages || []);
+        }
+      } catch (error) {
+        console.error('Error fetching vehicles:', error);
+      }
     }
 
     fetchRepair();
   }, [cc, plate, setStatus]);
+
   useEffect(() => {
     if (status !== undefined) {
       updateRepairDetails();
@@ -68,32 +82,31 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   async function updateRepairDetails() {
     const formData = new FormData();
     formData.append('status', status.toString());
-
+  
     afterImages.forEach((image, index) => {
       if (image instanceof File) {
-        // New image uploaded, append to formData
+        // Append File objects as files
         formData.append('afterImages', image, `afterImage${index}.jpg`);
       } else if (typeof image === 'string') {
-        // Existing image, send its URL (or whatever representation you use)
+        // Append strings as text fields, not as files
         formData.append(`originalAfterImages[${index}]`, image);
       }
+    
     });
-
-    // Only send original images that have not been replaced
-    originalAfterImages.forEach((image, index) => {
-      if (image && !afterImages[index]) {
-        formData.append(`originalAfterImages[${index}]`, image);
-      }
-    });
-
+  
     try {
-      const response = await axios.patch(`${API_REPAIR_UPDATE}/${plate}/${cc}`, formData);
+      const response = await axios.patch(`${API_REPAIR_UPDATE}/${plate}/${cc}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       setRepair(response.data);
     } catch (err) {
       console.error('Error updating vehicle:', err);
       setError('Error updating vehicle images.');
     }
   }
+  
 
   if (error) {
     return <p>{error}</p>;
@@ -125,13 +138,13 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
         Fotos de las reparaciones
       </h2>
       {Array.from({ length: 3 }).map((_, index) => (
-        <div key={index} className="mb-8 border-4 overflow-hidden">
-          <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
-          <p className="text-center">
-            {repair?.afterDescriptions && repair.afterDescriptions[index]}
-          </p>
-        </div>
-      ))}
+      <div key={`afterImage-${index}`} className="mb-8 border-4 overflow-hidden">
+        <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
+        <p className="text-center">
+          {repair?.afterDescriptions && repair.afterDescriptions[index]}
+        </p>
+      </div>
+    ))}
     </>
   );
 };

@@ -35,7 +35,7 @@ export default function Card({
 
   return (
     <Element
-      className="max-w-sm rounded overflow-hidden shadow-lg transform hover:scale-110 
+      className="max-w-sm  overflow-hidden shadow-lg transform hover:scale-110 
     transition-transform duration-300 text-azul bg-slate-800 rounded-2xl
 
 
