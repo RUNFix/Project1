@@ -14,6 +14,7 @@ import RepairRegister from 'src/components/vehicle/repair/RepairRegister';
 import RepairHistory from 'src/components/vehicle/repair/RepairHistory';
 import RepairSearch from 'src/pages/RepairsSearch';
 import CustomerRegistration from 'src/components/customer/CustomerRegistration';
+import GenerateVehicleBill from 'src/components/vehicle/GenerateVehicleBill';
 
 function RoutesApp() {
   return (
@@ -41,6 +42,7 @@ function RoutesApp() {
             path="spare-parts-registration"
             element={<SparePartsRegistration />}
           />
+          <Route path="generate-vehicle-bill" element={<GenerateVehicleBill/>}/>
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle-repair" element={<RepairRegister />} />
           <Route path="vehicle" element={<Vehicle />} />
