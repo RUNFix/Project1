@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 screen;
-import { Empleado } from '../../types/Employee';
+import { Empleado } from '../../Interfaces/Employee';
 import InvalidCredentialsModal, { ConfirmModal } from '../../utils/Modal';
 import { API_EMPLOYEE } from 'src/api/api';
 import { getAccessToken } from 'src/utils/Token';

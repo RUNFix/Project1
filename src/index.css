@@ -1,6 +1,10 @@
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add this in your CSS file */
 
 /* Estilos Navbar  */
 
@@ -43,4 +47,8 @@
 /* Estilos vehicleCard */
 .vehicleStyle {
   @apply border-2 sm:border-4 border-slate-800 rounded-3xl shadow hover:shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-105 h-72 sm:h-96;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
 }

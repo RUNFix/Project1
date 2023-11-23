@@ -3,7 +3,7 @@ import axios from 'axios';
 import ProgressBar from '../ProgressBar';
 import ImageDropzone from '../ImageDropzone';
 import { API_REPAIR, API_REPAIR_UPDATE } from 'src/api/api';
-import { Repair } from 'src/types/Repair';
+import { Repair } from 'src/Interfaces/Repair';
 import { useUserContext } from 'src/context/Context';
 import { NotificationModal } from '../../utils/Modal';
 

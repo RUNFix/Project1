@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
-import Navbar from '../../Navbar';
-import Footer from '../../Footer';
-import ImageDropzone from '../../ImageDropzone';
-import { errorToast, notValidToast, succesToast } from '../../../utils/Toast';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
+import ImageDropzone from '../ImageDropzone';
+import { errorToast, notValidToast, succesToast } from '../../utils/Toast';
 import { Toaster } from 'react-hot-toast';
-import { isPlateValid } from '../../../utils/ValueChecks';
-import { API_REPAIR } from '../../../api/api';
-import { Repair } from '../../../types/Repair';
+import { isPlateValid } from '../../utils/ValueChecks';
+import { API_REPAIR } from '../../api/api';
+import { Repair } from '../../Interfaces/Repair';
 import RepairForm from './RepairForm';
 
 export default function RepairRegister() {

@@ -9,6 +9,9 @@ module.exports = {
         'azul': '#081B29',
         'logo': '#FFBD59'
       },
+      fontFamily: {
+        sans: ['IBM Plex Sans', 'sans-serif'],
+      },
     },
   },
   plugins: ['@tailwindcss/forms', require('tailwindcss-animated')],

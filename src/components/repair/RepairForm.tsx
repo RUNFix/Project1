@@ -2,9 +2,9 @@ import axios from 'axios';
 import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { API_CLIENT, API_VEHICLE } from 'src/api/api';
-import { Client } from 'src/types/Client';
-import { Repair, initialValues } from 'src/types/Repair';
-import { Vehicle } from 'src/types/Vehicle';
+import { Client } from 'src/Interfaces/Client';
+import { Repair, initialValues } from 'src/Interfaces/Repair';
+import { Vehicle } from 'src/Interfaces/Vehicle';
 
 interface Props {
   onSubmitRepair: (values: Repair) => void;

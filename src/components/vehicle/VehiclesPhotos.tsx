@@ -3,7 +3,7 @@ import axios from 'axios';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import VehicleForm from './VehicleForm';
-import { Vehicle } from '../../types/Vehicle';
+import { Vehicle } from '../../Interfaces/Vehicle';
 import ImageDropzone from '../ImageDropzone';
 import { errorToast, notValidToast, succesToast } from '../../utils/Toast';
 import { Toaster } from 'react-hot-toast';

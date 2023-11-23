@@ -5,16 +5,16 @@ import SubMenu from '../components/SubMenu';
 import Home from '../pages/Home';
 import EmployeeRegistration from '../components/employee/EmployeeRegistration';
 import EmployeeTable from '../components/employee/EmployeeTable';
-import SparePartsRegistration from '../components/SparePartsRegistration';
+import SparePartsRegistration from '../components/bill/SparePartsRegistration';
 import PhotoMenu from '../components/vehicle/VehiclesPhotos';
 import Vehicle from '../components/vehicle/Vehicle';
 import PasswordChange from '../pages/PasswordChange';
 import PrivateRoute from './PrivateRoute';
-import RepairRegister from 'src/components/vehicle/repair/RepairRegister';
-import RepairHistory from 'src/components/vehicle/repair/RepairHistory';
+import RepairRegister from 'src/components/repair/RepairRegister';
+import RepairHistory from 'src/components/repair/RepairHistory';
 import RepairSearch from 'src/pages/RepairsSearch';
 import CustomerRegistration from 'src/components/customer/CustomerRegistration';
-import GenerateVehicleBill from 'src/components/vehicle/GenerateVehicleBill';
+import GenerateVehicleBill from 'src/components/bill/Bill';
 
 function RoutesApp() {
   return (

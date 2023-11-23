@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_REPAIR_ID } from 'src/api/api';
-import { Repair } from 'src/types/Repair';
+import { Repair } from 'src/Interfaces/Repair';
 import ProgressBar from 'src/components/ProgressBar';
 type Props = {
   id: string;

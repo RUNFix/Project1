@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
-import { Repuesto } from '../types/Spare';
-import '../index.css';
 import axios from 'axios';
-import {
-  isCcValid,
-  isPlateValid,
-  isPriceValid,
-  isValidDiscount,
-} from '../utils/ValueChecks';
-import { errorToast, notValidToast, succesToast } from '../utils/Toast';
+import React, { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { API_BILL } from 'src/api/api';
+import { errorToast, notValidToast, succesToast } from 'src/utils/Toast';
+import { isCcValid, isPlateValid, isPriceValid, isValidDiscount } from 'src/utils/ValueChecks';
+
 
 const TablaRepuestos: React.FC = () => {
   const [repuestos, setRepuestos] = useState<Repuesto[]>([]);

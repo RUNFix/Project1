@@ -2,7 +2,7 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { Field, Form, Formik } from 'formik';
-import { Client, initialValuesClient } from 'src/types/Client';
+import { Client, initialValuesClient } from 'src/Interfaces/Client';
 import { errorToast, notValidToast, succesToast } from 'src/utils/Toast';
 import { isCcValid } from 'src/utils/ValueChecks';
 import { API_CLIENT } from 'src/api/api';

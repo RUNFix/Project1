@@ -23,6 +23,7 @@ export const API_REPAIR_HISTORY = API + 'repair/history';
 
 /* Bil */
 export const API_BILL = API + 'bill';
+export const API_BILL_ID = API + 'bill/full';
 
 /* Client */
 export const API_CLIENT = API + 'client';

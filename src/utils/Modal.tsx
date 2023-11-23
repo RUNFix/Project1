@@ -243,7 +243,7 @@ export function NotificationModal({
 
   const handleImageDrop = (file: File) => {
     setImage(file);
-  };
+  };  
 
   return (
     <>

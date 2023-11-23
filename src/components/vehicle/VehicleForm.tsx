@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik';
-import { Vehicle, initialValues } from 'src/types/Vehicle';
+import { Vehicle, initialValues } from 'src/Interfaces/Vehicle';
 
 interface Props {
   onSubmit: (values: Vehicle) => void;

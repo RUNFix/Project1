@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import axios from 'axios';
-import { Vehicle } from '../../types/Vehicle';
+import { Vehicle } from '../../Interfaces/Vehicle';
 import VehicleRepair from './VehicleRepair';
 import { API_REPAIR_EMPLOYEE, API_VEHICLE } from 'src/api/api';
 import { useUserContext } from 'src/context/Context';
@@ -75,7 +75,6 @@ export default function Vehicles() {
 
   return (
     <div className="flex flex-col h-screen">
-      
       <Navbar />
       <main className="flex-grow mb-16">
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center m-4 sm:m-8 md:m-16">

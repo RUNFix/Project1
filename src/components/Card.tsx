@@ -35,7 +35,7 @@ export default function Card({
 
   return (
     <Element
-      className="max-w-sm  overflow-hidden shadow-lg transform hover:scale-110 
+      className="max-w-sm  overflow-hidden shadow-lg transform hover:scale-105 
     transition-transform duration-300 text-azul bg-slate-800 rounded-2xl
 
 
@@ -58,7 +58,7 @@ export default function Card({
         <div>
           <p className="text-justify mb-2 p-1">{description}</p>
           <button
-            className="bg-logo  backdrop: hover:bg-green-500 text-white p-1 rounded ml-2 "
+            className="bg-logo  backdrop: hover:bg-violet-500 text-white p-1 rounded ml-2 "
             onClick={() => navigate('/vehicle')}
           >
             Leer más
