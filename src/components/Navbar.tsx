@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { SuccessModal } from 'src/utils/Modal';
 import { TokenExists, removeTokens } from 'src/utils/Token';
 import logo from '../assets/RUNFIX.png'
-
+import logom from '../assets/RUNFIXmorado.png'
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
           <a href="#" className="flex items-center">
 
             <img
-              src={logo}
+              src={logom}
               className="h-10 ml-6"
               alt="Runfix logo"
             />
@@ -44,7 +44,6 @@ const Navbar: React.FC = () => {
                 type="button"
                 className="buttonBlueNavbarStyle"
                 onClick={logOut}
-                color='#FFBD59'
               >
                 Log out
               </button>
@@ -53,7 +52,6 @@ const Navbar: React.FC = () => {
                 type="button"
                 className="buttonBlueNavbarStyle"
                 onClick={navegarLogin}
-                color='#FFBD59'
               >
                 Log in
               </button>

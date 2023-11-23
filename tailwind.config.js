@@ -7,7 +7,8 @@ module.exports = {
     extend: {
       backgroundColor: {
         'azul': '#081B29',
-        'logo': '#FFBD59'
+        'logo': '#FFBD59',
+        'morado': '#5C469C'
       },
     },
   },

@@ -4,7 +4,8 @@ import Footer from '../components/Footer';
 import Card from '../components/Card';
 import SocialMediaIcons from '../components/SocialMediaCards';
 import logo from '../assets/RUNFIX.png'
-
+import logom from '../assets/RUNFIXmorado.png'
+import car from '../assets/lux-car.jpg'
 
 const MenuPrincipal: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ const MenuPrincipal: React.FC = () => {
       <div className="flex flex-col min-h-screen bg-azul text-justify">
         <main className="flex-grow container mx-auto p-10 mt-14 text-white ">
 
-          <div className='grid grid-cols-2 gap-20 h-80'>
+          <div className='grid grid-cols-2 gap-20 h-80 m-16'>
             <div className='col-span-1'>
               <h1 className="text-4xl mb-12 text-center font-semibold text-white">
                 Una Nueva Forma de ir al Mecánico
@@ -24,11 +25,11 @@ const MenuPrincipal: React.FC = () => {
 
               <div className='grid grid-cols-1 mt-5'>
               <div className="flex">
-                <button className="bg-logo hover:bg-green-500 text-white p-1 rounded ml-2 flex-grow-0">
+                <button className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0">
                   Conoce más
                 </button>
 
-                <button className="bg-logo hover:bg-green-500 text-white p-1 rounded ml-2 flex-grow-0">
+                <button className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0">
                   Agenda una cita
                 </button>
               </div>
@@ -38,13 +39,13 @@ const MenuPrincipal: React.FC = () => {
 
             <div>
 
-              <img src={logo} alt="" />
+              <img src={car} alt="" />
             </div>
             
           </div>
           
           
-          <h2 className="text-2xl mb-16 text-center font-semibold text-white">
+          <h2 className="text-2xl mb-16 mt-16 text-center font-semibold text-white">
             Con RunFix puede esperar nada menos que integridad, habilidad y un
             servicio excepcional."
           </h2>
