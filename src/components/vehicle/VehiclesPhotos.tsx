@@ -68,6 +68,8 @@ export default function PhotoMenu() {
     }
   };
 
+
+
   return (
     <>
       <Toaster />

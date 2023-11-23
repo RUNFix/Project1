@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import axiosInstance from 'src/utils/Auth';
 import { debounce } from 'lodash';
 import { API_SEARCH_EMPLOYEE } from 'src/api/api';
 
@@ -21,7 +22,8 @@ const SearchEmployee: React.FC<SearchEmployeeProps> = ({
         onEmployeeFilter(resultsCache[query]);
       } else {
         try {
-          const response = await axios.get(`${API_SEARCH_EMPLOYEE}/${query}`);
+          // Llamado con axios Instance
+          const response = await axiosInstance.get(`${API_SEARCH_EMPLOYEE}/${query}`);
           const resultsApi = response.data;
           setResultsCache((prevCache) => ({
             ...prevCache,
@@ -33,7 +35,7 @@ const SearchEmployee: React.FC<SearchEmployeeProps> = ({
         }
       }
     }, 200),
-    [resultsCache, onEmployeeFilter],
+    [],
   );
 
   useEffect(() => {
