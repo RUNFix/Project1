@@ -63,6 +63,9 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
     if (status !== undefined) {
       updateRepairDetails();
     }
+     if (status === 4) {
+       console.log('hola')
+     }
   }, [status]);
 
   const handleNotiButton = () => {
@@ -81,7 +84,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
 
   async function updateRepairDetails() {
     const formData = new FormData();
-    formData.append('status', status.toString());
+    formData.append('status',status.toString());
   
     afterImages.forEach((image, index) => {
       if (image instanceof File) {

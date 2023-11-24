@@ -27,3 +27,7 @@ export const API_BILL_ID = API + 'bill/full';
 
 /* Client */
 export const API_CLIENT = API + 'client';
+
+
+/* PDF */
+export const API_PDF = API + 'generatePDF';

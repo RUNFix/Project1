@@ -58,11 +58,7 @@ export default function Card({
         <div>
           <p className="text-justify mb-2 p-1">{description}</p>
           <button
-<<<<<<< HEAD
             className="bg-logo  backdrop: hover:bg-violet-500 text-white p-1 rounded ml-2 "
-=======
-            className="bg-morado  backdrop: hover:bg-green-500 text-white p-2 rounded ml-2 "
->>>>>>> ad45f1d60322cac9b12e8d59af8337781740fd05
             onClick={() => navigate('/vehicle')}
           >
             Leer más

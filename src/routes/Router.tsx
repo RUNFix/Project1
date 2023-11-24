@@ -5,7 +5,7 @@ import SubMenu from '../components/SubMenu';
 import Home from '../pages/Home';
 import EmployeeRegistration from '../components/employee/EmployeeRegistration';
 import EmployeeTable from '../components/employee/EmployeeTable';
-import SparePartsRegistration from '../components/bill/SparePartsRegistration';
+import SparePartsRegistration from '../components/Invoice/SparePartsRegistration';
 import PhotoMenu from '../components/vehicle/VehiclesPhotos';
 import Vehicle from '../components/vehicle/Vehicle';
 import PasswordChange from '../pages/PasswordChange';
@@ -14,7 +14,8 @@ import RepairRegister from 'src/components/repair/RepairRegister';
 import RepairHistory from 'src/components/repair/RepairHistory';
 import RepairSearch from 'src/pages/RepairsSearch';
 import CustomerRegistration from 'src/components/customer/CustomerRegistration';
-import GenerateVehicleBill from 'src/components/bill/Bill';
+import InvoiceGenerate from 'src/components/Invoice/InvoiceGenerate';
+import Invoice from 'src/components/Invoice/Invoice';
 
 function RoutesApp() {
   return (
@@ -28,6 +29,7 @@ function RoutesApp() {
           path="repair-history/:plate/:documento"
           element={<RepairHistory />}
         />
+        <Route path="invoice/:id" element={<Invoice />} />
 
         {/*  Rutas protegidas */}
         <Route path="/*" element={<PrivateRoute />}>
@@ -42,10 +44,11 @@ function RoutesApp() {
             path="spare-parts-registration"
             element={<SparePartsRegistration />}
           />
-          <Route path="generate-vehicle-bill" element={<GenerateVehicleBill/>}/>
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle-repair" element={<RepairRegister />} />
           <Route path="vehicle" element={<Vehicle />} />
+
+          <Route path="invoice-generate" element={<InvoiceGenerate/>} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -7,14 +7,22 @@ import { Bill } from 'src/Interfaces/Bill';
 import { Client } from 'src/Interfaces/Client';
 import { Vehicle } from 'src/Interfaces/Vehicle';
 import { Repair } from 'src/Interfaces/Repair';
+import { useParams } from 'react-router-dom';
 
-const VehicleReceipt: React.FC = () => {
+
+
+
+const Invoice: React.FC = () => {
   const [billData, setBillData] = useState<Bill>();
   const [clientData, setClientData] = useState<Client>();
   const [vehicleData, setVehicleData] = useState<Vehicle>();
-  const [repairData, setRepairData] = useState<Repair>();
+  const [repairData, setRepairData] = useState<Repair>(); 
+  const params = useParams();
 
-  const id = '653ef16b255d5f7a69654266';
+  const { id } = params;
+  console.log(id)
+
+
 
   useEffect(() => {
     async function fetchBill() {
@@ -152,16 +160,12 @@ const VehicleReceipt: React.FC = () => {
           <div className="shadow-xl mb-6 w-full max-w-4xl">
             <table className="min-w-full text-xs md:text-sm">
               {/* Encabezados de la tabla */}
-              <thead className="bg-indigo-600"> 
+              <thead className="bg-indigo-600">
                 <tr>
-                  <th className="text-left py-2 px-6">
-                    Descripción
-                  </th>
+                  <th className="text-left py-2 px-6">Descripción</th>
                   <th className="text-left py-2 px-6">Cantidad</th>
 
-                  <th className="text-left py-2 px-6 ">
-                    Precio Unitario
-                  </th>
+                  <th className="text-left py-2 px-6 ">Precio Unitario</th>
                   <th className="text-left py-2 px-6 ">Descuento</th>
                   <th className="text-left py-2 px-6 ">Total</th>
                 </tr>
@@ -184,13 +188,8 @@ const VehicleReceipt: React.FC = () => {
             </table>
           </div>
         )}
-        <div className="flex justify-center">
-          <button className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out mt-4">
-            Convertir a PDF
-          </button>
-        </div>
       </div>
     </>
   );
 };
-export default VehicleReceipt;
+export default Invoice;
