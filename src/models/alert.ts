@@ -14,7 +14,11 @@ const alertSchema = new Schema<Alert>(
         state: {
             type: Number,
             default: 0,
-            enum: [0,1,2,3,4]
+            enum: [0,1,2,3,4] // (0 -> normal alert), (1, 2, 3 and 4 -> repair update)
+        },
+        message: {
+            type: String,
+            default:''
         },
         PDFlink: {
             type: String,
