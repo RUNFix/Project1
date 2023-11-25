@@ -84,38 +84,44 @@ const updateRepairController = async (req: Request, res: Response) => {
   try {
     const { plate, cc } = req.params;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-    const originalAfterImages = req.body.originalAfterImages || [];
 
-    // Actualiza las imágenes nuevas si se proporcionan
-    let afterImagesUpdate = originalAfterImages.slice(0, 3); // Comienza con las imágenes originales
+    // Recuperar el registro actual de la base de datos
+    const currentRepair = await repairModel.findOne({ plate, cc });
+
+    if (!currentRepair) {
+      return res.status(404).send('Repair not found');
+    }
+
+    // Obtener el arreglo actual de afterImages
+    let afterImagesUpdate = currentRepair.afterImages || [];
+
     if (files && files.afterImages) {
-      const uploadPromises = files.afterImages.map((file, index) => {
-        if (file) { // Solo procesar si se proporcionó un archivo
-          return uploadImage(file.buffer, 'afterImages');
-        }
-        return Promise.resolve(null); // No hay archivo para este índice
+      const uploadPromises = files.afterImages.map((file) => {
+        return file ? uploadImage(file.buffer, 'afterImages') : Promise.resolve(null);
       });
 
       const uploadResults = await Promise.all(uploadPromises);
-      uploadResults.forEach((result, index) => {
-        if (result) {
-          afterImagesUpdate[index] = result.secure_url; // Reemplaza con la nueva URL si la carga fue exitosa
+      uploadResults.forEach((result) => {
+        if (result && afterImagesUpdate.length < 12) {
+          afterImagesUpdate.push(result.secure_url); // Agregar solo si hay menos de 12 imágenes
         }
       });
     }
 
-    // Llama a la función que actualiza la base de datos
-    const updatedRepair = await updateRepair(plate, Number(cc), {
-      ...req.body, // Incluye otros campos que se puedan haber enviado
-      afterImages: afterImagesUpdate // Arreglo actualizado de imágenes
-    });
+    // Preparar los datos para la actualización
+    let updateData = {
+      ...req.body,
+      afterImages: afterImagesUpdate,
+    };
+
+    // Actualizar el registro en la base de datos
+    const updatedRepair = await updateRepair(plate, Number(cc), updateData);
 
     res.send(updatedRepair);
   } catch (e) {
     handleHttp(res, 'ERROR_UPDATE_REPAIR');
   }
 };
-
 
 
 const postRepairController = async (req: Request, res: Response) => {
