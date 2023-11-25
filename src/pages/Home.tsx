@@ -224,7 +224,7 @@ const MenuPrincipal: React.FC = () => {
             </h3>
             <article className="flex mt-4 bg-azul rounded-lg shadow-lg p-5 mb-8  transform hover:translate-x-10 transition-transform duration-300">
               <div className="w-1/2">
-                <h2 className="text-xl font-semibold mb-2">
+                <h2 className="text-3xl font-semibold">
                   Responsabilidad y Eficacia: Los Valores que Impulsan al Equipo
                   de RunFix
                 </h2>
