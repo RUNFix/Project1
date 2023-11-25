@@ -121,7 +121,7 @@ const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
               className="block  text-sm font-medium mb-3"
               htmlFor="employee"
             >
-              Cedula empleado
+              Cedula del empleado
             </label>
             <Field
               className="fieldStyles"

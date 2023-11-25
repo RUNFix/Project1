@@ -65,7 +65,7 @@ export default function RepairRegister() {
       <Toaster />
       <Navbar />
       <h1 className="text-3xl font-bold mb-4 text-center m-16">
-        Regsitro Cliente
+        Registro Cliente
       </h1>
       <ClientForm onSubmit={handleUpload} />
       <Footer />
@@ -123,13 +123,13 @@ const ClientForm: React.FC<Props> = ({ onSubmit }) => {
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-3" htmlFor="email">
-              email
+              Email
             </label>
             <Field className="fieldStyles" type="email" name="email" required />
           </div>
           <div className="mb-4">
             <label className="block   text-sm font-medium mb-3" htmlFor="phoneNumber">
-              Numero de telefono
+              Numero de teléfono
             </label>
             <Field
               className="fieldStyles"
@@ -146,14 +146,14 @@ const ClientForm: React.FC<Props> = ({ onSubmit }) => {
               className="block text-sm font-medium mb-3"
               htmlFor="ccExpirationDate"
             >
-              Fecha de Expiración (dd/mm/aaaa)
+              Fecha de expedición del documento (dd/mm/aaaa)
             </label>
             <Field
-              className="fieldStyles"
-              type="text"
-              name="ccExpirationDate"
-              placeholder="DD/MM/AAAA"
-              required
+            type="date"
+            id="ccExpirationDate"
+            name="ccExpirationDate"
+            className="fieldStyles"
+            required
             />
           </div>
 
@@ -168,5 +168,4 @@ const ClientForm: React.FC<Props> = ({ onSubmit }) => {
     </Formik>
   );
 };
-
 
