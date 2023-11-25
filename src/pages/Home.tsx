@@ -14,7 +14,7 @@ const MenuPrincipal: React.FC = () => {
       <div className="flex flex-col min-h-screen bg-azul text-justify">
         <main className="flex-grow container mx-auto p-10 mt-14 text-white ">
 
-          <div className='grid grid-cols-2 gap-20 h-80 m-16'>
+          <div className='grid grid-cols-2 gap-20 h-80'>
             <div className='col-span-1'>
               <h1 className="text-4xl mb-12 text-center font-semibold text-white">
                 Una Nueva Forma de ir al Mecánico
@@ -45,10 +45,12 @@ const MenuPrincipal: React.FC = () => {
           </div>
           
           
-          <h2 className="text-2xl mb-16 mt-16 text-center font-semibold text-white">
+          <h2 className="text-2xl text-center font-semibold text-white max-lg:hidden">
             Con RunFix puede esperar nada menos que integridad, habilidad y un
             servicio excepcional."
           </h2>
+          
+          
           {/* CARDS */}
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-auto">
             <Card

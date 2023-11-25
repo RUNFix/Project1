@@ -21,7 +21,7 @@ export default function SubMenu() {
   return (
     <>
       <Toaster />
-      <div className="flex flex-col min-h-screen bg-gray-50 text-justify">
+      <div className="flex flex-col min-h-screen bg-azul text-justify text-white">
         <Navbar />
         <main className="flex-grow md:p-6 lg:p-12 mx-32 md:mx-48 lg:mx-52">
           <h1 className="text-4xl text-center font-semibold">

@@ -8,7 +8,7 @@ import { Client } from 'src/Interfaces/Client';
 import { Vehicle } from 'src/Interfaces/Vehicle';
 import { Repair } from 'src/Interfaces/Repair';
 import { useParams } from 'react-router-dom';
-
+import logom from '../../assets/RUNFIXmorado.png'
 
 
 
@@ -48,11 +48,22 @@ const Invoice: React.FC = () => {
 
   return (
     <>
-      <Toaster />
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-        <h2 className="text-2xl md:text-4xl font-bold mb-8 text-slate-800">
+      
+      <div className="flex flex-col items-center justify-center bg-gray-50">
+      <div className='flex justify-between w-full max-w-4xl'>
+      <h2 className="text-2xl md:text-4xl font-bold mb-8 text-slate-800">
           Recibo de pago
-        </h2>
+        </h2> 
+        <div className='bg-azul rounded-lg h-10'>
+        <img
+              src={logom}
+              className="h-10 ml-2"
+              alt="Runfix logo"
+            />
+        </div>
+        
+          
+        </div>
 
         {/* Información personal del dueño en formato de tabla */}
 
