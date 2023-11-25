@@ -46,6 +46,7 @@ const ProgressBar: React.FC = () => {
   const [step, setStep] = useState(1);
   const { status, setStatus } = useUserContext();
 
+  console.log('estado' ,status) 
   const token = TokenExists();
 
   useEffect(() => {

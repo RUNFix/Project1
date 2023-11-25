@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_REPAIR_ID } from 'src/api/api';
 import { Repair } from 'src/Interfaces/Repair';
 import ProgressBar from 'src/components/ProgressBar';
+import { useUserContext } from 'src/context/Context';
 type Props = {
   id: string;
 };
@@ -10,12 +11,15 @@ type Props = {
 const Repair: React.FC<Props> = ({ id }) => {
   const [repair, setrepair] = useState<Repair | null>(null);
   const [error, setError] = useState<string | null>(null);
+    const { setStatus } = useUserContext();
 
   useEffect(() => {
     async function fetchrepairDetails() {
       try {
         const response = await axios.get(`${API_REPAIR_ID}/${id}`);
         setrepair(response.data);
+        setStatus(response.data.status);
+        
       } catch (err) {
         setError('Error fetching repairdetails.');
         console.error('Error fetching repairdetails:', err);

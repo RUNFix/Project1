@@ -27,7 +27,9 @@ const Invoice: React.FC = () => {
   useEffect(() => {
     async function fetchBill() {
       try {
-        const response = await axios.get(`${API_BILL_ID}/${id}`);
+        const response = await axios.get(
+          `${API_BILL_ID}/${'653ef16b255d5f7a69654266'}`,
+        );
         console.log('DATOS DEL BACKEND', response.data);
 
         const { billData, clientData, vehicleData, repairData } = response.data;

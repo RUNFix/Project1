@@ -46,7 +46,7 @@ export default function SubMenu() {
               />
             </section>
           ) : (
-            <section className="place-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
+            <section className="place-items-center grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
               <Card
                 title={'Tareas pendientes'}
                 img="https://img.freepik.com/vector-premium/lista-verificacion-completa-ilustracion-plana-mujer-dibujos-animados_74855-18269.jpg"
@@ -55,6 +55,24 @@ export default function SubMenu() {
               />
               <Card
                 title={'Cambio de credenciales'}
+                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                showDetails={false}
+                screen="password-change"
+              />
+              <Card
+                title={'Formulario vehiculo'}
+                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                showDetails={false}
+                screen="password-change"
+              />
+              <Card
+                title={'Formulario vehiculo'}
+                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                showDetails={false}
+                screen="password-change"
+              />
+              <Card
+                title={'Registro Cliente'}
                 img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
                 showDetails={false}
                 screen="password-change"

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProgressBar from '../ProgressBar';
-import ImageDropzone from '../ImageDropzone';
-import { API_REPAIR, API_REPAIR_UPDATE } from 'src/api/api';
+import { API_REPAIR, API_REPAIR_UPDATE,  } from 'src/api/api';
 import { Repair } from 'src/Interfaces/Repair';
 import { useUserContext } from 'src/context/Context';
-import { NotificationModal } from '../../utils/Modal';
-import Card from '../Card';
+import { ModalRepair } from 'src/utils/ModalRepair';
 
 type Props = {
   plate: string;
@@ -14,34 +12,13 @@ type Props = {
 };
 
 const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
-  const [showNotiModal, setShowNotiModal] = useState(false);
   const { status, setStatus } = useUserContext();
   const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
-  const [afterImages, setAfterImages] = useState<(File | string | null)[]>([null, null, null]);
-  const [originalAfterImages, setOriginalAfterImages] = useState<string[]>([]);
+  const [showRepairModal, setShowRepairModal] = useState(false);
+  const [currentCardId, setCurrentCardId] = useState<number | null>(null);
 
-  console.log('Placa:', plate);
-  console.log('Cédula:', cc);
   console.log('Estado:', status);
-
-  const handleImageDrop = (index: number) => (file: File) => {
-    setAfterImages(currentAfterImages => {
-      const newAfterImages = [...currentAfterImages];
-      // Replace the image at the specific index
-      newAfterImages[index] = file;
-
-      // If any null entries exist before the current index, replace them with the original images
-      for (let i = 0; i < index; i++) {
-        if (newAfterImages[i] === null && originalAfterImages[i]) {
-          newAfterImages[i] = originalAfterImages[i];
-        }
-      }
-
-      return newAfterImages;
-    });
-  };
-
 
   useEffect(() => {
     async function fetchRepair() {
@@ -50,7 +27,6 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
         if (response && response.data) {
           setRepair(response.data);
           setStatus(response.data.status);
-          setOriginalAfterImages(response.data.afterImages || []);
         }
       } catch (error) {
         console.error('Error fetching vehicles:', error);
@@ -61,56 +37,31 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   }, [cc, plate, setStatus]);
 
   useEffect(() => {
-    if (status !== undefined) {
-      updateRepairDetails();
-    }
-     if (status === 4) {
-       console.log('hola')
-     }
-  }, [status]);
+    // Define la función asincrónica dentro del useEffect
+    const updateRepair = async () => {
+      const formData = new FormData();
+      formData.append('status', status.toString());
 
-  const handleNotiButton = () => {
-    setShowNotiModal(true);
-  };
-
-  const handleOnSubmit = () => {
-    console.log("Se envía")
-  };
-
-  const handleCancel = () => {
-    setShowNotiModal(false);
-  };
-
-  console.log('Datos backend', repair);
-
-  async function updateRepairDetails() {
-    const formData = new FormData();
-    formData.append('status',status.toString());
-  
-    afterImages.forEach((image, index) => {
-      if (image instanceof File) {
-        // Append File objects as files
-        formData.append('afterImages', image, `afterImage${index}.jpg`);
-      } else if (typeof image === 'string') {
-        // Append strings as text fields, not as files
-        formData.append(`originalAfterImages[${index}]`, image);
+      try {
+        const response = await axios.patch(
+          `${API_REPAIR_UPDATE}/${plate}/${cc}`,
+        formData,
+        );
+        console.log('Response:', response.data);
+      } catch (err) {
+        console.error('Error updating repair:', err);
+        setError('Error updating repair.');
       }
-    
-    });
-  
-    try {
-      const response = await axios.patch(`${API_REPAIR_UPDATE}/${plate}/${cc}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setRepair(response.data);
-    } catch (err) {
-      console.error('Error updating vehicle:', err);
-      setError('Error updating vehicle images.');
-    }
-  }
-  
+    };
+
+    // Llama a la función asincrónica
+    updateRepair();
+  }, [status]); 
+
+  const handleCardClick = (cardId: number) => {
+    setCurrentCardId(cardId);
+    setShowRepairModal(true);
+  };
 
   if (error) {
     return <p>{error}</p>;
@@ -118,9 +69,6 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
 
   return (
     <>
-      {showNotiModal && (
-        <NotificationModal onConfirm={handleOnSubmit} onCancel={handleCancel} />
-      )}
       {repair &&
         repair.beforeImages.map((image, index) => (
           <div key={index} className="border rounded-3xl shadow">
@@ -135,41 +83,63 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
       <div className="justify-center items-center col-span-3">
         <ProgressBar />
       </div>
-      <button
-        className="bg-green-600 text-white rounded-md max-w-xs"
-        onClick={handleNotiButton}
+
+      <div
+        key="1"
+        className=" brounded-lg  overflow-hiddentransform hover:scale-105 
+    transition-transform duration-300"
       >
-        Notificar Cliente
-      </button>
-      <h2 className="col-span-3 text-2xl font-bold text-center">
-        Fotos de las reparaciones
-      </h2>
-      {Array.from({ length: 3 }).map((_, index) => (
-        <div
-          key={`afterImage-${index}`}
-          className="mb-8 overflow-hidden"
-        >
-          <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
-          <p className="text-center">
-            {repair?.afterDescriptions && repair.afterDescriptions[index]}
-          </p>
+        <div className="w-full h-48 sm:h-64 md:h-80 flex justify-center items-center">
+          <img
+            src="src/assets/tuerca.png"
+            alt="partes"
+            className="w-full h-full object-cover"
+          />
         </div>
-      ))}
-      <Card
-        title={'Partes - Repuestos'}
-        img="src/assets/tuerca.png"
-        showDetails={false}
-      />
-      <Card
-        title={'Foto Reparacion'}
-        img="src/assets/camera.png"
-        showDetails={false}
-      />
-      <Card
-        title={'Notificar Cliente'}
-        img="src/assets/notificacion.png"
-        showDetails={false}
-      />
+        <h2 className="text-2xl font-bold text-center mt-4">
+          Respuesto del cliente
+        </h2>
+      </div>
+      <div
+        key="2"
+        onClick={() => handleCardClick(2)}
+        className="rounded-lg overflow-hidden transform hover:scale-105 
+transition-transform duration-300"
+      >
+        <div className="w-full h-48 sm:h-64 md:h-80 flex justify-center items-center">
+          <img
+            src="src/assets/camera.png"
+            alt="partes"
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+        <h2 className="text-2xl font-bold text-center  mt-4">
+          Tomar Fotos de las reparaciones
+        </h2>
+      </div>
+      <div
+        key="3"
+        onClick={() => handleCardClick(3)}
+        className="rounded-lg overflow-hidden transform hover:scale-105 
+transition-transform duration-300"
+      >
+        <div className="w-full h-96 sm:h-64 md:h-80 flex justify-center items-center">
+          <img
+            src="src/assets/telegram.png"
+            alt="Notificacion"
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+        <h2 className="text-2xl font-bold text-center">Notificar al cliente</h2>
+      </div>
+      {showRepairModal && (
+        <ModalRepair
+          cardId={currentCardId}
+          onCancel={() => setShowRepairModal(false)}
+          cc={cc}
+          plate={plate}
+        />
+      )}
     </>
   );
 };

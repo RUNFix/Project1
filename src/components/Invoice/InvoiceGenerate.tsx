@@ -21,13 +21,16 @@ const InvoiceGenerate: React.FC = ({
   const [repairData, setRepairData] = useState<Repair>();
   const [hasPosted, setHasPosted] = useState(false);
 
+console.log('ID',id);
 useEffect(() => {
    const postData = async () => {
      if (!hasPosted) {
        try {
          const response = await axios.post(API_PDF, {
-           url: `${window.location.origin}/invoice/${id}`,
-           _id: id,
+           url: `${
+             window.location.origin
+           }/invoice/${'653ef16b255d5f7a69654266'}`,
+           _id: '653ef16b255d5f7a69654266',
          });
          console.log('PDF created:', response.data.url);
          setHasPosted(true); // Actualiza hasPosted aquí
