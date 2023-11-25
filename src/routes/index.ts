@@ -1,25 +1,36 @@
-import { Router } from "express";
+import { Router } from 'express';
+import { readdirSync } from 'fs';
+import path from 'path';
 
-import {readdirSync} from "fs";
-
-const PATH_ROUTER = `${__dirname}`;
-
+const PATH_ROUTER = __dirname;
 const router = Router();
 
-const cleanFileName = (fileName:string)=>{
-    const file = fileName.split('.').shift();
-    return file;
+const cleanFileName = (fileName: string) => path.parse(fileName).name;
 
-}
+const loadRoutes = async () => {
+  const files = readdirSync(PATH_ROUTER).filter(
+    (fileName) => cleanFileName(fileName) !== 'index',
+  );
 
-readdirSync(PATH_ROUTER).filter((fileName)=>{
-    const cleanName= cleanFileName(fileName);
-    if(cleanName !== "index"){
-        import(`./${cleanName}`).then((moduleRouter)=>{
-            console.log(`Se está cargando la ruta... ${cleanName}`);
-            router.use(`/${cleanName}`, moduleRouter.router);
-        })
+  for (const fileName of files) {
+    try {
+      const cleanName = cleanFileName(fileName);
+      const moduleRouter = await import(path.join(PATH_ROUTER, fileName));
+      if (moduleRouter.router) {
+        console.log(`Cargando la ruta: ${cleanName}`);
+        router.use(`/${cleanName}`, moduleRouter.router);
+      } else {
+        console.error(
+          `The module ${cleanName} does not export a router. Found:`,
+          moduleRouter,
+        );
+      }
+    } catch (error) {
+      console.error(`Error loading the route ${fileName}:`, error);
     }
+  }
+};
 
-})
-export {router};
+loadRoutes();
+
+export { router };

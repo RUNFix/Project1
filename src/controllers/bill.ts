@@ -104,27 +104,32 @@ const getFullBillController = async ({params}:Request, res: Response) => {
 
         //if all data gathered
         if(resBill && resVeh && resClient && resRepair){
-            res.send({
-                //bill data
-                state: resBill.state,
-                plate: resBill.plate,
-                cc: resBill.cc,
-                items: resBill.items,
-                //client data
-                name: resClient.name,
-                lastname: resClient.lastname,
-                email: resClient.email,
-                phoneNumer: resClient.phoneNumber,
-                //vehicle data
-                model: resVeh.model,
-                brand: resVeh.brand,
-                year: resVeh.year,
-                color: resVeh.color,
-                //repair data
-                status: resRepair.status,
-                priceToPay: resRepair.priceToPay,
-                employee: resRepair.employee,
-            });
+           res.send({
+             billData: {
+               state: resBill.state,
+               plate: resBill.plate,
+               cc: resBill.cc,
+               items: resBill.items,
+             },
+             clientData: {
+               name: resClient.name,
+               lastname: resClient.lastname,
+               email: resClient.email,
+               phoneNumber: resClient.phoneNumber,
+             },
+             vehicleData: {
+               model: resVeh.model,
+               brand: resVeh.brand,
+               year: resVeh.year,
+               color: resVeh.color,
+             },
+             repairData: {
+               status: resRepair.status,
+               priceToPay: resRepair.priceToPay,
+               employee: resRepair.employee,
+             },
+           });
+
         }else{
             let error = ''
             if(resBill === null) error = 'NOT_BILL'
