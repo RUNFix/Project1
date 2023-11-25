@@ -19,7 +19,6 @@ const InvoiceGenerate: React.FC = ({
   const [clientData, setClientData] = useState<Client>();
   const [vehicleData, setVehicleData] = useState<Vehicle>();
   const [repairData, setRepairData] = useState<Repair>();
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
   const [hasPosted, setHasPosted] = useState(false);
 
 useEffect(() => {
@@ -47,7 +46,7 @@ useEffect(() => {
 }, [hasPosted]);
 
 
-  const handleConvertToPdf = async () => {
+ /*  const handleConvertToPdf = async () => {
     const currentUrl = `${window.location.origin}/invoice/${id}`;
 
     console.log(currentUrl);
@@ -66,7 +65,7 @@ useEffect(() => {
       console.error('Error converting to PDF:', error);
     }
   };
-
+ */
   useEffect(() => {
     async function fetchBill() {
       try {
@@ -231,7 +230,6 @@ useEffect(() => {
           </div>
         )}
     {/*     <div className="flex justify-center">
-          {isButtonVisible && (
             <button
               className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out mt-4
           "
@@ -239,7 +237,7 @@ useEffect(() => {
             >
               Convertir a PDF
             </button>
-          )}
+        
         </div> */}
       </div>
     </>

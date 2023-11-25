@@ -243,36 +243,67 @@ export function NotificationModal({
 
   const handleImageDrop = (file: File) => {
     setImage(file);
-  };  
+  };
 
-  return (
-    <>
-      <div className="flex items-center justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative mx-auto my-6 max-w-4xl w-full">
-          <div className="flex flex-col w-full bg-white rounded-xl shadow-2xl outline-none focus:outline-none border-0">
-            <div className="p-6 text-center border-b border-solid border-blueGray-200 rounded-t-xl">
-              <h2 className="text-3xl font-bold mb-4">Notificación Cliente</h2>
+return (
+  <>
+    <div className="flex items-center justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div className="relative mx-auto my-4   md:max-w-md lg:max-w-lg w-full">
 
-              {/* Image input box */}
-              <div className="mb-4">
-                <ImageDropzone onImageDrop={handleImageDrop} />
-              </div>
-
-              {/* Description input box */}
-              <div className="mb-4">
-                <label htmlFor="description" className="block text-sm font-medium text-gray-600">Descripción</label>
-                <textarea id="description" className="mt-1 p-2 w-full border border-gray-300 rounded-md"></textarea>
-              </div>
-
-              {/* Action buttons */}
-              <div className="flex justify-center space-x-4">
-                <button onClick={onConfirm} className="bg-blue-500 text-white px-6 py-2 rounded-md">Enviar</button>
-                <button onClick={onCancel} className="bg-red-600 text-white px-6 py-2 rounded-md">Cerrar</button>
-              </div>
+        {/* Ajuste en max-w-md y my-4 para reducir tamaño y margen */}
+        <div className="flex flex-col w-full bg-white rounded-xl shadow-2xl outline-none focus:outline-none border-0">
+          <div className="p-4 text-center border-b border-solid border-blueGray-200 rounded-t-xl">
+            {' '}
+            {/* Ajuste en p-4 para reducir padding */}
+            <h2 className="text-2xl font-bold mb-3">
+              Notificación Cliente
+            </h2>{' '}
+            {/* Ajuste en text-2xl y mb-3 para reducir tamaño y margen del título */}
+            {/* Image input box */}
+            <div className="mb-3 overflow-hidden">
+              {' '}
+              {/* Ajuste en mb-3 para reducir margen */}
+              <ImageDropzone onImageDrop={handleImageDrop} />
+            </div>
+            {/* Description input box */}
+            <div className="mb-3">
+              {' '}
+              {/* Ajuste en mb-3 para reducir margen */}
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Descripción
+              </label>
+              <textarea
+                id="description"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              ></textarea>
+            </div>
+            {/* Action buttons */}
+            <div className="flex justify-center space-x-3">
+              {' '}
+              {/* Ajuste en space-x-3 para reducir espacio entre botones */}
+              <button
+                onClick={onConfirm}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              >
+                Enviar
+              </button>{' '}
+              {/* Ajuste en px-4 para reducir padding */}
+              <button
+                onClick={onCancel}
+                className="bg-red-600 text-white px-4 py-2 rounded-md"
+              >
+                Cerrar
+              </button>{' '}
+              {/* Ajuste en px-4 para reducir padding */}
             </div>
           </div>
         </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
+
 }

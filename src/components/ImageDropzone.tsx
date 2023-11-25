@@ -43,13 +43,15 @@ export default function ImageDropzone({ onImageDrop, index, className }: Props) 
       <div
         className={`dropzone ${
           dragging ? 'dragging' : ''
-        } border-4 border-dashed relative p-3 text-center mb-2`}
+        } border-4 border-dashed p-4 relative text-center m-2`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
         {preview ? (
-          <img src={preview} alt={`Preview ${index}`} className="object-cover w-full h-full" />
+       
+          <img src={preview} alt={`Preview ${index}`} className="object-cover w-full  xl:h-72" />
+
         ) : (
           dragging ? <p>Drop image here</p> : <p>Foto del vehículo</p>
         )}

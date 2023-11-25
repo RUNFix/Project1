@@ -86,7 +86,7 @@ export default function RepairRegister() {
         <div className="col-span-1">
           <div className="max-w-sm mx-auto overflow-hidden my-10 text-center">
             {beforeImages.map((imageFile, index) => (
-              <div key={index} className="mb-8 border-4">
+              <div key={index} className="mb-8">
                 <ImageDropzone
                   onImageDrop={handleImageDrop(index)}
                   index={index}

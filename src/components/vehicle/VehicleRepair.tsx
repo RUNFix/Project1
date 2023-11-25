@@ -6,6 +6,7 @@ import { API_REPAIR, API_REPAIR_UPDATE } from 'src/api/api';
 import { Repair } from 'src/Interfaces/Repair';
 import { useUserContext } from 'src/context/Context';
 import { NotificationModal } from '../../utils/Modal';
+import Card from '../Card';
 
 type Props = {
   plate: string;
@@ -117,17 +118,20 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
 
   return (
     <>
-      {showNotiModal && <NotificationModal onConfirm={handleOnSubmit} onCancel={handleCancel} />}
-      {repair && repair.beforeImages.map((image, index) => (
-        <div key={index} className="border p-4 rounded shadow">
-          <img
-            src={image}
-            alt={`Vehicle Image ${index}`}
-            className="object-cover w-full h-60 mb-4"
-          />
-          <p className="text-center">{repair?.beforeDescriptions}</p>
-        </div>
-      ))}
+      {showNotiModal && (
+        <NotificationModal onConfirm={handleOnSubmit} onCancel={handleCancel} />
+      )}
+      {repair &&
+        repair.beforeImages.map((image, index) => (
+          <div key={index} className="border rounded-3xl shadow">
+            <img
+              src={image}
+              alt={`Vehicle Image ${index}`}
+              className="object-cover w-full h-72 rounded-3xl "
+            />
+            <p className="text-center">{repair?.beforeDescriptions}</p>
+          </div>
+        ))}
       <div className="justify-center items-center col-span-3">
         <ProgressBar />
       </div>
@@ -141,13 +145,31 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
         Fotos de las reparaciones
       </h2>
       {Array.from({ length: 3 }).map((_, index) => (
-      <div key={`afterImage-${index}`} className="mb-8 border-4 overflow-hidden">
-        <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
-        <p className="text-center">
-          {repair?.afterDescriptions && repair.afterDescriptions[index]}
-        </p>
-      </div>
-    ))}
+        <div
+          key={`afterImage-${index}`}
+          className="mb-8 overflow-hidden"
+        >
+          <ImageDropzone onImageDrop={handleImageDrop(index)} index={index} />
+          <p className="text-center">
+            {repair?.afterDescriptions && repair.afterDescriptions[index]}
+          </p>
+        </div>
+      ))}
+      <Card
+        title={'Partes - Repuestos'}
+        img="src/assets/tuerca.png"
+        showDetails={false}
+      />
+      <Card
+        title={'Foto Reparacion'}
+        img="src/assets/camera.png"
+        showDetails={false}
+      />
+      <Card
+        title={'Notificar Cliente'}
+        img="src/assets/notificacion.png"
+        showDetails={false}
+      />
     </>
   );
 };
