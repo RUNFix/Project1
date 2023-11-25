@@ -13,12 +13,16 @@ const alertSchema = new Schema<Alert>(
         },
         state: {
             type: Number,
-            required: true,
-            enum: [1,2,3]
+            default: 0,
+            enum: [0,1,2,3,4]
         },
-        link: {
+        PDFlink: {
             type: String,
-            required:true,
+            default:''
+        },
+        imageLink: {
+            type: String,
+            default:''
         },
     },
     {

@@ -1,6 +1,6 @@
 import { Request, Response, response } from "express"
 import { handleHttp } from "../utils/error.handle"
-import{insertAlert, getAlerts, deleteAlert} from "../services/alert"
+import{insertAlert, insertAlertWithImage, getAlerts, deleteAlert} from "../services/alert"
 
 const getAlertsController = async (req:Request, res: Response) => {
     try{
@@ -21,6 +21,22 @@ const postAlertController = async ({body}:Request, res: Response)=> {
     }
 }
 
+const postAlertImageController = async (req:Request, res: Response)=> {
+    try{
+        const {body, files} = req
+        let imageBuffer: Buffer = Buffer.from([])
+        if (files) {
+            const uploadedFiles = files as Express.Multer.File[];
+            imageBuffer = uploadedFiles[0].buffer;
+        }
+        const responseItem = await insertAlertWithImage(body,imageBuffer)
+        res.send(responseItem);
+        
+    }catch (e){
+        handleHttp(res,"ERROR_POST_ALERT_IMAGE",e);
+    }
+}
+
 const deleteAlertController = async ({params}:Request, res: Response)=> {
     try{
         const {id} = params;
@@ -32,4 +48,4 @@ const deleteAlertController = async ({params}:Request, res: Response)=> {
 }
 
 
-export {getAlertsController, postAlertController, deleteAlertController};
+export {getAlertsController, postAlertController, postAlertImageController, deleteAlertController};
