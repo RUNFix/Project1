@@ -28,12 +28,12 @@ export default function SubMenu() {
             Bienvenido a RUNFIX
           </h1>
           <h2 className="text-2xl mt-8 md:mt-12 text-center font-semibold">
-            ¿Hacia donde te diriges?
+            ¿Hacia dónde te diriges?
           </h2>
           {adminActive ? (
             <section className="place-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
               <Card
-                title={'Creacion de empleado'}
+                title={'Creación de empleado'}
                 img="https://img.freepik.com/vector-premium/oficina-negocios-empleado-espacio-trabajo-dibujos-animados_24640-32917.jpg"
                 showDetails={false}
                 screen="register-employee"

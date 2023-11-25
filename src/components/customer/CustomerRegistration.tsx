@@ -129,7 +129,7 @@ const ClientForm: React.FC<Props> = ({ onSubmit }) => {
           </div>
           <div className="mb-4">
             <label className="block   text-sm font-medium mb-3" htmlFor="phoneNumber">
-              Numero de telefono
+              Numero de teléfono
             </label>
             <Field
               className="fieldStyles"
@@ -146,7 +146,7 @@ const ClientForm: React.FC<Props> = ({ onSubmit }) => {
               className="block text-sm font-medium mb-3"
               htmlFor="ccExpirationDate"
             >
-              Fecha de Expedición de la cédula (dd/mm/aaaa)
+              Fecha de expedición del documento (dd/mm/aaaa)
             </label>
             <Field
             type="date"
