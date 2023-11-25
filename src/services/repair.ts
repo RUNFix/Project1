@@ -37,7 +37,7 @@ const getRepairEmployee = async (id: string) => {
   if (isNaN(intIdEmployee)) {
     throw new Error('Invalid ID format');
   }
-  const responseRepair = await repairModel.find({ employee: id });
+  const responseRepair = await repairModel.find({ employee: id,  status:{$lt:4}});
   return responseRepair;
 };
 
