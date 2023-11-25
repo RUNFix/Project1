@@ -4,7 +4,7 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'refresh.010101
 
 const generateToken = async (data: { cc: number; role: string }) => {
   const jwt = sign({ data }, ACCESS_TOKEN_SECRET, {
-    expiresIn: '30s',
+    expiresIn: '20m',
   });
   return jwt;
 };
