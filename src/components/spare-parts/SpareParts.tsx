@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import axios from 'axios';
+import { API_SPARE_PART } from 'src/api/api';
 
 export default function SpareParts() {
   const [parts, setParts] = useState([]);
-    const [selectedPart, setSelectedPart] = useState(null);
-    const [quantity, setQuantity] = useState(1);
-    const [showModal, setShowModal] = useState(false);
+  const [selectedPart, setSelectedPart] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+
 
   useEffect(() => {
     async function fetchSpare() {
       try {
-        const response = await axios.get(`${'http://localhost:4000/part'}`);
+        const response = await axios.get(`${API_SPARE_PART}`);
 
         if (response && response.data) {
           console.log(response.data);
@@ -25,16 +28,46 @@ export default function SpareParts() {
     fetchSpare();
   }, []);
 
+  function addToCart(selectedPart, quantity) {
+    const priceForThisPart = selectedPart.price * quantity;
+    setTotalPrice((prevTotal) => prevTotal + priceForThisPart);
 
-   function handleSelectPart(part) {
-     setSelectedPart(part);
-     setQuantity(1); 
-     setShowModal(true); 
-   }
+    const newStock = selectedPart.stock - quantity;
 
-   function handleQuantityChange(newQuantity) {
-     setQuantity(newQuantity);
-   }
+    axios
+      .patch(`${API_SPARE_PART}/${selectedPart._id}`, { stock: newStock })
+      .then((response) => {
+        // Actualizar el estado de parts con la nueva cantidad de stock
+        setParts((currentParts) =>
+          currentParts.map((part) =>
+            part._id === selectedPart._id
+              ? { ...part, stock: part.stock - quantity }
+              : part,
+          ),
+        );
+        console.log('Cantidad actualizada en el inventario', response.data);
+      })
+      .catch((error) => {
+        console.error(
+          'Error al actualizar la cantidad en el inventario:',
+          error,
+        );
+      });
+
+    setShowModal(false);
+  }
+
+  function handleSelectPart(part) {
+    setSelectedPart(part);
+    setQuantity(1);
+    setShowModal(true);
+  }
+
+  function handleQuantityChange(newQuantity) {
+    if (newQuantity > 0 && newQuantity <= selectedPart.stock) {
+      setQuantity(newQuantity);
+    }
+  }
 
   return (
     <div className="flex flex-col h-screen">
@@ -48,12 +81,14 @@ export default function SpareParts() {
             {parts.map((part) => (
               <div
                 key={part._id}
-                className="bg-white shadow hover:shadow-lg transform transition-transform duration-300 ease-in-out hover:scale-95 rounded-xl
-                w-80 sm:w-96 h-96 flex flex-col justify-between mb-12"
+                className={`bg-white shadow ${
+                  part.stock === 0 ? 'opacity-50' : 'hover:shadow-lg'
+                } transform transition-transform duration-300 ease-in-out hover:scale-95 rounded-xl w-80 sm:w-96 h-96 flex flex-col justify-between mb-12`}
               >
                 <button
-                  onClick={() => handleSelectPart(part)}
+                  onClick={() => part.stock > 0 && handleSelectPart(part)}
                   className="flex flex-col items-center justify-center text-center"
+                  disabled={part.stock === 0}
                 >
                   {/* Envuelve la imagen en un contenedor para controlar el tamaño */}
                   <div className="w-full h-30 sm:h-60 flex items-center justify-center p-4">
@@ -96,7 +131,7 @@ export default function SpareParts() {
                 alt={selectedPart.name}
                 className="mx-auto mb-8"
               />
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
+              <h3 className="text-3xl leading-6 font-medium text-gray-900">
                 {selectedPart.name}
               </h3>
               <div className="mt-2 px-7 py-3">
@@ -112,7 +147,10 @@ export default function SpareParts() {
                     ➖
                   </button>
                   {` ${quantity} `}
-                  <button onClick={() => handleQuantityChange(quantity + 1)}>
+                  <button
+                    onClick={() => handleQuantityChange(quantity + 1)}
+                    disabled={quantity >= selectedPart.stock}
+                  >
                     ➕
                   </button>
                 </p>
@@ -124,6 +162,7 @@ export default function SpareParts() {
                 <button
                   id="ok-btn"
                   className="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300"
+                  onClick={() => addToCart(selectedPart, quantity)}
                 >
                   Agregar
                 </button>
