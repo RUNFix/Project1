@@ -5,7 +5,6 @@ import { API_REPAIR_UPDATE } from 'src/api/api';
 import ImageDropzone from 'src/components/ImageDropzone';
 import { useUserContext } from 'src/context/Context';
 
-
 type ModalRepairProps = {
   cardId: number | null;
   onCancel: () => void;
@@ -15,14 +14,14 @@ type ModalRepairProps = {
 
 export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
   const [image, setImage] = useState<File | null>(null);
-  const { status} = useUserContext();
+  const { status } = useUserContext();
   const [error, setError] = useState<string | null>(null);
 
   const handleImageDrop = (file: File) => {
     setImage(file);
   };
 
-  console.log('estado' ,status)
+  console.log('estado', status);
 
   const updateRepair = async () => {
     if (!plate || !cc) {
@@ -30,16 +29,16 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
       return;
     }
     const formData = new FormData();
-    formData.append('status', status.toString() );
+    formData.append('status', status.toString());
 
-   if (!image) {
-     console.log('No image selected');
-     return;
-   }
+    if (!image) {
+      console.log('No image selected');
+      return;
+    }
 
-   formData.append('afterImages', image, image.name);
+    formData.append('afterImages', image, image.name);
     try {
-      // Asegúrate de reemplazar 'plate' y 'cc' con valores reales o pasarlos como props
+    
       const response = await axios.patch(
         `${API_REPAIR_UPDATE}/${plate}/${cc}`,
         formData,
@@ -50,34 +49,33 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
         },
       );
       console.log('Response:', response.data);
-      // Aquí puedes manejar la respuesta, como actualizar el estado del vehículo
+      
     } catch (err) {
       console.error('Error updating repair:', err);
       setError('Error updating repair.');
     }
   };
 
-  
+  /* HACER CON JOHAN */
   const postAlert = async function postAlert() {};
 
-const handleFetchData = async () => {
-  if (cardId === null) return;
+  const handleFetchData = async () => {
+    if (cardId === null) return;
 
-  try {
-    if (cardId === 2) {
-      await updateRepair();
-    } else if (cardId === 3) {
-      await postAlert();
-    } else {
-      // Manejar otros casos o error
-      throw new Error('Card ID no válido');
+    try {
+      if (cardId === 2) {
+        await updateRepair();
+      } else if (cardId === 3) {
+        await postAlert();
+      } else {
+        // Manejar otros casos o error
+        throw new Error('Card ID no válido');
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Manejar el error en el UI si es necesario
     }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    // Manejar el error en el UI si es necesario
-  }
-};
-
+  };
 
   // Puedes llamar a handleFetchData cuando se confirme la acción en el modal:
   const handleConfirm = () => {

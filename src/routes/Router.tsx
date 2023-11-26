@@ -16,6 +16,7 @@ import RepairSearch from 'src/pages/RepairsSearch';
 import CustomerRegistration from 'src/components/customer/CustomerRegistration';
 import Invoice from 'src/components/Invoice/Invoice';
 import InvoiceGenerate from 'src/components/Invoice/InvoiceGenerate';
+import SpareParts from 'src/components/spare-parts/SpareParts';
 
 
 function RoutesApp() {
@@ -35,6 +36,7 @@ function RoutesApp() {
         {/*  Rutas protegidas */}
         <Route path="/*" element={<PrivateRoute />}>
           <Route path="password-change" element={<PasswordChange />} />
+          <Route path="spare-parts" element={<SpareParts />} />
 
           <Route path="employee-register" element={<EmployeeRegistration />} />
           <Route path="employee-table" element={<EmployeeTable />} />
@@ -49,7 +51,7 @@ function RoutesApp() {
           <Route path="vehicle-repair" element={<RepairRegister />} />
           <Route path="vehicle" element={<Vehicle />} />
 
-          <Route path="invoice-generate" element={<InvoiceGenerate/>} />
+          <Route path="invoice-generate" element={<InvoiceGenerate />} />
         </Route>
       </Routes>
     </BrowserRouter>

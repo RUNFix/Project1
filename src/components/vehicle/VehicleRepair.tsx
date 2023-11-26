@@ -5,6 +5,7 @@ import { API_REPAIR, API_REPAIR_UPDATE,  } from 'src/api/api';
 import { Repair } from 'src/Interfaces/Repair';
 import { useUserContext } from 'src/context/Context';
 import { ModalRepair } from 'src/utils/ModalRepair';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   plate: string;
@@ -17,6 +18,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
   const [error, setError] = useState<string | null>(null);
   const [showRepairModal, setShowRepairModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   console.log('Estado:', status);
 
@@ -63,6 +65,11 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
     setShowRepairModal(true);
   };
 
+  
+  const handlePartsClick = () => {
+    navigate('/spare-parts');
+  };
+  ;
   if (error) {
     return <p>{error}</p>;
   }
@@ -88,6 +95,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
         key="1"
         className=" brounded-lg  overflow-hiddentransform hover:scale-105 
     transition-transform duration-300"
+        onClick={handlePartsClick}
       >
         <div className="w-full h-48 sm:h-64 md:h-80 flex justify-center items-center">
           <img
