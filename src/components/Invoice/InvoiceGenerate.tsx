@@ -17,17 +17,16 @@ const InvoiceGenerate: React.FC = () => {
   const [repairData, setRepairData] = useState<Repair>();
   const [hasPosted, setHasPosted] = useState(false);
 
- let  id  = '653ef16b255d5f7a69654266'
-  console.log('ID',id);
+ const id  = '653ef16b255d5f7a69654266'
+console.log('ID',id);
+
 
 useEffect(() => {
    const postData = async () => {
      if (!hasPosted) {
        try {
          const response = await axios.post(API_PDF, {
-           url: `${
-             window.location.origin
-           }/invoice/${id}`,
+           url: `${window.location.origin}/invoice/${id}`,
            _id: id,
          });
      
@@ -37,21 +36,24 @@ useEffect(() => {
        } catch (error) {
          console.error('Error converting to PDF:', error);
        }
+   
      }
    };
 
    postData();
- }, [id, hasPosted]); 
+ },[ hasPosted]); 
 
-useEffect(() => {
+ useEffect(() => {
   console.log('hasPosted updated to:', hasPosted);
-}, [hasPosted]);
+}, [hasPosted]); 
 
 
   useEffect(() => {
     async function fetchBill() {
       try {
-        const response = await axios.get(`${API_BILL_ID}/${id}`);
+        const response = await axios.get(
+          `${API_BILL_ID}/${id}`,
+        );
 
         const { billData, clientData, vehicleData, repairData } = response.data;
 
@@ -221,16 +223,16 @@ useEffect(() => {
             </table>
           </div>
         )}
-    {/*     <div className="flex justify-center">
-            <button
+      <div className="flex justify-center">
+        {/*     <button
               className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300 ease-in-out mt-4
           "
-              onClick={handleConvertToPdf}
+             
             >
               Convertir a PDF
-            </button>
+            </button> */}
         
-        </div> */}
+        </div> 
       </div>
     </>
   );

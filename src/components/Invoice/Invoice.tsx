@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'src/index.css';
 import axios from 'axios';
-import { Toaster } from 'react-hot-toast';
 import { API_BILL_ID } from 'src/api/api';
 import { Bill } from 'src/Interfaces/Bill';
 import { Client } from 'src/Interfaces/Client';
@@ -30,7 +29,7 @@ const Invoice: React.FC = () => {
         const response = await axios.get(
           `${API_BILL_ID}/${id}`,
         );
-  
+    
 
         const { billData, clientData, vehicleData, repairData } = response.data;
 

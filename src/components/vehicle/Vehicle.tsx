@@ -15,9 +15,12 @@ export default function Vehicles() {
   const [repairs, setRepairs] = useState([]);
   const [vehicleDetails, setVehicleDetails] = useState([]);
   const { cc } = useUserContext();
-  
 
   const ccEmployee = cc;
+  console.log(window.location.origin);
+  console.log(window.location.pathname);
+  console.log(window.location.href)
+
 
   const handleSelectPlate = (plate) => {
     setSelectedPlate(plate);
@@ -34,7 +37,7 @@ export default function Vehicles() {
           `${API_REPAIR_EMPLOYEE}/${ccEmployee}`,
         );
         if (response && response.data) {
-          console.log(response)
+          console.log(response);
           const fetchedRepairs = response.data;
           setRepairs(fetchedRepairs);
           const fetchedPlates = fetchedRepairs.map((repair) => repair.plate);
@@ -65,7 +68,6 @@ export default function Vehicles() {
         console.error('Error fetching vehicle details:', error);
       }
     }
-
 
     console.log(vehicleDetails);
     if (plates.length > 0) {

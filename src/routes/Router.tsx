@@ -14,8 +14,9 @@ import RepairRegister from 'src/components/repair/RepairRegister';
 import RepairHistory from 'src/components/repair/RepairHistory';
 import RepairSearch from 'src/pages/RepairsSearch';
 import CustomerRegistration from 'src/components/customer/CustomerRegistration';
-import InvoiceGenerate from 'src/components/Invoice/Invoice';
-import Invoice from 'src/components/Invoice/InvoiceGenerate';
+import Invoice from 'src/components/Invoice/Invoice';
+import InvoiceGenerate from 'src/components/Invoice/InvoiceGenerate';
+
 
 function RoutesApp() {
   return (
