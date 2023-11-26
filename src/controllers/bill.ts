@@ -53,7 +53,7 @@ const postBill = async ({body}:Request, res: Response)=> {
     
         const responseBill = await insertBill(body);
         if (responseBill === "VEHICLE_DOES_NOT_EXIST" || responseBill === "CLIENT_DOES_NOT_EXIST") {
-            return res.status(400).send({ message: responseBill});
+            return res.status(418).send({ message: responseBill});
         }
         //logic for updating the vehicle table
         const {plate} = body;
