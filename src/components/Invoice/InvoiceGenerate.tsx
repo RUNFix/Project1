@@ -9,20 +9,17 @@ import { Vehicle } from 'src/Interfaces/Vehicle';
 import { Repair } from 'src/Interfaces/Repair';
 import logom from '../../assets/RUNFIXmorado.png'
 
-type Props = {
-  id: string;
-};
 
-const InvoiceGenerate: React.FC = ({
-  id = '653ef16b255d5f7a69654266',
-}: Props) => {
+const InvoiceGenerate: React.FC = () => {
   const [billData, setBillData] = useState<Bill>();
   const [clientData, setClientData] = useState<Client>();
   const [vehicleData, setVehicleData] = useState<Vehicle>();
   const [repairData, setRepairData] = useState<Repair>();
   const [hasPosted, setHasPosted] = useState(false);
 
-console.log('ID',id);
+ let  id  = '653ef16b255d5f7a69654266'
+  console.log('ID',id);
+
 useEffect(() => {
    const postData = async () => {
      if (!hasPosted) {
@@ -30,9 +27,10 @@ useEffect(() => {
          const response = await axios.post(API_PDF, {
            url: `${
              window.location.origin
-           }/invoice/${'653ef16b255d5f7a69654266'}`,
-           _id: '653ef16b255d5f7a69654266',
+           }/invoice/${id}`,
+           _id: id,
          });
+     
          console.log('PDF created:', response.data.url);
          setHasPosted(true); // Actualiza hasPosted aquí
          console.log(hasPosted)
@@ -50,31 +48,10 @@ useEffect(() => {
 }, [hasPosted]);
 
 
- /*  const handleConvertToPdf = async () => {
-    const currentUrl = `${window.location.origin}/invoice/${id}`;
-
-    console.log(currentUrl);
-    setIsButtonVisible(false);
-    try {
-      const response = await axios.post(API_PDF, {
-        url: currentUrl, // Send the current URL or the data to the server
-        _id: id, // Use the state variable id
-      });
-
-      // Assuming the response contains the URL of the created PDF
-      console.log('PDF created:', response.data.url);
-
-      // You can now do something with the PDF URL, such as displaying it or downloading it
-    } catch (error) {
-      console.error('Error converting to PDF:', error);
-    }
-  };
- */
   useEffect(() => {
     async function fetchBill() {
       try {
         const response = await axios.get(`${API_BILL_ID}/${id}`);
-        console.log('DATOS DEL BACKEND', response.data);
 
         const { billData, clientData, vehicleData, repairData } = response.data;
 
@@ -109,8 +86,6 @@ useEffect(() => {
             />
         </div>
         </div>
-      
-        
 
         {/* Información personal del dueño en formato de tabla */}
 

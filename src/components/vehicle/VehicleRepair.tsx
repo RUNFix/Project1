@@ -40,7 +40,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
     // Define la función asincrónica dentro del useEffect
     const updateRepair = async () => {
       const formData = new FormData();
-      formData.append('status', status.toString());
+      formData.append('status', status.toString() );
 
       try {
         const response = await axios.patch(
