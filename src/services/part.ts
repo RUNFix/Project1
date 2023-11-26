@@ -37,4 +37,20 @@ const deletePart = async (id:string) => {
     return responseDelete;
 }
 
-export {insertPart, getParts, getPart, updatePart, deletePart}
+const updatePartFields = async (id: string, updateFields: Partial<Part>) => {
+  try {
+    const responseUpdate = await PartModel.findByIdAndUpdate(
+      id,
+      { $set: updateFields },
+      { new: true },
+    );
+
+    return responseUpdate;
+  } catch (error) {
+    console.error('PART_UPDATE_ERROR', error);
+    throw new Error('UPDATE_PART_FAILED');
+  }
+};
+
+
+export { insertPart, getParts, getPart, updatePart, deletePart, updatePartFields };

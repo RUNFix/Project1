@@ -1,6 +1,14 @@
 import { Request, Response, response } from "express"
 import { handleHttp } from "../utils/error.handle"
-import {insertPart, getParts, getPart, updatePart, deletePart} from "../services/part"
+import {
+  insertPart,
+  getParts,
+  getPart,
+  updatePart,
+  deletePart,
+  updatePartFields,
+} from '../services/part';
+import { uploadImage } from "../config/cloudinary";
 
 const postPartController = async (req:Request, res: Response)=> {
     try{
@@ -27,14 +35,7 @@ const getPartsController = async (req:Request, res: Response) => {
     }
 }
 
-/* const getPartsController = async (req: Request, res: Response) => {
-    try {
-        const parts = await PartModel.find();
-        res.json(parts);
-    } catch (error) {
-        handleHttp(res, 'ERROR_GET_PARTS', error);
-    }
-}; */
+
 
 const getPartController = async ({params}:Request, res: Response) => {
     try{
@@ -56,6 +57,36 @@ const updatePartController = async ({ params, body }: Request, res: Response) =>
     }
 }
 
+
+const patchPartController = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    let updateFields = req.body;
+
+    // Verifica si req.files es un arreglo y contiene al menos un archivo
+    if (Array.isArray(req.files) && req.files.length > 0) {
+      const imageBuffer = req.files[0].buffer;
+      const imageResults = await uploadImage(imageBuffer, 'parts');
+      updateFields.image = imageResults.secure_url;
+    }
+
+    if (!id || Object.keys(updateFields).length === 0) {
+      return res.status(400).send({ message: 'ID or update fields not provided' });
+    }
+
+    const updatedPart = await updatePartFields(id, updateFields);
+
+    if (!updatedPart) {
+      return res.status(404).send({ message: 'Part not found' });
+    }
+
+    res.send(updatedPart);
+  } catch (e) {
+    handleHttp(res, 'ERROR_PATCH_PART', e);
+  }
+};
+
+
 const deletePartController = async ({params}:Request, res: Response)=> {
     try{
         const {id} = params;
@@ -66,4 +97,11 @@ const deletePartController = async ({params}:Request, res: Response)=> {
     }
 }
 
-export {postPartController, getPartsController, getPartController, updatePartController, deletePartController}
+export {
+  postPartController,
+  getPartsController,
+  getPartController,
+  updatePartController,
+  deletePartController,
+  patchPartController,
+};
