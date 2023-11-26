@@ -15,12 +15,6 @@ const billItemSchema = new Schema({
         type: Number,
         required: true,
     },
-    discount: {
-        type: Number,
-        min: 0,
-        max: 100,
-        required: true,
-    },
     subtotal: {
         type: Number,
         required: true,
