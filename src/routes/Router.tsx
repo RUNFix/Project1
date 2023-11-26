@@ -5,7 +5,6 @@ import SubMenu from '../components/SubMenu';
 import Home from '../pages/Home';
 import EmployeeRegistration from '../components/employee/EmployeeRegistration';
 import EmployeeTable from '../components/employee/EmployeeTable';
-import SparePartsRegistration from '../components/Invoice/SparePartsRegistration';
 import PhotoMenu from '../components/vehicle/VehiclesPhotos';
 import Vehicle from '../components/vehicle/Vehicle';
 import PasswordChange from '../pages/PasswordChange';
@@ -14,10 +13,9 @@ import RepairRegister from 'src/components/repair/RepairRegister';
 import RepairHistory from 'src/components/repair/RepairHistory';
 import RepairSearch from 'src/pages/RepairsSearch';
 import CustomerRegistration from 'src/components/customer/CustomerRegistration';
-import Invoice from 'src/components/Invoice/Invoice';
-import InvoiceGenerate from 'src/components/Invoice/InvoiceGenerate';
+import Invoice from 'src/components/invoice/Invoice';
+import InvoiceGenerate from 'src/components/invoice/InvoiceGenerate';
 import SpareParts from 'src/components/spare-parts/SpareParts';
-
 
 function RoutesApp() {
   return (
@@ -43,10 +41,7 @@ function RoutesApp() {
           <Route path="customer-register" element={<CustomerRegistration />} />
           <Route path="submenu" element={<SubMenu />} />
           <Route path="watson" element={<Watson />} />
-          <Route
-            path="spare-parts-registration"
-            element={<SparePartsRegistration />}
-          />
+
           <Route path="vehicle-menu" element={<PhotoMenu />} />
           <Route path="vehicle-repair" element={<RepairRegister />} />
           <Route path="vehicle" element={<Vehicle />} />

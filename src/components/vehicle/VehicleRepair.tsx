@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProgressBar from '../ProgressBar';
-import { API_REPAIR, API_REPAIR_UPDATE,  } from 'src/api/api';
+import { API_BILL, API_REPAIR, API_REPAIR_UPDATE } from 'src/api/api';
 import { Repair } from 'src/Interfaces/Repair';
 import { useUserContext } from 'src/context/Context';
 import { ModalRepair } from 'src/utils/ModalRepair';
@@ -13,15 +13,19 @@ type Props = {
 };
 
 const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
-  const { status, setStatus } = useUserContext();
+  const { status, setStatus,  totalPrice,  items } = useUserContext();
   const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
   const [showRepairModal, setShowRepairModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  console.log('Estado:', status);
 
+  console.log('total en vehiculo' ,totalPrice)
+  console.log('repuestos', items);
+
+
+  
   useEffect(() => {
     async function fetchRepair() {
       try {
@@ -42,12 +46,12 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
     // Define la función asincrónica dentro del useEffect
     const updateRepair = async () => {
       const formData = new FormData();
-      formData.append('status', status.toString() );
+      formData.append('status', status.toString());
 
       try {
         const response = await axios.patch(
           `${API_REPAIR_UPDATE}/${plate}/${cc}`,
-        formData,
+          formData,
         );
         console.log('Response:', response.data);
       } catch (err) {
@@ -56,26 +60,69 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
       }
     };
 
-    // Llama a la función asincrónica
     updateRepair();
-  }, [status]); 
+  }, [status]);
+
+useEffect(() => {
+  if (status === 4) {
+    const timer = setTimeout(() => {
+      const postBill = async () => {
+        const formData = new FormData();
+        formData.append('state', 'pendiente');
+        formData.append('plate', plate);
+        formData.append('cc', cc);
+        formData.append('total', totalPrice.toString());
+   
+
+
+        items.forEach((item, index) => {
+          formData.append(
+            `items[${index}][quantity]`,
+            item.quantity.toString(),
+          );
+          formData.append(
+            `items[${index}][itemDescription]`,
+            item.name,
+          );
+          formData.append(`items[${index}][price]`, item.sparePrice.toString());
+          formData.append(
+            `items[${index}][subtotal]`,
+            item.totalPriceSpare.toString(),
+          );
+        });
+
+        
+        try {
+          const response = await axios.post(`${API_BILL}`, formData);
+          console.log('Respuesta BILL:', response.data);
+          navigate('/invoice-generate'); // Esto ahora está dentro de try, después de la publicación exitosa
+        } catch (err) {
+          console.error('Error post bill:', err);
+          setError('Error POST BILL.');
+        }
+      };
+      postBill();
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }
+}, [status]);
 
   const handleCardClick = (cardId: number) => {
     setCurrentCardId(cardId);
     setShowRepairModal(true);
   };
 
-  
-  const handlePartsClick = () => {
+  const handleitemsClick = () => {
     navigate('/spare-parts');
   };
-  ;
   if (error) {
     return <p>{error}</p>;
   }
 
   return (
     <>
+     {/*  {status === 4 && <InvoiceGenerate />} */}
       {repair &&
         repair.beforeImages.map((image, index) => (
           <div key={index} className="border rounded-3xl shadow">
@@ -95,7 +142,7 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
         key="1"
         className=" brounded-lg  overflow-hiddentransform hover:scale-105 
     transition-transform duration-300"
-        onClick={handlePartsClick}
+        onClick={handleitemsClick}
       >
         <div className="w-full h-48 sm:h-64 md:h-80 flex justify-center items-center">
           <img

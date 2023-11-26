@@ -4,13 +4,12 @@ export interface Bill {
   cc: number;
   items: BillItem[];
   total: number;
-  pdfLink: string;
+  pdfLink?: string;
 }
 
-interface BillItem {
+export interface BillItem {
   quantity: number;
   itemDescription: string;
   price: number;
-  discount: number;
   subtotal: number;
 }

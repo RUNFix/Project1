@@ -1,16 +1,37 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import axios from 'axios';
 import { API_SPARE_PART } from 'src/api/api';
+import { useUserContext } from 'src/context/Context';
+
+
+interface Item {
+  name: string;
+  quantity: number;
+  sparePrice: number;
+  totalPriceSpare: number;
+}
+
 
 export default function SpareParts() {
   const [parts, setParts] = useState([]);
   const [selectedPart, setSelectedPart] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPriceSpares, setTotalPriceSpares] = useState(0);
+  const [spares, setSpares] = useState([]);
 
+  const { setTotalPrice, setItems } = useUserContext();
+
+  console.log('Total',totalPriceSpares)
+  console.log('spares',spares)
+
+    useEffect(() => {
+      setTotalPrice(totalPriceSpares);
+      setItems(spares)
+  
+    }, [totalPriceSpares, spares]);
 
   useEffect(() => {
     async function fetchSpare() {
@@ -30,7 +51,18 @@ export default function SpareParts() {
 
   function addToCart(selectedPart, quantity) {
     const priceForThisPart = selectedPart.price * quantity;
-    setTotalPrice((prevTotal) => prevTotal + priceForThisPart);
+    setTotalPriceSpares((prevTotal) => prevTotal + priceForThisPart);
+
+    // Crear un objeto con la información del artículo
+    const items: Item = {
+      name: selectedPart.name,
+      quantity: quantity,
+      sparePrice: selectedPart.price,
+      totalPriceSpare: priceForThisPart,
+    };
+
+    setSpares((prevItems) => [...prevItems, items]);
+    setTotalPrice(totalPriceSpares + priceForThisPart);
 
     const newStock = selectedPart.stock - quantity;
 
@@ -64,10 +96,15 @@ export default function SpareParts() {
   }
 
   function handleQuantityChange(newQuantity) {
-    if (newQuantity > 0 && newQuantity <= selectedPart.stock) {
+    if (
+      newQuantity > 0 &&
+      newQuantity <= selectedPart.stock &&
+      newQuantity <= 10
+    ) {
       setQuantity(newQuantity);
     }
   }
+
 
   return (
     <div className="flex flex-col h-screen">

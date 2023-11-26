@@ -6,6 +6,14 @@ import React, {
   useEffect,
 } from 'react';
 
+
+interface Item {
+  name: string;
+  quantity: number;
+  sparePrice: number;
+  totalPriceSpare: number;
+}
+
 interface UserContextType {
   cc?: string;
   setCC: (cc: string) => void;
@@ -15,6 +23,12 @@ interface UserContextType {
   setEmployeeName: (employee: string) => void;
   status?: number;
   setStatus: (status: number) => void;
+  totalPrice: number;
+  setTotalPrice: (price: number) => void;
+  items: Item[];
+  setItems: (items: Item[]) => void;
+  urlPDF: string;
+  setUrlPDF: (cc: string) => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -40,6 +54,23 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     const storedstatus = sessionStorage.getItem(`${USER_STORAGE_KEY}_status`);
     return storedstatus ? parseInt(storedstatus, 10) : undefined;
   });
+  const [totalPrice, setTotalPrice] = useState<number>(() => {
+    const storedTotalPrice = sessionStorage.getItem(
+      `${USER_STORAGE_KEY}_totalPrice`,
+    );
+    return storedTotalPrice ? parseFloat(storedTotalPrice) : 0;
+  });
+
+const [items, setItems] = useState<Item[]>(() => {
+  const storedCartItems = sessionStorage.getItem(
+    `${USER_STORAGE_KEY}_cartItems`,
+  );
+  return storedCartItems ? JSON.parse(storedCartItems) : [];
+});
+
+    const [urlPDF, setUrlPDF] = useState<string | undefined>(
+      () => sessionStorage.getItem(`${USER_STORAGE_KEY}_urlPDF`) || undefined,
+    );
 
   useEffect(() => {
     if (cc !== undefined) sessionStorage.setItem(`${USER_STORAGE_KEY}_cc`, cc);
@@ -60,6 +91,22 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       sessionStorage.setItem(`${USER_STORAGE_KEY}_status`, status.toString());
   }, [status]);
 
+   useEffect(() => {
+     sessionStorage.setItem(
+       `${USER_STORAGE_KEY}_totalPrice`,
+       totalPrice.toString(),
+     );
+   }, [totalPrice]);
+
+   useEffect(() => {
+     sessionStorage.setItem(
+       `${USER_STORAGE_KEY}_items`,
+       JSON.stringify(items),
+     );
+   }, [items]);
+   
+
+
   return (
     <UserContext.Provider
       value={{
@@ -71,6 +118,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setEmployeeName,
         status,
         setStatus,
+        totalPrice,
+        setTotalPrice,
+        items,
+        setItems,
+        urlPDF,
+        setUrlPDF,
       }}
     >
       {children}
