@@ -1,15 +1,5 @@
-export interface Part{
-    name: string;
-    brand: string;
-    description: string;
-    price:number;
-    stock:number;
-    image: string[];
-}
 
-
-
-const initialPartsData = [
+export  const initialPartsData = [
   {
     name: 'Filtro de Aceite',
     brand: 'TurboTech',
@@ -97,6 +87,8 @@ const initialPartsData = [
     description: 'Genera electricidad durante la conducción',
     price: 120,
     stock: 10,
-    image: ['https://www.elyaquemotors.com/wp-content/uploads/2021/03/51GR5ZCc5yL._AC_SS450_.jpg'],
+    image: [
+      'https://www.elyaquemotors.com/wp-content/uploads/2021/03/51GR5ZCc5yL._AC_SS450_.jpg',
+    ],
   },
 ];

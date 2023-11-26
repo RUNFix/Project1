@@ -27,6 +27,15 @@ const getPartsController = async (req:Request, res: Response) => {
     }
 }
 
+/* const getPartsController = async (req: Request, res: Response) => {
+    try {
+        const parts = await PartModel.find();
+        res.json(parts);
+    } catch (error) {
+        handleHttp(res, 'ERROR_GET_PARTS', error);
+    }
+}; */
+
 const getPartController = async ({params}:Request, res: Response) => {
     try{
         const {id} = params;
