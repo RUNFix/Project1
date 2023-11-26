@@ -4,6 +4,7 @@ import { SuccessModal } from 'src/utils/Modal';
 import { TokenExists, removeTokens } from 'src/utils/Token';
 import logo from '../assets/RUNFIX.png'
 import logom from '../assets/RUNFIXmorado.png'
+import logon from '../assets/RUNFIX_negro.png'
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       {succesLogOut && <SuccessModal text={'Log out exitoso'} />}
-      <nav className="bg-azul  w-full  top-0 left-0  border-gray-200 z-20 sticky">
+      <nav className="bg-azul w-full  top-0 left-0  border-gray-200 z-20 sticky">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="#" className="flex items-center">
 

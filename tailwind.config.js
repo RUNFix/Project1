@@ -5,6 +5,7 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      
       backgroundColor: {
         'azul': '#081B29',
         'logo': '#FFBD59',
