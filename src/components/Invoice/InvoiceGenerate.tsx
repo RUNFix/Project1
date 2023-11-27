@@ -9,6 +9,7 @@ import { Vehicle } from 'src/Interfaces/Vehicle';
 import { Repair } from 'src/Interfaces/Repair';
 import logom from '../../assets/RUNFIXmorado.png';
 import { useUserContext } from 'src/context/Context';
+import { useParams } from 'react-router-dom';
 
 const InvoiceGenerate: React.FC = () => {
   const [billData, setBillData] = useState<Bill>();
@@ -16,10 +17,12 @@ const InvoiceGenerate: React.FC = () => {
   const [vehicleData, setVehicleData] = useState<Vehicle>();
   const [repairData, setRepairData] = useState<Repair>();
   const [hasPosted, setHasPosted] = useState(false);
+  const params = useParams();
 
   const { setUrlPDF } = useUserContext();
 
-  const id = '65519a17fb47e40e2fd27a8e';
+  const { id } = params;
+  console.log(id)
 
   useEffect(() => {
     const postBill = async () => {

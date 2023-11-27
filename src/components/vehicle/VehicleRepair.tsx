@@ -13,19 +13,16 @@ type Props = {
 };
 
 const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
-  const { status, setStatus,  totalPrice,  items } = useUserContext();
+  const { status, setStatus, totalPrice, items } = useUserContext();
   const [repair, setRepair] = useState<Repair>();
   const [error, setError] = useState<string | null>(null);
   const [showRepairModal, setShowRepairModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
   const navigate = useNavigate();
 
-
-  console.log('total en vehiculo' ,totalPrice)
+  console.log('total en vehiculo', totalPrice);
   console.log('repuestos', items);
 
-
-  
   useEffect(() => {
     async function fetchRepair() {
       try {
@@ -65,48 +62,41 @@ const VehicleRepair: React.FC<Props> = ({ plate, cc }) => {
 
 useEffect(() => {
   if (status === 4) {
-    const timer = setTimeout(() => {
-      const postBill = async () => {
-        const formData = new FormData();
-        formData.append('state', 'pendiente');
-        formData.append('plate', plate);
-        formData.append('cc', cc);
-        formData.append('total', totalPrice.toString());
-   
-
-
-        items.forEach((item, index) => {
-          formData.append(
-            `items[${index}][quantity]`,
-            item.quantity.toString(),
-          );
-          formData.append(
-            `items[${index}][itemDescription]`,
-            item.name,
-          );
-          formData.append(`items[${index}][price]`, item.sparePrice.toString());
-          formData.append(
-            `items[${index}][subtotal]`,
-            item.totalPriceSpare.toString(),
-          );
-        });
-
-        
-        try {
-          const response = await axios.post(`${API_BILL}`, formData);
-          console.log('Respuesta BILL:', response.data);
-          navigate('/invoice-generate'); // Esto ahora está dentro de try, después de la publicación exitosa
-        } catch (err) {
-          console.error('Error post bill:', err);
-          setError('Error POST BILL.');
-        }
+    const timer = setTimeout(async () => {
+      // Crear el objeto de datos como JSON
+      const billData = {
+        state: 'Pendiente',
+        plate,
+        cc: cc.toString(),
+        total: totalPrice.toString(),
+        items: items.map((item) => ({
+          quantity: item.quantity,
+          itemDescription: item.name,
+          price: item.sparePrice.toString(),
+          subtotal: item.totalPriceSpare.toString(),
+        })),
       };
-      postBill();
+
+      try {
+        const response = await axios.post(`${API_BILL}`, billData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+           console.log('responose', response)
+           const billId = response.data._id;
+           console.log('bills', billId)
+           navigate(`/invoice-generate/${billId}`);
+      } catch (err) {
+        console.error('Error post bill:', err);
+        setError('Error POST BILL.');
+      }
     }, 2000);
 
     return () => clearTimeout(timer);
   }
-}, [status]);
+}, [status, plate, cc, totalPrice, items, navigate]);
+
 
   const handleCardClick = (cardId: number) => {
     setCurrentCardId(cardId);
@@ -122,7 +112,7 @@ useEffect(() => {
 
   return (
     <>
-     {/*  {status === 4 && <InvoiceGenerate />} */}
+      {/*  {status === 4 && <InvoiceGenerate />} */}
       {repair &&
         repair.beforeImages.map((image, index) => (
           <div key={index} className="border rounded-3xl shadow">

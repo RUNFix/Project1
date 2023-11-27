@@ -46,7 +46,7 @@ function RoutesApp() {
           <Route path="vehicle-repair" element={<RepairRegister />} />
           <Route path="vehicle" element={<Vehicle />} />
 
-          <Route path="invoice-generate" element={<InvoiceGenerate />} />
+          <Route path="invoice-generate/:id" element={<InvoiceGenerate />} />
         </Route>
       </Routes>
     </BrowserRouter>
