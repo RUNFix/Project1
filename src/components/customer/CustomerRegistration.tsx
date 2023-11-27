@@ -31,7 +31,7 @@ export default function RepairRegister() {
         if (response.status === 200) {
           succesToast('Historia de vehiculo creada exitosamente!');
              setTimeout(() => {
-               navigate('/home');
+               navigate('/submenu');
              }, 3000);
 
         }

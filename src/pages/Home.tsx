@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
 import SocialMediaIcons from '../components/SocialMediaCards';
-import fuego from '../assets/fuego.png';
+import carro from '../assets/carro.png';
 
 const MenuPrincipal: React.FC = () => {
   const quienesRef = useRef<HTMLDivElement>(null);
@@ -31,10 +31,10 @@ const MenuPrincipal: React.FC = () => {
               </p>
 
               <div className="grid grid-cols-1 mt-5">
-                <div className="flex flex-col justify-center items-center">
+                <div className="flex justify-center items-center">
                   <div className="m-4 w-1/3">
                     <button
-                      className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full"
+                      className="bg-naranja hover:bg-morado text-white p-2 rounded ml-2 flex-grow-0 w-full"
                       onClick={handleScrollToQuienes}
                     >
                       Conoce más
@@ -42,12 +42,12 @@ const MenuPrincipal: React.FC = () => {
                   </div>
 
                   <div className="m-4 w-1/3">
-                    <button className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full">
+                    <button className="bg-naranja hover:bg-morado text-white p-2 rounded ml-2 flex-grow-0 w-full">
                       <a
                         href="https://t.me/RUNFIX_bot"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full text-center block"
+                        className=" text-white rounded flex-grow-0 w-full text-center block"
                       >
                         Atención
                       </a>
@@ -57,8 +57,8 @@ const MenuPrincipal: React.FC = () => {
               </div>
             </div>
 
-            <div>
-              <img src={fuego} alt="" />
+            <div className="animate-fade-left animate-thrice animate-duration-[2000ms] mb-16">
+              <img src={carro} alt="" />
             </div>
           </div>
 

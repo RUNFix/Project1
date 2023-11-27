@@ -73,50 +73,63 @@ export default function Vehicles() {
     }
   }, [plates]);
 
-  return (
-    <div className="flex flex-col h-screen">
-      <Navbar />
-      <main className="flex-grow mb-16">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center m-4 sm:m-8 md:m-16">
-          {selectedPlate ? 'Reparacion de vehiculo' : 'Vehiculos asignados '}
-        </h1>
-        <div className="flex-grow">
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 m-4 md:m-8 lg:m-16">
-            {selectedPlate ? (
-              <VehicleRepair plate={selectedPlate} cc={clientID} />
-            ) : (
-              vehicleDetails.map((vehicle) => (
-                <button
-                  key={vehicle._id}
-                  onClick={() => handleSelectPlate(vehicle.plate)}
-                  className="vehicleStyle"
-                >
+  const hasVehicleDetails = () => {
+    return vehicleDetails.some(
+      (vehicle) => vehicle.images && vehicle.images.length > 0,
+    );
+  };
+
+return (
+  <div className="flex flex-col h-screen">
+    <Navbar />
+    <main className="flex-grow mb-16">
+      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center m-4 sm:m-8 md:m-16">
+        {selectedPlate ? 'Reparacion de vehiculo' : 'Vehiculos asignados '}
+      </h1>
+      <div className="flex-grow">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 m-4 md:m-8 lg:m-16">
+          {selectedPlate ? (
+            <VehicleRepair plate={selectedPlate} cc={clientID} />
+          ) : hasVehicleDetails() ? (
+            vehicleDetails.map((vehicle) => (
+              <button
+                key={vehicle._id}
+                onClick={() => handleSelectPlate(vehicle.plate)}
+                className="vehicleStyle"
+              >
+                {vehicle.images && vehicle.images.length > 0 ? (
                   <img
                     src={vehicle.images[0]}
                     alt={vehicle.color}
                     className="object-cover w-full h-40 sm:h-60 rounded-t-3xl"
                   />
-                  <div className="p-2 sm:p-4">
-                    <h2 className="text-lg sm:text-xl font-semibold mb-2">
-                      {vehicle.plate}
-                    </h2>
-                    <p>
-                      <strong>Modelo:</strong> {vehicle.model}
-                    </p>
-                    <p>
-                      <strong>Marca:</strong> {vehicle.brand}
-                    </p>
-                    <p>
-                      <strong>Año:</strong> {vehicle.year}
-                    </p>
-                  </div>
-                </button>
-              ))
-            )}
-          </div>
+                ) : null}
+
+                <div className="p-2 sm:p-4">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-2">
+                    {vehicle.plate}
+                  </h2>
+                  <p>
+                    <strong>Modelo:</strong> {vehicle.model}
+                  </p>
+                  <p>
+                    <strong>Marca:</strong> {vehicle.brand}
+                  </p>
+                  <p>
+                    <strong>Año:</strong> {vehicle.year}
+                  </p>
+                </div>
+              </button>
+            ))
+          ) : (
+            <p>No hay detalles de vehículos disponibles</p>
+          )}
         </div>
-      </main>
-      <Footer />
-    </div>
-  );
+      </div>
+    </main>
+    <Footer />
+  </div>
+);
+
+
 }

@@ -9,7 +9,9 @@ module.exports = {
       backgroundColor: {
         'azul': '#081B29',
         'logo': '#FFBD59',
-        'morado': '#5C469C'
+        'morado': '#5C469C',
+        "naranja": '#F05941',
+        "amarillo": '#FF9209'
       },
       fontFamily: {
         sans: ['IBM Plex Sans', 'sans-serif'],

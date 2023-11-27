@@ -32,6 +32,12 @@ export default function RepairRegister() {
 
     if (isValid) {
       try {
+         const allImagesUploaded = beforeImages.every((image) => image !== null);
+
+         if (!allImagesUploaded) {
+           errorToast('Por favor, suba todas las fotos requeridas.');
+           return;
+         }
         const formData = new FormData();
         formData.append('plate', values.plate);
         formData.append('cc', values.cc.toString());
@@ -57,7 +63,7 @@ export default function RepairRegister() {
           succesToast('Historia de vehiculo creada exitosamente!');
           setBeforeImages([null, null, null]);
            setTimeout(() => {
-             navigate('/home');
+             navigate('/submenu');
            }, 3000);
         }
       } catch (error: any) {
@@ -89,7 +95,7 @@ export default function RepairRegister() {
       <div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-2 min-h-screen m-16">
         <div className="col-span-1">
           <div className="max-w-sm mx-auto overflow-hidden my-10 text-center">
-            {beforeImages.map((imageFile, index) => (
+            {beforeImages.map((_, index) => (
               <div key={index} className="mb-8">
                 <ImageDropzone
                   onImageDrop={handleImageDrop(index)}
@@ -97,6 +103,7 @@ export default function RepairRegister() {
                 />
               </div>
             ))}
+       
           </div>
         </div>
         <div className="col-span-1 mb-8">

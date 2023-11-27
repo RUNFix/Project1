@@ -24,15 +24,19 @@ const InvoiceGenerate: React.FC = () => {
   const { id } = params;
   console.log(id)
 
+  console.log(window.location.origin);
+
+  const frontUrl = window.location.origin;
 
   useEffect(() => {
     const postData = async () => {
       if (!hasPosted) {
         try {
           const response = await axios.post(API_PDF, {
-            url: `${window.location.origin}/invoice/${id}`,
+            url: `${frontUrl}/invoice/${id}`,
             _id: id,
           });
+   
 
           console.log('PDF created:', response.data.url);
           setUrlPDF(response.data.url);
@@ -178,9 +182,7 @@ const InvoiceGenerate: React.FC = () => {
                   <td className="py-4 px-6">
                     <strong>Total ($)</strong>
                   </td>
-                  <td className="py-4 px-6 bg-green-400">
-                    {repairData.priceToPay}
-                  </td>
+                 
                 </tr>
               </tbody>
             </table>

@@ -38,6 +38,8 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
     }
 
     formData.append('afterImages', image, image.name);
+    formData.append('afterDescriptions', description); 
+
     try {
       const response = await axios.patch(
         `${API_REPAIR_UPDATE}/${plate}/${cc}`,
@@ -145,21 +147,23 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
                 <ImageDropzone onImageDrop={handleImageDrop} />
               </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-gray-600"
-                >
-                  Descripción
-                </label>
-                <textarea
-                  id="description"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required 
-                ></textarea>
-              </div>
+              {cardId !== 2 && (
+                <div className="mb-3">
+                  <label
+                    htmlFor="description"
+                    className="block text-sm font-medium text-gray-600"
+                  >
+                    Descripción
+                  </label>
+                  <textarea
+                    id="description"
+                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                  ></textarea>
+                </div>
+              )}
 
               <div className="flex justify-center space-x-3">
                 <button

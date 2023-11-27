@@ -16,7 +16,7 @@ export default function PhotoMenu() {
   const handleImageDrop = (index: number) => (file: File) => {
     setImages(images.map((img, i) => (i === index ? file : img)));
   };
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleUpload = async (values: Vehicle) => {
     let isValid = true;
@@ -26,6 +26,12 @@ export default function PhotoMenu() {
     }
 
     if (isValid) {
+      const allImagesUploaded = images.every((image) => image !== null);
+
+      if (!allImagesUploaded) {
+        errorToast('Por favor, suba todas las fotos requeridas.');
+        return;
+      }
       try {
         const formData = new FormData();
         formData.append('plate', values.plate);
@@ -49,9 +55,9 @@ export default function PhotoMenu() {
         if (response.status === 200) {
           succesToast('Historia de vehiculo creada exitosamente!');
           setImages([null, null, null]);
-               setTimeout(() => {
-                 navigate('/home');
-               }, 3000); 
+          setTimeout(() => {
+            navigate('/submenu');
+          }, 3000);
         }
       } catch (error: any) {
         switch (error.response?.data?.message) {
@@ -71,8 +77,6 @@ export default function PhotoMenu() {
       }
     }
   };
-
-
 
   return (
     <>

@@ -49,7 +49,6 @@ const Repair: React.FC<Props> = ({ id }) => {
             alt={`repairImage ${index}`}
             className="object-cover w-full h-60 mb-4"
           />
-          <p className="text-center">Descripción de la Imagen</p>
         </div>
       ))}
 
@@ -66,7 +65,9 @@ const Repair: React.FC<Props> = ({ id }) => {
             alt={`repairImage ${index}`}
             className="object-cover w-full h-60 mb-4"
           />
-          <p className="text-center">Descripción de la Imagen</p>
+          <p className="text-center">
+            {repair.afterDescriptions && repair.afterDescriptions[index]}
+          </p>
         </div>
       ))}
     </>

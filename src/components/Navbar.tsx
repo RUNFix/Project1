@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SuccessModal } from 'src/utils/Modal';
 import { TokenExists, removeTokens } from 'src/utils/Token';
-import logo from '../assets/RUNFIX.png'
 import logom from '../assets/RUNFIXmorado.png'
-import logon from '../assets/RUNFIX_negro.png'
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();

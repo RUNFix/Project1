@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import axiosInstance from 'src/utils/Auth';
 import { debounce } from 'lodash';
 import { API_SEARCH_EMPLOYEE } from 'src/api/api';

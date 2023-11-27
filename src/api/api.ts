@@ -1,5 +1,5 @@
 /* Api_key */
-const API = import.meta.env.VITE_APP_API_URL;
+export const API = import.meta.env.VITE_APP_API_URL;
 
 /* AUTH LOGIN */
 export const API_AUTH_REGISTER = API + 'auth/register';
@@ -27,7 +27,6 @@ export const API_BILL_ID = API + 'bill/full';
 
 /* Client */
 export const API_CLIENT = API + 'client';
-
 
 /* PDF */
 export const API_PDF = API + 'generatePDF';
