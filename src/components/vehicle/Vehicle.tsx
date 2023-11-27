@@ -17,9 +17,7 @@ export default function Vehicles() {
   const { cc } = useUserContext();
 
   const ccEmployee = cc;
-  console.log(window.location.origin);
-  console.log(window.location.pathname);
-  console.log(window.location.href)
+
 
 
   const handleSelectPlate = (plate) => {

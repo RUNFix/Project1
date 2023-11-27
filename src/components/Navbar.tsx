@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
           >
             <ul className="ulNavbarStyle">
               <li>
-                <a href="#" className="linkStyle">
+                <a href="/home" className="linkStyle">
                   Home
                 </a>
               </li>
@@ -92,8 +92,8 @@ const Navbar: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="linkStyle">
-                  Services
+                <a href="/submenu" className="linkStyle">
+                  Menu
                 </a>
               </li>
               <li>

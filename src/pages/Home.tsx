@@ -3,9 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
 import SocialMediaIcons from '../components/SocialMediaCards';
-import logo from '../assets/RUNFIX.png'
-import logom from '../assets/RUNFIXmorado.png'
-import car from '../assets/lux-car.jpg'
+import fuego from '../assets/fuego.png';
 
 const MenuPrincipal: React.FC = () => {
   const quienesRef = useRef<HTMLDivElement>(null);
@@ -20,56 +18,50 @@ const MenuPrincipal: React.FC = () => {
     <>
       <Navbar />
       <div className="flex flex-col min-h-screen bg-azul text-justify">
-        <main className="flex-grow container mx-auto p-10 mt-14 text-white ">
-
-          <div className='grid grid-cols-2 gap-20 h-screen'>
-            <div className='col-span-1 p-8'>
+        <main className="flex-grow container mx-auto p-10 mt-10 text-white ">
+          <div className="grid grid-cols-2 gap-20 h-90">
+            <div className="col-span-1 p-8">
               <h1 className="text-4xl mb-12 text-center font-semibold text-white">
                 Una nueva forma de ir al mecánico
               </h1>
-              <p>Velamos por tu tranquilidad, al llevar el proceso de reparación al siguiente
-                nivel, con personal integro y transparente que hará lo mejor por tu vehículo
+              <p>
+                Velamos por tu tranquilidad, al llevar el proceso de reparación
+                al siguiente nivel, con personal integro y transparente que hará
+                lo mejor por tu vehículo
               </p>
 
-              <div className='grid grid-cols-1 mt-5'>
-              <div className="flex flex-col justify-center items-center">
-                <div className='m-4 w-1/3'> 
-                <button className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full"
-                onClick={handleScrollToQuienes}>
-                  
-                  Conoce más
-                </button>
+              <div className="grid grid-cols-1 mt-5">
+                <div className="flex flex-col justify-center items-center">
+                  <div className="m-4 w-1/3">
+                    <button
+                      className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full"
+                      onClick={handleScrollToQuienes}
+                    >
+                      Conoce más
+                    </button>
+                  </div>
+
+                  <div className="m-4 w-1/3">
+                    <button className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full">
+                      <a href="https://t.me/">Agenda una cita</a>
+                    </button>
+                  </div>
                 </div>
-                
-                <div className='m-4 w-1/3'>
-                <button className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full"
-                >
-                  <a href="https://t.me/">Agenda una cita</a>
-                 
-                </button>
-                </div>
-                
               </div>
-            </div>
-              
             </div>
 
             <div>
-
-              <img src={car} alt="" />
+              <img src={fuego} alt="" />
             </div>
-            
           </div>
-          
-          <div className='mb-9'>
+
+          <div className="mb-9">
             <h2 className="text-2xl text-center font-semibold text-white max-lg:hidden ">
               Con RunFix puede esperar nada menos que integridad, habilidad y un
               servicio excepcional."
             </h2>
           </div>
-          
-          
-          
+
           {/* CARDS */}
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-auto mt-8">
             <Card
@@ -105,7 +97,10 @@ const MenuPrincipal: React.FC = () => {
             />
           </section>
           {/* Quienes somos Seccion */}
-          <section className="flex flex-col items-center my-24" ref={quienesRef}>
+          <section
+            className="flex flex-col items-center my-24"
+            ref={quienesRef}
+          >
             <h2 className="text-4xl text-center mb-20">¿Quienes somos?</h2>
             <img
               className="rounded-full mx-auto h-1/2  w-1/2 mb-16 transform hover:scale-110 transition-transform duration-300"
@@ -144,9 +139,7 @@ const MenuPrincipal: React.FC = () => {
               etapas del servicio.
             </p>
           </section>
-          
 
-          
           <h4 className="m-16 text-center text-xl font-semibold">
             Contactanos en nuestras redes sociales
           </h4>

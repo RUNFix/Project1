@@ -7,9 +7,10 @@ import { errorToast, notValidToast, succesToast } from 'src/utils/Toast';
 import { isCcValid } from 'src/utils/ValueChecks';
 import { API_CLIENT } from 'src/api/api';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function RepairRegister() {
-
+  const navigate = useNavigate();
   const handleUpload = async (values: Client) => {
     let isValid = true;
     if (!isCcValid(values.cc.toString())) {
@@ -19,18 +20,7 @@ export default function RepairRegister() {
 
     if (isValid) {
       try {
-     /*    const formData = new FormData();
-        formData.append('name', values.name);
-        formData.append('lastname', values.lastname);
-        formData.append('cc', values.cc.toString());
-        formData.append('email', values.email);
-        formData.append('phoneNumber', values.phoneNumber.toString());
-        formData.append('ccExpiration', values.ccExpirationDate);
-
-        formData.forEach((value, key) => {
-          console.log(`${key}: ${value}`);
-      }); */
-
+ 
       const response = await axios.post(`${API_CLIENT}`, values, {
         headers: {
             'Content-Type': 'application/json'
@@ -40,21 +30,28 @@ export default function RepairRegister() {
         console.log('Funciona', response);
         if (response.status === 200) {
           succesToast('Historia de vehiculo creada exitosamente!');
+             setTimeout(() => {
+               navigate('/home');
+             }, 3000);
 
         }
       } catch (error: any) {
-        switch (error.response?.data?.message) {
+        console.log(error.response.data.error);
+        switch (error.response.data.error) {
           case 'INVALID_PARTS_FORMAT':
             errorToast('Datos de creación invalidos');
             break;
-          case 'ALREADY_VEHICLE':
-            errorToast('Esta placa ya se encuentra registrada');
+          case 'ALREADY_CLIENT':
+            errorToast('Cliente ya registrado en el sistema');
             break;
           case 'EMPLOYEE_NOT_FOUND':
             errorToast('El empleado asignado no se encuentra registrado');
             break;
           case 'CLIENT_NOT_FOUND':
             errorToast('Cliente no registrado en el sistema');
+            break;
+          case 'ERROR_POST_CLIENT':
+            errorToast('Datos invalidos para el registro');
             break;
         }
       }
@@ -63,12 +60,16 @@ export default function RepairRegister() {
   return (
     <>
       <Toaster />
-      <Navbar />
-      <h1 className="text-3xl font-bold mb-4 text-center m-16">
-        Registro Cliente
-      </h1>
-      <ClientForm onSubmit={handleUpload} />
-      <Footer />
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <div className="flex-grow">
+          <h1 className="text-3xl font-bold mb-4 text-center m-16">
+            Registro Cliente
+          </h1>
+        </div>
+        <ClientForm onSubmit={handleUpload} />
+        <Footer />
+      </div>
     </>
   );
 }
@@ -80,6 +81,7 @@ interface Props {
 const ClientForm: React.FC<Props> = ({ onSubmit }) => {
   return (
     <Formik
+    classname="mb-12"
       initialValues={initialValuesClient}
       onSubmit={(values) => {
         onSubmit(values);

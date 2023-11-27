@@ -9,6 +9,7 @@ import { isPlateValid } from '../../utils/ValueChecks';
 import { API_REPAIR } from '../../api/api';
 import { Repair } from '../../Interfaces/Repair';
 import RepairForm from './RepairForm';
+import { useNavigate } from 'react-router-dom';
 
 export default function RepairRegister() {
   const [beforeImages, setBeforeImages] = useState<(File | null)[]>([
@@ -16,6 +17,7 @@ export default function RepairRegister() {
     null,
     null,
   ]);
+  const navigate = useNavigate();
 
   const handleImageDrop = (index: number) => (file: File) => {
     setBeforeImages(beforeImages.map((img, i) => (i === index ? file : img)));
@@ -34,7 +36,6 @@ export default function RepairRegister() {
         formData.append('plate', values.plate);
         formData.append('cc', values.cc.toString());
         formData.append('status', values.status.toString());
-        formData.append('priceToPay', values.priceToPay.toString());
         formData.append('reasonForService', values.reasonForService);
         formData.append('date', values.date.toString());
         formData.append('employee', values.employee.toString());
@@ -50,11 +51,13 @@ export default function RepairRegister() {
     
         const response = await axios.post(`${API_REPAIR}`, formData);
 
-        console.log('Funciona', response);
+       
         if (response.status === 200) {
           succesToast('Historia de vehiculo creada exitosamente!');
-
           setBeforeImages([null, null, null]);
+           setTimeout(() => {
+             navigate('/home');
+           }, 3000);
         }
       } catch (error: any) {
         switch (error.response?.data?.message) {

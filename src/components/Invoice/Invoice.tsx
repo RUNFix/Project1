@@ -33,6 +33,7 @@ const Invoice: React.FC = () => {
 
         const { billData, clientData, vehicleData, repairData } = response.data;
         console.log('tOTAL', billData.total)
+        
         setBillData(billData);
         setClientData(clientData);
         setVehicleData(vehicleData);

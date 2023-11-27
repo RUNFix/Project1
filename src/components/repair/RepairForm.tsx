@@ -2,9 +2,11 @@ import axios from 'axios';
 import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { API_CLIENT, API_VEHICLE } from 'src/api/api';
+import { useUserContext } from 'src/context/Context';
 import { Client } from 'src/Interfaces/Client';
 import { Repair, initialValues } from 'src/Interfaces/Repair';
 import { Vehicle } from 'src/Interfaces/Vehicle';
+import { errorToast } from 'src/utils/Toast';
 
 interface Props {
   onSubmitRepair: (values: Repair) => void;
@@ -13,6 +15,7 @@ interface Props {
 const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
+  const { cc } = useUserContext();
 
   useEffect(() => {
     async function fetchVehicles() {
@@ -42,30 +45,42 @@ const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
     fetchClients();
   }, []);
 
-  const plateExists = (plate: string) => {
-    return vehicles.some((vehicle) => vehicle.plate === plate);
-  };
+ const checkDataExistence = (cc: number, plate: string): boolean => {
+   const clientExists = clients.some((client) => client.cc === cc);
+   const vehicleExists = vehicles.some((vehicle) => vehicle.plate === plate);
+    if (!vehicleExists && !clientExists) {
+      errorToast(
+        `La placa ${plate} y  el documento ${cc} no existe. Por favor, registre el vehículo y el cliente.`,
+      );
+      return false;
+    }
 
-  const CCExists = (cc: number) => {
-    return clients.some((client) => client.cc === cc);
-  };
+   if (!clientExists) {
+     errorToast(
+       `El documento de identidad ${cc} no existe. Por favor, registre el cliente.`,
+     );
+     return false;
+   }
 
+   if (!vehicleExists) {
+     errorToast(`La placa ${plate} no existe. Por favor, registre el vehículo.`);
+     return false;
+   }
+
+   
+
+
+   return true;
+ };
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        /*      if (plateExists(values.plate) && CCExists(values.cc)) {
-          alert('Carro ya existe y cliente ya existe');
-        } else if (plateExists(values.plate) && !CCExists(values.cc)) {
-          alert('Carro ya existe y cliente no');
-          ('La placa existe, mandar a cliente');
-        } else if (!plateExists(values.plate) && CCExists(values.cc)) {
-          alert('El cliente existe, enviar a vehículo');
-        } else {
-          onSubmitRepair(values);
-        } */
+        const { cc, plate } = values;
 
-        onSubmitRepair(values);
+        if (checkDataExistence(cc, plate)) {
+          onSubmitRepair(values);
+        }
       }}
     >
       {({ values }) => (
@@ -129,7 +144,7 @@ const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
               name="employee"
               min={0}
               max={9999999999}
-              value={values.employee === 0 ? '' : values.employee}
+              value={cc}
               required
             />
           </div>

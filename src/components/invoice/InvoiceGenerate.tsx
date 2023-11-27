@@ -219,11 +219,13 @@ const InvoiceGenerate: React.FC = () => {
         )}
         <div className="flex justify-center">
           <button
-            className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-2xl 
+            className="bg-blue-500 hover:blue-red-700 text-white font-semibold py-2 px-4 rounded-2xl 
             shadow-md transition duration-300 ease-in-out mt-4
           "
+          onClick={() => window.location.replace('/submenu')}
           >
-            Convertir a PDF
+          
+            Volver al menu
           </button>
         </div>
       </div>

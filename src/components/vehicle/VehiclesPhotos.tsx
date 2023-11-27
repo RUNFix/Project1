@@ -9,12 +9,14 @@ import { errorToast, notValidToast, succesToast } from '../../utils/Toast';
 import { Toaster } from 'react-hot-toast';
 import { isPlateValid } from '../../utils/ValueChecks';
 import { API_VEHICLE } from 'src/api/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function PhotoMenu() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null]);
   const handleImageDrop = (index: number) => (file: File) => {
     setImages(images.map((img, i) => (i === index ? file : img)));
   };
+    const navigate = useNavigate();
 
   const handleUpload = async (values: Vehicle) => {
     let isValid = true;
@@ -46,8 +48,10 @@ export default function PhotoMenu() {
         console.log('Funciona', response);
         if (response.status === 200) {
           succesToast('Historia de vehiculo creada exitosamente!');
-
           setImages([null, null, null]);
+               setTimeout(() => {
+                 navigate('/home');
+               }, 3000); 
         }
       } catch (error: any) {
         switch (error.response?.data?.message) {
