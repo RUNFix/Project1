@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'src/index.css';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
-import { API_BILL, API_BILL_ID, API_PDF } from 'src/api/api';
+import { API_BILL_ID, API_PDF } from 'src/api/api';
 import { Bill } from 'src/Interfaces/Bill';
 import { Client } from 'src/Interfaces/Client';
 import { Vehicle } from 'src/Interfaces/Vehicle';
@@ -24,17 +24,6 @@ const InvoiceGenerate: React.FC = () => {
   const { id } = params;
   console.log(id)
 
-  useEffect(() => {
-    const postBill = async () => {
-      try {
-        const response = await axios.get(API_BILL);
-        console.log('id de la factura', response.data._id);
-      } catch (err) {
-        console.error('Error post bill:', err);
-      }
-    };
-    postBill();
-  }, []);
 
   useEffect(() => {
     const postData = async () => {

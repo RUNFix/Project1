@@ -51,7 +51,9 @@ export default function SpareParts() {
 
   function addToCart(selectedPart, quantity) {
     const priceForThisPart = selectedPart.price * quantity;
+    console.log('total parte', priceForThisPart)
     setTotalPriceSpares((prevTotal) => prevTotal + priceForThisPart);
+    console.log('totaltotal', totalPriceSpares);
 
     // Crear un objeto con la información del artículo
     const items: Item = {
@@ -62,7 +64,7 @@ export default function SpareParts() {
     };
 
     setSpares((prevItems) => [...prevItems, items]);
-    setTotalPrice(totalPriceSpares + priceForThisPart);
+    
 
     const newStock = selectedPart.stock - quantity;
 

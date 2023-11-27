@@ -32,7 +32,7 @@ const Invoice: React.FC = () => {
     
 
         const { billData, clientData, vehicleData, repairData } = response.data;
-
+        console.log('tOTAL', billData.total)
         setBillData(billData);
         setClientData(clientData);
         setVehicleData(vehicleData);
@@ -161,7 +161,7 @@ const Invoice: React.FC = () => {
                     <strong>Total ($)</strong>
                   </td>
                   <td className="py-4 px-6 bg-green-400">
-                    {repairData.priceToPay}
+                    {billData.total}
                   </td>
                 </tr>
               </tbody>
