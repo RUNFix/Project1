@@ -34,25 +34,25 @@ export default function SubMenu() {
             <section className="place-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
               <Card
                 title={'Creación de empleado'}
-                img="https://img.freepik.com/vector-premium/oficina-negocios-empleado-espacio-trabajo-dibujos-animados_24640-32917.jpg"
+                img="src/assets/newUser.png"
                 showDetails={false}
                 screen="register-employee"
               />
               <Card
                 title={'Ver empleados'}
-                img="https://img.freepik.com/vector-premium/analisis-datos-investigacion-vector-dibujos-animados-plana_101884-309.jpg?w=2000"
+                img="src/assets/diversity.png"
                 showDetails={false}
                 screen="tableEmployee"
               />
               <Card
                 title={'Cambio de credenciales'}
-                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                img="src/assets/user.png"
                 showDetails={false}
                 screen="password-change"
               />
               <Card
                 title={'Creación de reparación'}
-                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                img="src/assets/wrench.png"
                 showDetails={false}
                 screen="vehicle-repair"
               />
@@ -61,31 +61,31 @@ export default function SubMenu() {
             <section className="place-items-center grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-12 my-8 md:my-12">
               <Card
                 title={'Tareas pendientes'}
-                img="https://img.freepik.com/vector-premium/lista-verificacion-completa-ilustracion-plana-mujer-dibujos-animados_74855-18269.jpg"
+                img="src/assets/checklist.png"
                 showDetails={false}
                 screen="vehicle"
               />
               <Card
                 title={'Cambio de credenciales'}
-                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                img="src/assets/user.png"
                 showDetails={false}
                 screen="password-change"
               />
               <Card
                 title={'Registro vehiculo'}
-                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                img="src/assets/car.png"
                 showDetails={false}
                 screen="vehicle-menu"
               />
               <Card
                 title={'Resgistro de cliente'}
-                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                img="src/assets/client.png"
                 showDetails={false}
                 screen="customer-register"
               />
               <Card
                 title={'Creación de reparación'}
-                img="https://media.istockphoto.com/id/578111122/es/vector/licencia-m%C3%A9dico-en-mano.jpg?s=612x612&w=0&k=20&c=Q1mjRrzykYuOVmbSInOE_oHE48dNRT96V1_kmtwUj8M="
+                img="src/assets/wrench.png"
                 showDetails={false}
                 screen="vehicle-repair"
               />

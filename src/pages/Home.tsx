@@ -43,7 +43,14 @@ const MenuPrincipal: React.FC = () => {
 
                   <div className="m-4 w-1/3">
                     <button className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full">
-                      <a href="https://t.me/">Agenda una cita</a>
+                      <a
+                        href="https://t.me/RUNFIX_bot"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-morado hover:bg-green-500 text-white p-2 rounded ml-2 flex-grow-0 w-full text-center block"
+                      >
+                        Atención
+                      </a>
                     </button>
                   </div>
                 </div>

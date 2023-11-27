@@ -32,12 +32,7 @@ const Navbar: React.FC = () => {
       <nav className="bg-azul w-full  top-0 left-0  border-gray-200 z-20 sticky">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="#" className="flex items-center">
-
-            <img
-              src={logom}
-              className="h-10 ml-6"
-              alt="Runfix logo"
-            />
+            <img src={logom} className="h-10 ml-6" alt="Runfix logo" />
           </a>
           <div className="flex md:order-2">
             {showLogOut ? (
@@ -86,14 +81,16 @@ const Navbar: React.FC = () => {
                   Home
                 </a>
               </li>
-              <li>
-                <a href="#" className="linkStyle">
-                  About
-                </a>
-              </li>
+
               <li>
                 <a href="/submenu" className="linkStyle">
-                  Menu
+                  Jobs
+                </a>
+              </li>
+         
+              <li>
+                <a href="/repair-search" className="linkStyle">
+                  Ver Reparaciones
                 </a>
               </li>
               <li>

@@ -17,6 +17,10 @@ const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
   const [clients, setClients] = useState<Client[]>([]);
   const { cc } = useUserContext();
 
+  const ccEmployee = cc;
+  const ccEmployeeNumber = Number(ccEmployee);
+
+
   useEffect(() => {
     async function fetchVehicles() {
       try {
@@ -48,7 +52,11 @@ const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
  const checkDataExistence = (cc: number, plate: string): boolean => {
    const clientExists = clients.some((client) => client.cc === cc);
    const vehicleExists = vehicles.some((vehicle) => vehicle.plate === plate);
-    if (!vehicleExists && !clientExists) {
+
+   console.log(vehicleExists, clientExists)
+
+    
+   if (!vehicleExists && !clientExists) {
       errorToast(
         `La placa ${plate} y  el documento ${cc} no existe. Por favor, registre el vehículo y el cliente.`,
       );
@@ -67,14 +75,11 @@ const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
      return false;
    }
 
-   
-
-
    return true;
  };
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{ ...initialValues, employee: ccEmployeeNumber }}
       onSubmit={(values) => {
         const { cc, plate } = values;
 
@@ -133,21 +138,20 @@ const RepairForm: React.FC<Props> = ({ onSubmitRepair }) => {
           </div>
           <div className="mb-4">
             <label
-              className="block  text-sm font-medium mb-3"
+              className="block text-sm font-medium mb-3"
               htmlFor="employee"
             >
               Cedula del empleado
             </label>
             <Field
               className="fieldStyles"
-              type="number"
+              type="text"
               name="employee"
-              min={0}
-              max={9999999999}
-              value={cc}
-              required
+              readOnly
+              value={ccEmployeeNumber}
             />
           </div>
+
           <button
             type="submit"
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"

@@ -34,3 +34,7 @@ export const API_PDF = API + 'generatePDF';
 
 /* SquareParts */
 export const API_SPARE_PART = API + 'part';
+
+/* Alert */
+export const API_ALERT = API + 'alert';
+export const API_ALERT_IMG = API + 'alert/image';

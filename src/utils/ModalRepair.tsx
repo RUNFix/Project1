@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-
-import { API_REPAIR_UPDATE } from 'src/api/api';
+import { API_ALERT_IMG, API_CLIENT, API_REPAIR_UPDATE } from 'src/api/api';
 import ImageDropzone from 'src/components/ImageDropzone';
 import { useUserContext } from 'src/context/Context';
 
@@ -16,6 +15,8 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
   const [image, setImage] = useState<File | null>(null);
   const { status } = useUserContext();
   const [error, setError] = useState<string | null>(null);
+  const [description, setDescription] = useState('');
+
 
   const handleImageDrop = (file: File) => {
     setImage(file);
@@ -38,7 +39,6 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
 
     formData.append('afterImages', image, image.name);
     try {
-    
       const response = await axios.patch(
         `${API_REPAIR_UPDATE}/${plate}/${cc}`,
         formData,
@@ -49,7 +49,6 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
         },
       );
       console.log('Response:', response.data);
-      
     } catch (err) {
       console.error('Error updating repair:', err);
       setError('Error updating repair.');
@@ -57,7 +56,51 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
   };
 
   /* HACER CON JOHAN */
-  const postAlert = async function postAlert() {};
+
+  const postAlert = async function postAlert() {
+    let chatId;
+    let nameClient;
+    console.log('cc', cc)
+
+    //  GET CLIENT
+    try {
+      const response = await axios.get(`${API_CLIENT}/${cc}`);
+      chatId = response.data.chatId;
+      nameClient = response.data.name;
+
+      console.log('chatid', chatId);
+      console.log('mi name', nameClient);
+      console.log(response.data);
+    } catch (err) {
+      console.error('Error updating repair:', err);
+      setError('Error updating repair.');
+    }
+
+    // POST ALERT
+    try {
+      const formData = new FormData();
+      formData.append('name', nameClient);
+      formData.append('chatId', chatId);
+      formData.append('message', description); 
+
+
+      if (!image) {
+        console.log('No image selected');
+        return;
+      }
+
+      formData.append('alertImage', image, image.name);
+      const response = await axios.post(`${API_ALERT_IMG}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response.data);
+    } catch (err) {
+      console.error('Error updating repair:', err);
+      setError('Error updating repair.');
+    }
+  };
 
   const handleFetchData = async () => {
     if (cardId === null) return;
@@ -92,7 +135,11 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
           <div className="flex flex-col w-full bg-white rounded-xl shadow-2xl outline-none focus:outline-none border-0">
             <div className="p-4 text-center border-b border-solid border-blueGray-200 rounded-t-xl">
               {/* Ajuste en p-4 para reducir padding */}
-              <h2 className="text-2xl font-bold mb-3">Notificación Cliente</h2>
+              <h2 className="text-2xl font-bold mb-3">
+                {cardId === 2
+                  ? 'Foto de la reparación'
+                  : 'Notificación Cliente'}
+              </h2>
 
               <div className="mb-3 overflow-hidden">
                 <ImageDropzone onImageDrop={handleImageDrop} />
@@ -108,6 +155,9 @@ export function ModalRepair({ cardId, onCancel, cc, plate }: ModalRepairProps) {
                 <textarea
                   id="description"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required 
                 ></textarea>
               </div>
 

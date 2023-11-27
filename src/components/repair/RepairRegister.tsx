@@ -48,7 +48,8 @@ export default function RepairRegister() {
             formData.append('beforeImages', file);
           }
         });
-    
+        console.log('cedula', values.employee);
+        
         const response = await axios.post(`${API_REPAIR}`, formData);
 
        
