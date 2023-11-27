@@ -21,11 +21,6 @@ const RepairSchema = new Schema<Repair>(
       required: true,
       enum: [1, 2, 3],
     },
-    priceToPay: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
     employee: {
       type: Number,
       required: true,

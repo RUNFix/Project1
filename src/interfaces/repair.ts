@@ -5,7 +5,6 @@ export interface Repair {
   cc: number;
   reasonForService: string;
   status: number;
-  priceToPay: number;
   employee: number;
   date: Date;
   beforeImages: string[];
