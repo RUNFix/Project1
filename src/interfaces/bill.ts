@@ -4,7 +4,7 @@ export interface Bill{
     cc:number;
     items: BillItem[];
     total:number;
-    pdfLink: string;
+    pdfLink?: string;
 }
 
 interface BillItem {

@@ -48,30 +48,29 @@ const updateBillController = async ({params, body}:Request, res: Response)=> {
     }
 }
 
-const postBill = async ({body}:Request, res: Response)=> {
-    try{
-    
+const postBill = async ({body}: Request, res: Response) => {
+    try {
         const responseBill = await insertBill(body);
         if (responseBill === "VEHICLE_DOES_NOT_EXIST" || responseBill === "CLIENT_DOES_NOT_EXIST") {
-            return res.status(418).send({ message: responseBill});
+            return res.status(418).send({ message: responseBill });
         }
-        //logic for updating the vehicle table
-        const {plate} = body;
-        const {total} = body;
-        const {cc} = body;
-        const updatedPrice = await updatePriceToPay(plate, cc, total,1)
-        if((responseBill!==null)&&(updatedPrice!==null)){
-            res.send(body)
-        }else{
-            //this undo whatever half of the operation was done
-            if((typeof responseBill) !== 'string') deleteBill(responseBill.id);
-            if(updatedPrice) updatePriceToPay(plate, cc, total,-1);
-            throw new Error();
+
+        // Lógica para actualizar el precio a pagar
+        const { plate, total, cc } = body;
+        const updatedPrice = await updatePriceToPay(plate, cc, total, 1);
+
+        if (responseBill !== null && updatedPrice !== null) {
+            res.send(responseBill); // Aquí debes enviar responseBill
+        } else {
+            // Deshacer la operación si algo falló
+            if ((typeof responseBill) !== 'string') deleteBill(responseBill.id);
+            if (updatedPrice) updatePriceToPay(plate, cc, total, -1);
+            throw new Error('Failed to complete the operation');
         }
-    }catch (e){
-        handleHttp(res,'ERROR_POST_BILL',e)
+    } catch (e) {
+        handleHttp(res, 'ERROR_POST_BILL', e);
     }
-}
+};
 
 const deleteBillController = async ({params}:Request, res: Response)=> {
     try{

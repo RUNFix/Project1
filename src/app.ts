@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import { router } from './routes';
 import db from './config/mongo';
-import { initializeDatabase } from './data/databaseInitializer'; 
+import { initializeDatabase } from './data/databaseInitializer';
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -15,7 +15,7 @@ app.use(router);
 db()
   .then(() => {
     console.log('Conexion ready');
-    /* return initializeDatabase(); // Inicializar la base de datos */
+  /*   return initializeDatabase(); // Inicializar la base de datos */
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Listo por el puerto ${PORT}`));
