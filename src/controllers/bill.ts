@@ -2,7 +2,7 @@ import { Request, Response, response } from "express"
 import { handleHttp } from "../utils/error.handle"
 import { insertBill, getUserBills ,getBill, getCarBills, getBills, updateBill, deleteBill} from "../services/bill"
 import {getVehl} from "../services/vehicle"
-import {updatePriceToPay, getRepair} from "../services/repair"
+import { getRepair} from "../services/repair"
 import { getClient } from "../services/client"
 import { Bill } from "../interfaces/bill"
 //If param is a cc, then search by user, if it is a plate, search by car
@@ -59,15 +59,11 @@ const postBill = async ({body}:Request, res: Response)=> {
         const {plate} = body;
         const {total} = body;
         const {cc} = body;
-        const updatedPrice = await updatePriceToPay(plate, cc, total,1)
-        if((responseBill!==null)&&(updatedPrice!==null)){
+
+        if(responseBill!==null){
             res.send(responseBill)
-        }else{
-            //this undo whatever half of the operation was done
-            if((typeof responseBill) !== 'string') deleteBill(responseBill.id);
-            if(updatedPrice) updatePriceToPay(plate, cc, total,-1);
-            throw new Error();
         }
+        
     }catch (e){
         handleHttp(res,'ERROR_POST_BILL',e)
     }

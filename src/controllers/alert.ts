@@ -21,21 +21,23 @@ const postAlertController = async ({body}:Request, res: Response)=> {
     }
 }
 
-const postAlertImageController = async (req:Request, res: Response)=> {
-    try{
-        const {body, files} = req
-        let imageBuffer: Buffer = Buffer.from([])
-        if (files) {
-            const uploadedFiles = files as Express.Multer.File[];
-            imageBuffer = uploadedFiles[0].buffer;
-        }
-        const responseItem = await insertAlertWithImage(body,imageBuffer)
-        res.send(responseItem);
-        
-    }catch (e){
-        handleHttp(res,"ERROR_POST_ALERT_IMAGE",e);
+const postAlertImageController = async (req: Request, res: Response) => {
+  try {
+    const { body } = req;
+    const file = req.file as Express.Multer.File; // Nota el uso de req.file aquí
+    let imageBuffer: Buffer = Buffer.from([]);
+
+    if (file) {
+      imageBuffer = file.buffer;
     }
-}
+
+    const responseItem = await insertAlertWithImage(body, imageBuffer);
+    res.send(responseItem);
+  } catch (e) {
+    handleHttp(res, 'ERROR_POST_ALERT_IMAGE', e);
+  }
+};
+
 
 const deleteAlertController = async ({params}:Request, res: Response)=> {
     try{

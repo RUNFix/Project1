@@ -91,7 +91,8 @@ const updateRepair = async (plate: string, cc: number, data: Partial<Repair>) =>
  * @param mode If 1 (add) or -1(rest)
  * @returns if succesful the updated "vehicle", if failed "null"
  */
-const updatePriceToPay = async (
+
+/* const updatePriceToPay = async (
   plate: string,
   cc: number,
   total: number,
@@ -108,7 +109,7 @@ const updatePriceToPay = async (
     return null;
   }
 };
-
+ */
 const deleteRepair = async (id: string): Promise<Repair | null> => {
   const repair = await repairModel.findById(id);
 
@@ -150,6 +151,5 @@ export {
   getRepairsByPlate_Cc,
   updateRepair,
   deleteRepair,
-  updatePriceToPay,
   getRepairEmployee,
 };

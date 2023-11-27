@@ -13,6 +13,7 @@ const insertAlertWithImage =async (alert: Alert, ImageBuffer: Buffer,): Promise<
         if (ImageBuffer) {
             const results = await uploadImage(ImageBuffer, 'alerts') 
             alert.imageLink = results.secure_url;
+           
           }
         const responseInsert = await AlertModel.create(alert);
         return responseInsert;
